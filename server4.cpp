@@ -23,7 +23,7 @@ struct request_ctx
 
 int main(int argc, char *argv[])
 {
-     int sockfd, newsockfd, portno;
+     int sockfd, portno;
      
      char buffer[256];
      struct sockaddr_in serv_addr;
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
         struct sockaddr_in cli_addr;
          // The accept() call actually accepts an incoming connection
         socklen_t clilen;
-        int newsockfd;
+        //int newsockfd;
         int ret;
 
         clilen = sizeof(cli_addr);
@@ -83,9 +83,10 @@ int main(int argc, char *argv[])
          // So, the original socket file descriptor can continue to be used 
          // for accepting new connections while the new socker file descriptor is used for
          // communicating with the connected client.
-         newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+         int *newsockfd = (int *) malloc(sizeof(int));
+         *newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
          struct request_ctx ctx;
-         ctx.newsockfd=newsockfd;
+         ctx.newsockfd=*newsockfd;
          ctx.cli_addr=cli_addr;
          ctx.clilen=clilen;
          printf("server: got connection from %s port %d\n",
@@ -104,9 +105,9 @@ int main(int argc, char *argv[])
      return 0; 
 }
 
-void *handle_request(void * newsock)
+void *handle_request(void * ctx_st)
 {
-        request_ctx ctx = (request_ctx) ctx;
+        request_ctx ctx = *((request_ctx*) ctx_st);
         int newsockfd = ctx.newsockfd;
         int n;
         
@@ -115,7 +116,8 @@ void *handle_request(void * newsock)
 
          
 
-         FILE *fp = fopen ( "assign.pdf"  , "rb" );
+         //FILE *fp = fopen ( "assign.pdf"  , "rb" );
+         FILE *fp = fopen ( "the_terminal.mp4"  , "rb" );
 
          fseek ( fp , 0 , SEEK_END);
          int size = ftell ( fp );

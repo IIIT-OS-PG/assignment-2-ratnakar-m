@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
         file_size = file_size - n;
     } 
 
-
+    printf("download complete...\n");
 
     close( sockfd);
     fclose ( fp );

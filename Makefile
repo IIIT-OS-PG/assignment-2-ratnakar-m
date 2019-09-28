@@ -2,10 +2,13 @@ EXEC_SERVER = server
 EXEC_SERVER2 = server2 #multiple clients can connect. infinite lopp in server
 EXEC_SERVER3 = server3 #file dowload
 EXEC_SERVER4 = server4 #request handling in a separate thread
+EXEC_SERVER5 = server5 #hash value generation
 EXEC_CLIENT = client
 EXEC_CLIENT3 = client3
+EXEC_CLIENT4 = client4
+EXEC_CLIENT5 = client5
 
-LIBS = -lpthread
+LIBS = -lpthread -lcrypto
 
 INCLUDES = .
 
@@ -16,19 +19,29 @@ SERVER2_SRC = \
 SERVER3_SRC = \
 	server3.cpp 
 SERVER4_SRC = \
-	server4.cpp 
+	server4.cpp
+SERVER5_SRC = \
+	server5.cpp 
 CLIENT_SRC = \
 	client.cpp
 CLIENT3_SRC = \
 	client3.cpp
+CLIENT4_SRC = \
+	client4.cpp
+CLIENT5_SRC = \
+	client5.cpp
 
 build:
 	g++ -g -w -std=c++0x  $(SERVER_SRC) -I $(INCLUDES) -o $(EXEC_SERVER) $(LIBS) && chmod +x $(EXEC_SERVER) 
 	g++ -g -w -std=c++0x  $(SERVER2_SRC) -I $(INCLUDES) -o $(EXEC_SERVER2) $(LIBS) && chmod +x $(EXEC_SERVER2) 
 	g++ -g -w -std=c++0x  $(SERVER3_SRC) -I $(INCLUDES) -o $(EXEC_SERVER3) $(LIBS) && chmod +x $(EXEC_SERVER3) 
 	g++ -g -w -std=c++0x  $(SERVER4_SRC) -I $(INCLUDES) -o $(EXEC_SERVER4) $(LIBS) && chmod +x $(EXEC_SERVER4) 
+	g++ -g -w -std=c++0x  $(SERVER5_SRC) -I $(INCLUDES) -o $(EXEC_SERVER5) $(LIBS) && chmod +x $(EXEC_SERVER5)
 	g++ -g -w -std=c++0x  $(CLIENT_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
 	g++ -g -w -std=c++0x  $(CLIENT3_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT3) $(LIBS) && chmod +x $(EXEC_CLIENT3) 
+	g++ -g -w -std=c++0x  $(CLIENT4_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT4) $(LIBS) && chmod +x $(EXEC_CLIENT4) 
+	g++ -g -w -std=c++0x  $(CLIENT5_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT5) $(LIBS) && chmod +x $(EXEC_CLIENT5) 
+
 	#g++ -g -w  $(SRC) -I $(INCLUDES) -o $(EXEC) $(LIBS) && chmod +x $(EXEC) 
 
 run: build

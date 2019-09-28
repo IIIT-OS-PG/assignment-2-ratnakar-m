@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include <commands.h>
 
 using namespace std;
 
@@ -38,7 +39,20 @@ char * manageMenu() {
 	command = strtok(input, "\n");
 	command = strtok(input, " ");
 	if(strcmp(command, "create_user")==0) {
-		cout << "create_user command" << endl;
+		char* username = strtok(NULL, " ");
+		char* passwd = strtok(NULL, " ");
+		if(username !=NULL && passwd !=NULL)
+		{
+			
+			create_user(username, passwd);
+		}
+		else{
+			cout << "invalid args. type 'help' for more details." << endl;
+		}
+		
+		//username=clone(username);
+		//passwd=clone(passwd);
+		//cout << "username: " << username << ", password: "<< passwd << endl;
 	} 
 	else if(strcmp(command, "login")==0) {
 		cout << "login command" << endl;

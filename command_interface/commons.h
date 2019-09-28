@@ -8,3 +8,5 @@
 #include <openssl/sha.h>
 
 using namespace std;
+
+char* clone(char* orig);

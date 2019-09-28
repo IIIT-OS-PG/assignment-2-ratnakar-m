@@ -1,6 +1,6 @@
 EXEC_SERVER = server
-EXEC_SERVER2 = server2 #multiple clients can connect. infinite lopp in server
-EXEC_SERVER3 = server3 #file dowload
+EXEC_SERVER2 = server2 #multiple clients can connect. infinite loop in server
+EXEC_SERVER3 = server3 #file download
 EXEC_SERVER4 = server4 #request handling in a separate thread
 EXEC_SERVER5 = server5 #hash value generation
 EXEC_CLIENT = client

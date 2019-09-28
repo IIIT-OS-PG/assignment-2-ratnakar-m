@@ -1,5 +1,5 @@
 #include "commons.h"
-string create_user(string username, string password);
+string create_user(char* username, char* password);
 string login(string username, string password);
 string create_group(string group_id, string owner);
 string join_group(string group_id, string username);

@@ -31,6 +31,22 @@ string get_time_compact(){
     return ts; 
 }
 
+pair<int,char*> get_msg(string s){
+    char* msg = clone((char*)s.c_str());
+    return make_pair(s.size(),msg);
+}
+
+int write_msg(int fd, string msg_str){
+    pair<int,char*> msg = get_msg(msg_str);
+    int written_size = write (fd, msg.second, (ssize_t) msg.first);
+    return written_size;
+}
+
+int write_msg_line(int fd, string msg_str){
+    msg_str=msg_str+"\n";
+    return write_msg(fd,msg_str);
+}
+
 unsigned char* get_hash(char* str1){
     const unsigned char* str = (const unsigned char*) str1;
     //unsigned char hash[SHA_DIGEST_LENGTH]; // == 20

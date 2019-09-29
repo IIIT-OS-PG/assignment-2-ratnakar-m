@@ -18,22 +18,27 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <ctime>
-
-
-struct request_ctx 
-{
-    int newsockfd;
-    struct sockaddr_in cli_addr;
-    socklen_t clilen;
-};
-
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #define BUFFER_SIZE 256
 #define PROMPT "peer>"
 
-
 using namespace std;
 
+struct request_ctx 
+{
+    int* newsockfd;
+    struct sockaddr_in cli_addr;
+    socklen_t clilen;
+    int* logfd;
+};
+
+pair<int,char*> get_msg(string);
+int write_msg(int, string);
+int write_msg_line(int fd, string msg_str);
 char* clone(char* orig);
 void error(const char *msg);
 string get_time();

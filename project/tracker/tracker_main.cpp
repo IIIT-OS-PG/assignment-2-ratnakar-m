@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
          int *newsockfd = (int *) malloc(sizeof(int));
          *newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
          struct request_ctx ctx;
-         ctx.newsockfd=*newsockfd;
+         ctx.newsockfd=newsockfd;
          ctx.cli_addr=cli_addr;
          ctx.clilen=clilen;
          printf("server: got connection from %s port %d\n",
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 void *handle_request(void * ctx_st)
 {
     request_ctx ctx = *((request_ctx*) ctx_st);
-    int newsockfd = ctx.newsockfd;
+    int newsockfd = *ctx.newsockfd;
     int n;
     
      if (newsockfd < 0) 

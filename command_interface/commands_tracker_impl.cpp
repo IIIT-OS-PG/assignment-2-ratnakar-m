@@ -11,22 +11,17 @@ char* create_user(char* username, char* password){
 	outfile.close();
 	return NULL;
 }
-char* login(char* username, char* password){
-	cout << "username: " << username << ", password: "<< password << endl;
-	cout << "logged in" << endl;
-
+bool login(char* username, char* password){
 	ifstream infile("users.txt");
 	std::string line;
 	bool login_success = false;
 	while (std::getline(infile, line))
 	{
-		cout << "HERE" << endl;
 	    istringstream iss(line);
 	    char* existing_user = strtok((char*)line.c_str(), ":");
 	    char* existing_password = strtok(NULL, ":");
 	    if(existing_user != NULL && existing_password != NULL)
 	    {
-	    	cout << "exist_user: " << existing_user << ", exist_pass: "<<existing_password << endl;
 	    	if(strcmp(existing_user, username)==0 && strcmp(existing_password, password)==0)
 	    	{
 	    		login_success=true;	
@@ -34,15 +29,17 @@ char* login(char* username, char* password){
 	    	}
 	    }
 	}
-	if(login_success)
-		cout << "Login Successful" << endl;
-	else
-		cout << "Login Failed" << endl;
-	return NULL;
+	return login_success;
 }
 char* create_group(char* group_id, char* owner){
 	cout << "group_id: " << group_id << ", owner: "<< owner << endl;
-	cout << "group created" << endl;
+	string group_id_str=string(group_id);
+	string owner_str=string(owner);
+	ofstream outfile;
+	outfile.open("groups.txt", ios::out | ios::app);
+	outfile << group_id_str+":"+owner_str<<+":"+owner_str<<endl;
+	outfile.close();
+	return NULL;
 	return NULL;
 }
 char* join_group(char* group_id, char* username){

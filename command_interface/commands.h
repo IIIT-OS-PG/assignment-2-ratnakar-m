@@ -1,6 +1,6 @@
 #include "commons.h"
 char* create_user(char* username, char* password);
-char* login(char* username, char* password);
+bool login(char* username, char* password);
 char* create_group(char* group_id, char* owner);
 char* join_group(char* group_id, char* username);
 char* leave_group(char* group_id, char* username);

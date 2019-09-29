@@ -5,7 +5,7 @@ char* create_user(char* username, char* password){
 	cout << "user created" << endl;
 	return NULL;
 }
-char* login(char* username, char* password){
+bool login(char* username, char* password){
 	cout << "username: " << username << ", password: "<< password << endl;
 	cout << "logged in" << endl;
 	return NULL;

@@ -56,21 +56,33 @@ char * manage_menu() {
 		char* passwd = strtok(NULL, " ");
 		if(username !=NULL && passwd !=NULL)
 		{
-			login(username, passwd);
-			current_user=clone(username);
+			bool login_success = login(username, passwd);
+			if(login_success)
+			{
+				cout << "You are now logged in" << endl;
+				current_user=clone(username);
+			}
+			else
+				cout << "Login Failed" << endl;
 		}
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 
 	} 
 	else if(strcmp(command, "create_group")==0) {
-		char* group_id = strtok(NULL, " ");
+		if(current_user!=NULL)
+		{
+			char* group_id = strtok(NULL, " ");
 		
-		if(group_id !=NULL)
-			create_group(group_id,current_user);
+			if(group_id !=NULL)
+				create_group(group_id,current_user);
+			else
+				cout << "invalid args. type 'help' for more details." << endl;
+		}
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << "You need to login to create a group" << endl;
 
+		
 	} 
 	else if(strcmp(command, "join_group")==0) {
 		char* group_id = strtok(NULL, " ");
@@ -156,7 +168,7 @@ char * manage_menu() {
 
 	} 
 	else if(strcmp(command, "logout")==0) {
-		logout();
+		current_user=NULL;
 	} 
 	else if(strcmp(command, "help")==0) {
 		help();

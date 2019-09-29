@@ -1,4 +1,3 @@
-#include "commons.h"
 char* create_user(char* username, char* password);
 bool login(char* username, char* password);
 char* create_group(char* group_id, char* owner);

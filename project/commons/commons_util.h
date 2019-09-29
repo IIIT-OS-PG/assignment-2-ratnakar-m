@@ -27,6 +27,8 @@ struct request_ctx
 
 
 #define BUFFER_SIZE 256
+#define PROMPT "peer>"
+
 
 using namespace std;
 

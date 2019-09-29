@@ -12,11 +12,14 @@ TRACKER_SRC = \
 	commons/commons_util.cpp \
 
 CLIENT_SRC = \
-	client/client_main.cpp
+	client/client_main.cpp \
+	client/commands_impl.cpp \
+	commons/network_util.cpp \
+	commons/commons_util.cpp \
 
 build:
 	g++ -g -w -std=c++14  $(TRACKER_SRC) -I $(INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && chmod +x $(EXEC_TRACKER) 
-	#g++ -g -w -std=c++0x  $(CLIENT_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
+	g++ -g -w -std=c++14  $(CLIENT_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
 
 
 run: build

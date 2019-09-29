@@ -1,4 +1,4 @@
-#include "commons.h"
+#include <assign2.h>
 
 char* create_user(char* username, char* password){
 	cout << "username: " << string(username) << ", password: "<< string(password) << endl;
@@ -66,16 +66,4 @@ char* stop_share(char* group_id, char* file_name){
 char* logout(){
 	cout << "logged out" << endl;
 	return NULL;
-}
-char* clone(char* orig){
-    char* cl = (char *) malloc(100);
-    int g = 0;
-    while(orig[g] != '\0')
-    {
-        cl[g] = orig[g];
-        g++;
-    }
-    cl[g]='\0';
-
-    return cl;
 }

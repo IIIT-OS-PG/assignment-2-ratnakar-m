@@ -1,0 +1,5 @@
+peer has two interfaces:
+1. command interface
+	peer>
+2. socket interface
+	telnet localhost 8888

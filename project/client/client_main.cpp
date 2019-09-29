@@ -91,9 +91,12 @@ void *handle_request(void * ctx_st)
 {
     request_ctx ctx = *((request_ctx*) ctx_st);
     int newsockfd = ctx.newsockfd;
-    int n;
 
-    //
+    char buffer[256];
+    bzero(buffer,256);
+    int n = read(newsockfd,buffer,255);
+    cout << "echooing..." << endl;
+    cout << string(buffer) << endl;
 
     close(newsockfd);
     pthread_exit(NULL);

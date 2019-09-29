@@ -7,30 +7,35 @@ using namespace std;
 
 #define PROMPT "peer>"
 
-void managePrompt();
-void resetPrompt();
-char * manageMenu();
+void manage_prompt();
+void reset_prompt();
+char * manage_menu();
 void help();
 
-string current_user="";
+char* current_user=NULL;
 
 int main(){
-	managePrompt();
+	manage_prompt();
 }
 
-void managePrompt() {
-	resetPrompt();
-	while(strcmp(manageMenu(),"exit") != 0) {
-		resetPrompt();
+void manage_prompt() {
+	reset_prompt();
+	bzero((char *) &current_user, sizeof(char));
+
+	while(strcmp(manage_menu(),"exit") != 0) {
+		reset_prompt();
 	}
 }
 
-void resetPrompt() {
-	cout << "peer"+current_user+">";
+void reset_prompt() {
+	if(current_user==NULL)
+		cout << "peer>";
+	else
+		cout << "peer~"+string(current_user)+">";
 	fflush(stdin);
 }
 
-char * manageMenu() {
+char * manage_menu() {
 	char input[500];
 	fgets(input, 500, stdin);
 	char * command;
@@ -42,62 +47,123 @@ char * manageMenu() {
 		char* username = strtok(NULL, " ");
 		char* passwd = strtok(NULL, " ");
 		if(username !=NULL && passwd !=NULL)
-		{
-			
 			create_user(username, passwd);
-		}
-		else{
+		else
 			cout << "invalid args. type 'help' for more details." << endl;
-		}
-		
-		//username=clone(username);
-		//passwd=clone(passwd);
-		//cout << "username: " << username << ", password: "<< passwd << endl;
 	} 
 	else if(strcmp(command, "login")==0) {
-		cout << "login command" << endl;
+		char* username = strtok(NULL, " ");
+		char* passwd = strtok(NULL, " ");
+		if(username !=NULL && passwd !=NULL)
+		{
+			login(username, passwd);
+			current_user=clone(username);
+		}
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "create_group")==0) {
-		cout << "create_group command" << endl;
+		char* group_id = strtok(NULL, " ");
+		
+		if(group_id !=NULL)
+			create_group(group_id,current_user);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "join_group")==0) {
-		cout << "join_group command" << endl;
+		char* group_id = strtok(NULL, " ");
+		
+		if(group_id !=NULL)
+			join_group(group_id,current_user);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	}
 	else if(strcmp(command, "leave_group")==0) {
-		cout << "leave_group command" << endl;
+		char* group_id = strtok(NULL, " ");
+		
+		if(group_id !=NULL)
+			leave_group(group_id, current_user);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	}  
 	else if(strcmp(command, "list_requests")==0) {
-		cout << "list_requests command" << endl;
+		char* group_id = strtok(NULL, " ");
+		
+		if(group_id !=NULL)
+			list_requests(group_id);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "accept_request")==0) {
-		cout << "accept_request command" << endl;
+		char* group_id = strtok(NULL, " ");
+		char* username = strtok(NULL, " ");
+		
+		if(group_id !=NULL && username != NULL)
+			accept_request(group_id,username);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "list_groups")==0) {
-		cout << "list_groups command" << endl;
+		list_groups();
 	} 
 	else if(strcmp(command, "list_files")==0) {
-		cout << "list_files command" << endl;
+		char* group_id = strtok(NULL, " ");
+		
+		if(group_id !=NULL)
+			list_files(group_id);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
 	} 
 	else if(strcmp(command, "upload_file")==0) {
-		cout << "upload_file command" << endl;
+		char* file_path = strtok(NULL, " ");
+		char* group_id = strtok(NULL, " ");
+		
+		if(file_path != NULL && group_id !=NULL)
+			upload_file(file_path, group_id);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "download_file")==0) {
-		cout << "download_file command" << endl;
+		
+		char* group_id = strtok(NULL, " ");
+		char* file_name = strtok(NULL, " ");
+		char* dest_path = strtok(NULL, " ");
+		
+		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
+			download_file(group_id,file_name,dest_path );
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "show_downloads")==0) {
-		cout << "show_downloads command" << endl;
+		show_downloads();
 	} 
 	else if(strcmp(command, "stop_share")==0) {
-		cout << "stop_share command" << endl;
+		char* group_id = strtok(NULL, " ");
+		char* file_name = strtok(NULL, " ");
+		
+		if(group_id !=NULL && file_name != NULL)
+			stop_share(group_id,file_name);
+		else
+			cout << "invalid args. type 'help' for more details." << endl;
+
 	} 
 	else if(strcmp(command, "logout")==0) {
-		cout << "logout command" << endl;
+		logout();
 	} 
 	else if(strcmp(command, "help")==0) {
 		help();
 	}
 	else if(strcmp(command, "whoami")==0) {
-		
+		if(current_user!=NULL)
+			cout << string(current_user) << endl;
 	}  
 	else {
 		cout << "bad command, type 'help' to get list of commands\n" << endl;

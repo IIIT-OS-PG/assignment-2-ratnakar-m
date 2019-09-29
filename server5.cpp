@@ -163,7 +163,7 @@ char* get_hash(char* str){
 }
 
 char* clone(char* orig){
-    
+    char* cl = (char *) malloc(COMMAND_BUFFER);
     int g = 0;
     while(orig[g] != '\0')
     {

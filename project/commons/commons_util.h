@@ -12,6 +12,7 @@
 #include <openssl/sha.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <pthread.h>
@@ -43,5 +44,6 @@ char* clone(char* orig);
 void error(const char *msg);
 string get_time();
 string get_time_compact();
+int* open_log_file(int port);
 
 #endif //COMMONS_H

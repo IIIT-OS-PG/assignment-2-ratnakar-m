@@ -36,6 +36,16 @@ pair<int,char*> get_msg(string s){
     return make_pair(s.size(),msg);
 }
 
+int* open_log_file(int port){
+    struct stat st = {0};
+    if (stat("logs", &st) == -1) {
+        mkdir("logs", 0777);
+    }
+    string log_file_path="logs/peer-"+to_string(port)+"_"+get_time_compact()+".log";
+    int *logfd = (int *) malloc(sizeof(int));
+    *logfd = open(log_file_path.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0644);
+    return logfd;
+}
 int write_msg(int fd, string msg_str){
     pair<int,char*> msg = get_msg(msg_str);
     int written_size = write (fd, msg.second, (ssize_t) msg.first);

@@ -49,10 +49,10 @@ void *listener_handler(void * peer_ctx_struct_ptr)
     struct peer_ctx ctx = *((peer_ctx*) peer_ctx_struct_ptr);
     int port = ctx.portno;
     int sockfd = ctx.sockfd;
-    string log_file_path="logs/peer-"+to_string(port)+"_"+get_time_compact()+".log";
+    /*string log_file_path="logs/peer-"+to_string(port)+"_"+get_time_compact()+".log";
 	int *logfd = (int *) malloc(sizeof(int));
-	*logfd = open(log_file_path.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0644);
-	
+	*logfd = open(log_file_path.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0644);*/
+	int* logfd = open_log_file(port);	
 	time_t my_time = time(NULL); 
 	
     write_msg_line(*logfd, get_time()+"Peer Started...");

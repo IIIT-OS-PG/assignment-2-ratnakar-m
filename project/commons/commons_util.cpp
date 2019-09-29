@@ -6,6 +6,31 @@ void error(const char *msg)
     exit(1);
 }
 
+string get_time(){
+    time_t t = time(0);   // get time now
+    tm* now = localtime(&t);
+    string ts = 
+               to_string(now->tm_mday) + "-"
+               + to_string((now->tm_mon + 1))+ "-" 
+               + to_string((now->tm_year + 1900)) + " " 
+               + to_string(now->tm_hour) + ":"
+               + to_string(now->tm_min) + ":"
+               + to_string(now->tm_sec) + " ";
+
+    return ts; 
+}
+
+string get_time_compact(){
+    time_t t = time(0);   // get time now
+    tm* now = localtime(&t);
+    string ts = to_string((now->tm_mon + 1))+ "-"
+               + to_string(now->tm_mday) + "-"
+               + to_string((now->tm_year + 1900)) + "-" 
+               + to_string(now->tm_hour) + "-"
+               + to_string(now->tm_min);
+    return ts; 
+}
+
 unsigned char* get_hash(char* str1){
     const unsigned char* str = (const unsigned char*) str1;
     //unsigned char hash[SHA_DIGEST_LENGTH]; // == 20

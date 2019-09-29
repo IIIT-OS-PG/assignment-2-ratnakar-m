@@ -4,11 +4,99 @@ void manage_prompt();
 void reset_prompt();
 char * manage_menu();
 void help();
+void *listener_handler(void * peer_ctx_struct_ptr);
+void *handle_request(void * ctx_st);
+
+
 char* current_user=NULL;
+struct peer_ctx 
+{
+    char* host;
+    int portno;
+    int sockfd;
+};
 
 int main(int argc, char **argv) {
-	int sockfd = start_service("localhost",8888);
+	if (argc < 3) {
+       cout << "Usage: client <ip> <port> <tracker_info_file>" << endl;
+       exit(1);
+    }
+    char* host = argv[1];
+	int *sockfd = (int *) malloc(sizeof(int));
+	int *portno = (int *) malloc(sizeof(int));
+	*portno = atoi(argv[2]);
+
+	*sockfd = start_service(host,*portno);
+	int *sockfd_ptr = (int *) malloc(sizeof(int));
+	struct peer_ctx ctx;
+	ctx.host=clone(host);
+	ctx.portno=*portno;
+	ctx.sockfd=*sockfd;
+
+	pthread_t listener_thread;
+    int ret =  pthread_create(&listener_thread, NULL, &listener_handler, (void*)&ctx);
+    if(ret != 0) {
+            printf("Error: pthread_create() failed\n");
+            exit(EXIT_FAILURE);
+    }
 	manage_prompt();
+}
+
+void *listener_handler(void * peer_ctx_struct_ptr)
+{
+    struct peer_ctx ctx = *((peer_ctx*) peer_ctx_struct_ptr);
+    int port = ctx.portno;
+    int sockfd = ctx.sockfd;
+    ofstream log_file;
+    string log_file_name="peer-"+to_string(port)+"_"+get_time_compact()+".log";
+	log_file.open("logs/"+log_file_name, ios::out | ios::app);
+	time_t my_time = time(NULL); 
+	log_file << get_time() << "Peer Started..." << endl;
+	log_file << get_time() << "listening on port "<<port<<endl;
+    
+    while(true){
+
+       struct sockaddr_in cli_addr;
+       socklen_t clilen;
+       int ret;
+
+       clilen = sizeof(cli_addr);
+       int *newsockfd = (int *) malloc(sizeof(int));
+       *newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+       if (*newsockfd < 0) 
+       		log_file << "ERROR on accept" << endl;
+       struct request_ctx ctx;
+       ctx.newsockfd=*newsockfd;
+       ctx.cli_addr=cli_addr;
+       ctx.clilen=clilen;
+       log_file << "server: got connection from "<<
+       inet_ntoa(cli_addr.sin_addr) << " port " <<
+       ntohs(cli_addr.sin_port) << endl;
+
+       pthread_t my_thread;
+       ret =  pthread_create(&my_thread, NULL, &handle_request, (void*)&ctx);
+       if(ret != 0) {
+            log_file << "Error: pthread_create() failed" << endl;
+            exit(EXIT_FAILURE);
+        }
+
+     }
+
+    log_file.close();
+    close(sockfd);
+    pthread_exit(NULL);
+}
+
+void *handle_request(void * ctx_st)
+{
+    request_ctx ctx = *((request_ctx*) ctx_st);
+    int newsockfd = ctx.newsockfd;
+    int n;
+
+    //
+
+    close(newsockfd);
+    pthread_exit(NULL);
 }
 
 void manage_prompt() {

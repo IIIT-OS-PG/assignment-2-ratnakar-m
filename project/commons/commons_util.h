@@ -17,6 +17,8 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <ctime>
+
 
 struct request_ctx 
 {
@@ -34,5 +36,7 @@ using namespace std;
 
 char* clone(char* orig);
 void error(const char *msg);
+string get_time();
+string get_time_compact();
 
 #endif //COMMONS_H

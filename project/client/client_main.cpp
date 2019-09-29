@@ -98,8 +98,6 @@ void *handle_request(void * ctx_st)
     request_ctx ctx = *((request_ctx*) ctx_st);
     int newsockfd = *ctx.newsockfd;
     int logfd=*ctx.logfd;
-    cout << "logfd in handler: " << logfd << endl;
-    cout << "newsockfd in handler: " << newsockfd << endl;
     char buffer[256];
     bzero(buffer,256);
     int n = read(newsockfd,buffer,255);

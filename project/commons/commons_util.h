@@ -16,6 +16,14 @@
 #include <netdb.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <arpa/inet.h>
+
+struct request_ctx 
+{
+    int newsockfd;
+    struct sockaddr_in cli_addr;
+    socklen_t clilen;
+};
 
 
 #define BUFFER_SIZE 256

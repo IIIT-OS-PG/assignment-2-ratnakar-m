@@ -7,8 +7,10 @@ INCLUDES = ./commons/
 
 TRACKER_SRC = \
 	tracker/tracker_main.cpp  \
+	tracker/commands_impl.cpp \
 	commons/network_util.cpp \
-	commons/commons_util.cpp
+	commons/commons_util.cpp \
+
 CLIENT_SRC = \
 	client/client_main.cpp
 

@@ -18,7 +18,6 @@ vector<tracker> extract_tracker_info(char* tracker_info){
 	    char* tracker_host = strtok((char*)line.c_str(), ":");
 	    char* tracker_port = strtok(NULL, ":");
 	    int portno = atoi(tracker_port);
-	    cout << "host: " <<tracker_host << ", port: " << portno << endl;
 	    if(tracker_host != NULL && tracker_port != NULL)
 	    {
 	    	tr.host=clone(tracker_host);
@@ -37,22 +36,36 @@ void print_tracker_info(vector<tracker> trackers){
 		cout << trackers[i].host << ", " <<trackers[i].port << endl;
 }
 
-int* connect_tracker(vector<tracker> trackers){
+connected_tracker connect_tracker(vector<tracker> trackers){
+
+	connected_tracker ct;
+	ct.sockfd=(int *) malloc(sizeof(int));
+	ct.port=(int *) malloc(sizeof(int));
+	ct.host = (char *) malloc(20);
+	bzero((char *) &ct.host, sizeof(char));
 
 	int *sockfd = (int *) malloc(sizeof(int));
 	*sockfd = -1;
+	cout << "BEFORE: " << endl;
 	for(int i=0; i<trackers.size(); i++){
 		char* host = trackers[i].host;
 		int* port = trackers[i].port;
-		cout << "host: " <<host<< endl;
 		*sockfd = connect_server(host,*port);
-		if (sockfd < 0) {
+		if (*sockfd < 0) {
 			string msg = string("Tracker-")+to_string(i)+string(" is Down, Trying other tracker");
-			cout << msg<< endl;;
+			cout << msg<< endl;
+			*ct.sockfd=-1;
+			*ct.host=NULL;
+			*ct.port=-1;
 		}
 		else
-			break;
-	}
+		{
+			ct.host=host;
+			ct.sockfd=sockfd;
+			ct.port=port;
 
-	return sockfd;
+			break;
+		}
+	}
+	return ct;
 }

@@ -2,10 +2,21 @@
 #include <client.h>
 
 void manage_prompt(vector<tracker> trackers) {
+	
+	cout << "Connecting to tracker" << endl;
+	connected_tracker ct= connect_tracker(trackers);
+	char msg[] = "Hi, This is Ratnakar";
+	communicate_with_server(*ct.sockfd, msg, BUFFER_SIZE);
+
+	if(*ct.sockfd < 0)
+		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
+	else
+		cout << "Connected to tracker" << endl;
+	//cout << "sockfd of connected tracker: " << *sockfd << endl;
+
 	reset_prompt();
 	bzero((char *) &current_user, sizeof(char));
-	int* sockfd = connect_tracker(trackers);
-	cout << "sockfd of connected tracker: " << *sockfd << endl;
+
 	while(strcmp(manage_menu(),"exit") != 0) {
 		reset_prompt();
 	}

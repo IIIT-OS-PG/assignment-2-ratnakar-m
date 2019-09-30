@@ -42,26 +42,10 @@ void *handle_request(void * ctx_st)
           error("ERROR on accept");
 
      
-
-     //FILE *fp = fopen ( "assign.pdf"  , "rb" );
-     FILE *fp = fopen ( "the_terminal.mp4"  , "rb" );
-
-     fseek ( fp , 0 , SEEK_END);
-     int size = ftell ( fp );
-     printf("file size: %d\n", size);
-     rewind ( fp );
-
-     send ( newsockfd , "Downloading file...\0", 20, 0);
-     send ( newsockfd , &size, sizeof(size), 0);
-
      char buffer [ BUFFER_SIZE] ; 
-     while ( ( n = fread( buffer , sizeof(char) , BUFFER_SIZE , fp ) ) > 0  && size > 0 ){
-             send (newsockfd , buffer, n, 0 );
-             memset ( buffer , '\0', BUFFER_SIZE);
-             size = size - n ;
-     }
-
-    fclose ( fp );
+     recv ( newsockfd , buffer, BUFFER_SIZE, 0);
+     cout << buffer << endl;
+     send ( newsockfd , "Hello there...", 14, 0);
 
     close(newsockfd);
     pthread_exit(NULL);

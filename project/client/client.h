@@ -15,9 +15,17 @@ typedef struct
 
 } tracker;
 
+typedef struct
+{
+	char* host;
+	int* port;
+	int *sockfd;
+
+} connected_tracker;
+
 vector<tracker> extract_tracker_info(char* tracker_info);
 void print_tracker_info(vector<tracker> trackers);
-int* connect_tracker(vector<tracker> trackers);
+connected_tracker connect_tracker(vector<tracker> trackers);
 extern vector<tracker> trackers;
 
 void manage_prompt(vector<tracker> trackers);

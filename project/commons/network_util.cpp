@@ -26,7 +26,6 @@ int connect_server(char * server_host, int portno) {
 	int len, result, ssockfd, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
-    cout << "server_host: " <<server_host << "port: " << portno;
 	//create a socket for client
 	int sockfd = socket(AF_INET, SOCK_STREAM, 0); //open a socket at client
 	server = gethostbyname(server_host);
@@ -38,13 +37,13 @@ int connect_server(char * server_host, int portno) {
     result = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
     if(result<0) 
     {
-    	error("error connecting to server");
+    	//error("error connecting to server");
     	return -1;
     }
 	return sockfd;
 }
 
-void get_msg_from_server(int sockfd, char *buffer, int buffersize) {
+void communicate_with_server(int sockfd, char *buffer, int buffersize) {
 	//bzero(buffer, buffersize);
 	int n = send(sockfd, buffer, buffersize,0);
 	if (n < 0)
@@ -52,9 +51,6 @@ void get_msg_from_server(int sockfd, char *buffer, int buffersize) {
 	printf("[%s]\n", buffer);
 	bzero(buffer, buffersize);
 	n = recv(sockfd, buffer, buffersize-1,0);
-
-	bzero(buffer,BUFFER_SIZE);
-    recv(sockfd, &buffer, BUFFER_SIZE-1, 0);
 
 	if (n < 0)
 		perror("ERROR reading from socket");

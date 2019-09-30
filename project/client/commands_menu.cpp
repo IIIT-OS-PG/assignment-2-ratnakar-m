@@ -1,22 +1,5 @@
-#include <iostream>
-#include <string.h>
-#include <stdio.h>
-#include <commands.h>
-
-using namespace std;
-
-#define PROMPT "peer>"
-
-void manage_prompt();
-void reset_prompt();
-char * manage_menu();
-void help();
-
-char* current_user=NULL;
-
-int main(){
-	manage_prompt();
-}
+#include <assign2.h>
+#include <client.h>
 
 void manage_prompt() {
 	reset_prompt();

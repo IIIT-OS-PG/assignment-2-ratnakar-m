@@ -8,7 +8,7 @@ char* create_user(char* username, char* password){
 bool login(char* username, char* password){
 	cout << "username: " << username << ", password: "<< password << endl;
 	cout << "logged in" << endl;
-	return NULL;
+	return true;
 }
 char* create_group(char* group_id, char* owner){
 	cout << "group_id: " << group_id << ", owner: "<< owner << endl;

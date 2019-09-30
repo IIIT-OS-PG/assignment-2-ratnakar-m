@@ -3,7 +3,8 @@ EXEC_CLIENT = client/client
 
 LIBS = -lpthread -lcrypto
 
-INCLUDES = ./commons/
+COMMON_INCLUDES = ./commons/
+CLIENT_INCLUDES = ./client
 
 TRACKER_SRC = \
 	tracker/tracker_main.cpp  \
@@ -13,13 +14,15 @@ TRACKER_SRC = \
 
 CLIENT_SRC = \
 	client/client_main.cpp \
+	client/peer_request_handler.cpp \
+	client/commands_menu.cpp \
 	client/commands_impl.cpp \
 	commons/network_util.cpp \
 	commons/commons_util.cpp \
 
 build:
-	g++ -g -w -std=c++14  $(TRACKER_SRC) -I $(INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && chmod +x $(EXEC_TRACKER) 
-	g++ -g -w -std=c++14  $(CLIENT_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
+	g++ -g -w -std=c++14  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && chmod +x $(EXEC_TRACKER) 
+	g++ -g -w -std=c++14  $(CLIENT_SRC) -I $(COMMON_INCLUDES) -I $(CLIENT_INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
 
 
 run: build

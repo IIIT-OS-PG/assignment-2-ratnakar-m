@@ -36,6 +36,7 @@ void *handle_request(void * ctx_st)
 {
     request_ctx ctx = *((request_ctx*) ctx_st);
     int newsockfd = *ctx.newsockfd;
+    sockaddr_in cli_addr = ctx.cli_addr;
     int n;
     
      if (newsockfd < 0) 
@@ -44,7 +45,7 @@ void *handle_request(void * ctx_st)
      
      char buffer [ BUFFER_SIZE] ; 
      recv ( newsockfd , buffer, BUFFER_SIZE, 0);
-     cout << buffer << endl;
+     //cout << inet_ntoa(cli_addr.sin_addr) << ":"<<ntohs(cli_addr.sin_port) << ":" << *ctx.newsockfd  << " => " << buffer << endl;
      send ( newsockfd , "Hello there...", 14, 0);
 
     close(newsockfd);

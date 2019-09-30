@@ -3,15 +3,22 @@
 
 void manage_prompt(vector<tracker> trackers) {
 	
-	cout << "Connecting to tracker" << endl;
+	
 	connected_tracker ct= connect_tracker(trackers);
-	char msg[] = "Hi, This is Ratnakar";
-	communicate_with_server(*ct.sockfd, msg, BUFFER_SIZE);
+	//itoa(peer_context.portno,port_str,10);
+	//char * msg= (char*)string("CONNECT\n"+ (*peer_context.host)+":"+to_string(*peer_context.portno)).c_str();
+	//cout << "MSG=" << msg << endl;
+	
 
-	if(*ct.sockfd < 0)
-		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
-	else
+	if(*ct.sockfd > 0){
 		cout << "Connected to tracker" << endl;
+		char buffer[BUFFER_SIZE];
+  		sprintf(buffer, "CONNECT:%s%d", peer_context.host,*peer_context.portno);
+		communicate_with_server(*ct.sockfd, buffer, BUFFER_SIZE);
+	}
+	else
+		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
+
 	//cout << "sockfd of connected tracker: " << *sockfd << endl;
 
 	reset_prompt();

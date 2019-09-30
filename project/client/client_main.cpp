@@ -3,6 +3,7 @@
 
 char* current_user=NULL;
 vector<tracker> trackers;
+struct peer_ctx peer_context;
 
 int main(int argc, char **argv) {
 	if (argc < 3) {
@@ -20,14 +21,16 @@ int main(int argc, char **argv) {
 	//print_tracker_info(trackers);
 
 	int *sockfd_ptr = (int *) malloc(sizeof(int));
-	struct peer_ctx ctx;
-	ctx.host=clone(host);
-	ctx.portno=*portno;
-	ctx.sockfd=*sockfd;
+	//struct peer_ctx peer_context;
+	peer_context.host=clone(host);
+	peer_context.portno=portno;
+	peer_context.sockfd=sockfd;
+	cout << "peer_context.host: " << peer_context.host << endl;
+	cout << "peer_context.portno: " << peer_context.portno << endl;
 
 
 	pthread_t listener_thread;
-    int ret =  pthread_create(&listener_thread, NULL, &listener_handler, (void*)&ctx);
+    int ret =  pthread_create(&listener_thread, NULL, &listener_handler, (void*)&peer_context);
     //pthread_detach(listener_thread);
     if(ret != 0) {
             printf("Error: pthread_create() failed\n");

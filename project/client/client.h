@@ -4,8 +4,8 @@
 struct peer_ctx 
 {
     char* host;
-    int portno;
-    int sockfd;
+    int* portno;
+    int* sockfd;
 };
 
 typedef struct
@@ -27,6 +27,7 @@ vector<tracker> extract_tracker_info(char* tracker_info);
 void print_tracker_info(vector<tracker> trackers);
 connected_tracker connect_tracker(vector<tracker> trackers);
 extern vector<tracker> trackers;
+extern struct peer_ctx peer_context;
 
 void manage_prompt(vector<tracker> trackers);
 void reset_prompt();

@@ -54,9 +54,7 @@ connected_tracker connect_tracker(vector<tracker> trackers){
 		if (*sockfd < 0) {
 			string msg = string("Tracker-")+to_string(i)+string(" is Down, Trying other tracker");
 			cout << msg<< endl;
-			*ct.sockfd=-1;
-			*ct.host=NULL;
-			*ct.port=-1;
+			continue;
 		}
 		else
 		{
@@ -67,5 +65,12 @@ connected_tracker connect_tracker(vector<tracker> trackers){
 			break;
 		}
 	}
+
+	if (*sockfd < 0) {
+			
+			*ct.sockfd=-1;
+			*ct.host=NULL;
+			*ct.port=-1;
+		}
 	return ct;
 }

@@ -1,10 +1,11 @@
 #include <assign2.h>
 #include <client.h>
 
-void manage_prompt() {
+void manage_prompt(vector<tracker> trackers) {
 	reset_prompt();
 	bzero((char *) &current_user, sizeof(char));
-
+	int* sockfd = connect_tracker(trackers);
+	cout << "sockfd of connected tracker: " << *sockfd << endl;
 	while(strcmp(manage_menu(),"exit") != 0) {
 		reset_prompt();
 	}

@@ -26,7 +26,7 @@ int connect_server(char * server_host, int portno) {
 	int len, result, ssockfd, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
-
+    cout << "server_host: " <<server_host << "port: " << portno;
 	//create a socket for client
 	int sockfd = socket(AF_INET, SOCK_STREAM, 0); //open a socket at client
 	server = gethostbyname(server_host);

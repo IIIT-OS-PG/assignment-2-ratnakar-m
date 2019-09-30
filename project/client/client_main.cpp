@@ -2,6 +2,7 @@
 #include <client.h>
 
 char* current_user=NULL;
+vector<tracker> trackers;
 
 int main(int argc, char **argv) {
 	if (argc < 3) {
@@ -11,9 +12,14 @@ int main(int argc, char **argv) {
     char* host = argv[1];
 	int *sockfd = (int *) malloc(sizeof(int));
 	int *portno = (int *) malloc(sizeof(int));
+	char * tracker_info = argv[3];
 	*portno = atoi(argv[2]);
 
 	*sockfd = start_service(host,*portno);
+	cout << "tracker file: " << tracker_info << endl;
+	trackers = extract_tracker_info(tracker_info);
+	//print_tracker_info(trackers);
+
 	int *sockfd_ptr = (int *) malloc(sizeof(int));
 	struct peer_ctx ctx;
 	ctx.host=clone(host);
@@ -28,7 +34,7 @@ int main(int argc, char **argv) {
             printf("Error: pthread_create() failed\n");
             exit(EXIT_FAILURE);
     }
-	manage_prompt();
+	manage_prompt(trackers);
 }
 
 

@@ -14,6 +14,7 @@ TRACKER_SRC = \
 
 CLIENT_SRC = \
 	client/client_main.cpp \
+	client/tracker_comm.cpp \
 	client/peer_request_handler.cpp \
 	client/commands_menu.cpp \
 	client/commands_impl.cpp \

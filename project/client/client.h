@@ -8,7 +8,19 @@ struct peer_ctx
     int sockfd;
 };
 
-void manage_prompt();
+typedef struct
+{
+	char* host;
+	int* port;
+
+} tracker;
+
+vector<tracker> extract_tracker_info(char* tracker_info);
+void print_tracker_info(vector<tracker> trackers);
+int* connect_tracker(vector<tracker> trackers);
+extern vector<tracker> trackers;
+
+void manage_prompt(vector<tracker> trackers);
 void reset_prompt();
 char * manage_menu();
 void help();

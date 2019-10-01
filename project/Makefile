@@ -22,8 +22,8 @@ CLIENT_SRC = \
 	commons/commons_util.cpp \
 
 build:
-	g++ -g -w -std=c++14  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && chmod +x $(EXEC_TRACKER) 
-	g++ -g -w -std=c++14  $(CLIENT_SRC) -I $(COMMON_INCLUDES) -I $(CLIENT_INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
+	g++ -g -w  -std=c++0x  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && chmod +x $(EXEC_TRACKER) 
+	g++ -g -w -std=c++0x  $(CLIENT_SRC) -I $(COMMON_INCLUDES) -I $(CLIENT_INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
 
 
 run: build

@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 	peer_context.portno=portno;
 	peer_context.sockfd=sockfd;
 	cout << "peer_context.host: " << peer_context.host << endl;
-	cout << "peer_context.portno: " << peer_context.portno << endl;
+	cout << "peer_context.portno: " << *peer_context.portno << endl;
 
 
 	pthread_t listener_thread;
@@ -36,7 +36,13 @@ int main(int argc, char **argv) {
             printf("Error: pthread_create() failed\n");
             exit(EXIT_FAILURE);
     }
-	manage_prompt(trackers);
+	manage_prompt();
+}
+
+void send_cmd_to_tracker(char* command, int sockfd) {
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, "[%s:%d] %s", peer_context.host,*peer_context.portno, command);
+    communicate_with_server(sockfd, buffer, BUFFER_SIZE);
 }
 
 

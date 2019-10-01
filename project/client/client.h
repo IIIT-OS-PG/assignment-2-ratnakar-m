@@ -28,13 +28,16 @@ void print_tracker_info(vector<tracker> trackers);
 connected_tracker connect_tracker(vector<tracker> trackers);
 extern vector<tracker> trackers;
 extern struct peer_ctx peer_context;
+//extern connected_tracker tracker_context;
+extern vector<tracker> trackers;
 
-void manage_prompt(vector<tracker> trackers);
+void manage_prompt();
 void reset_prompt();
 char * manage_menu();
 void help();
 void *listener_handler(void * peer_ctx_struct_ptr);
 void *handle_request(void * ctx_st);
+char* send_cmd_to_tracker(char* command);
 
 extern char* current_user;
 

@@ -45,9 +45,10 @@ void *handle_request(void * ctx_st)
      
      char buffer [ BUFFER_SIZE] ; 
      recv ( newsockfd , buffer, BUFFER_SIZE, 0);
-     //cout << inet_ntoa(cli_addr.sin_addr) << ":"<<ntohs(cli_addr.sin_port) << ":" << *ctx.newsockfd  << " => " << buffer << endl;
-     send ( newsockfd , "Hello there...", 14, 0);
+     printf("CONNECT:[%s:%d:%d] => %s\n", inet_ntoa(cli_addr.sin_addr),ntohs(cli_addr.sin_port),*ctx.newsockfd,buffer);
+     //cout << "Yeah" << endl;
+     send ( newsockfd , "Command Successful", BUFFER_SIZE, 0);
 
-    close(newsockfd);
+    //close(newsockfd);
     pthread_exit(NULL);
 }

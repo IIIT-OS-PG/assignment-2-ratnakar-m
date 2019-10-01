@@ -1,10 +1,14 @@
 #include <assign2.h>
+#include <client.h>
 
 char* create_user(char* username, char* password){
-	cout << "username: " << string(username) << ", password: "<< string(password) << endl;
-	cout << "user created" << endl;
+	
+	string command = string("create_user ")+string(username)+string(" ")+string(password);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
+
 bool login(char* username, char* password){
 	cout << "username: " << username << ", password: "<< password << endl;
 	cout << "logged in" << endl;

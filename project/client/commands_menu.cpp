@@ -1,23 +1,23 @@
 #include <assign2.h>
 #include <client.h>
 
-void manage_prompt(vector<tracker> trackers) {
+void manage_prompt() {
 	
 	
-	connected_tracker ct= connect_tracker(trackers);
+	/*connected_tracker ct= connect_tracker(trackers);
 	//itoa(peer_context.portno,port_str,10);
 	//char * msg= (char*)string("CONNECT\n"+ (*peer_context.host)+":"+to_string(*peer_context.portno)).c_str();
 	//cout << "MSG=" << msg << endl;
 	
-
-	if(*ct.sockfd > 0){
+	cout << "server fd: " << *tracker_context.sockfd << endl;
+	if(*tracker_context.sockfd > 0){
 		cout << "Connected to tracker" << endl;
 		char buffer[BUFFER_SIZE];
-  		sprintf(buffer, "CONNECT:%s%d", peer_context.host,*peer_context.portno);
-		communicate_with_server(*ct.sockfd, buffer, BUFFER_SIZE);
+  		sprintf(buffer, "CONNECT:%s:%d", peer_context.host,*peer_context.portno);
+		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
 	else
-		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
+		cout << "Both the trackers are down. Please ensure at least one is running." << endl;*/
 
 	//cout << "sockfd of connected tracker: " << *sockfd << endl;
 

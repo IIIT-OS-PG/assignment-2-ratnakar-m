@@ -46,14 +46,13 @@ connected_tracker connect_tracker(vector<tracker> trackers){
 
 	int *sockfd = (int *) malloc(sizeof(int));
 	*sockfd = -1;
-	cout << "BEFORE: " << endl;
 	for(int i=0; i<trackers.size(); i++){
 		char* host = trackers[i].host;
 		int* port = trackers[i].port;
 		*sockfd = connect_server(host,*port);
 		if (*sockfd < 0) {
-			string msg = string("Tracker-")+to_string(i)+string(" is Down, Trying other tracker");
-			cout << msg<< endl;
+			//string msg = string("Tracker-")+to_string(i)+string(" is Down, Trying other tracker");
+			//cout << msg<< endl;
 			continue;
 		}
 		else
@@ -73,4 +72,18 @@ connected_tracker connect_tracker(vector<tracker> trackers){
 			*ct.port=-1;
 		}
 	return ct;
+}
+
+char* send_cmd_to_tracker(char* command) {
+
+	connected_tracker tracker_context= connect_tracker(trackers);
+	char* response = NULL;
+	
+	if(*tracker_context.sockfd > 0){
+		char buffer[BUFFER_SIZE];
+    	sprintf(buffer, "[%s:%d] %s", peer_context.host,*peer_context.portno, command);
+		response = communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
+	}
+	else
+		cout << "Both the trackers are down. Please ensure at least one is running." << endl;    
 }

@@ -10,61 +10,74 @@ char* create_user(char* username, char* password){
 }
 
 bool login(char* username, char* password){
-	cout << "username: " << username << ", password: "<< password << endl;
-	cout << "logged in" << endl;
+	string command = string("login ")+string(username)+string(" ")+string(password);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return true;
 }
 char* create_group(char* group_id, char* owner){
-	cout << "group_id: " << group_id << ", owner: "<< owner << endl;
-	cout << "group created" << endl;
+	string command = string("create_group ")+string(group_id)+string(" ")+string(owner);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* join_group(char* group_id, char* username){
-	cout << "group_id: " << group_id << ", username: "<< username << endl;
-	cout << "group joined" << endl;
+	string command = string("join_group ")+string(group_id)+string(" ")+string(username);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* leave_group(char* group_id, char* username){
-	cout << "group_id: " << group_id << ", username: "<< username << endl;
-	cout << "group left" << endl;
+	string command = string("leave_group ")+string(group_id)+string(" ")+string(username);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* list_requests(char* group_id){
-	cout << "group_id: " << group_id << endl;
-	cout << "requested listed" << endl;
+	string command = string("list_requests ")+string(group_id);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* accept_request( char* group_id, char* username){
-	cout << "group_id: " << group_id << ", username: "<< username << endl;
-	cout << "request accepted" << endl;
+	string command = string("accept_request ")+string(group_id)+string(" ")+string(username);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* list_groups(){
-	cout << "groups listed" << endl;
-	return NULL;
+	string command = string("list_groups ");
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 }
 char* list_files(char* group_id){
-	cout << "group_id: " << group_id << endl;
-	cout << "files listed" << endl;
+	string command = string("list_files ")+string(group_id);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* upload_file(char* file_path, char* group_id){
-	cout << "file_path: " << file_path << ", group_id: "<< group_id << endl;
-	cout << "uploaded file" << endl;
+	string command = string("upload_file ")+string(file_path)+string(" ")+string(group_id);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* download_file(char* group_id, char* file_name, char* destination_path){
-	cout << "group_id: " << group_id << "file_name: " << file_name << ", destination_path: "<< destination_path << endl;
-	cout << "downloaded file" << endl;
+	string command = string("download_file ")+string(group_id)+string(" ")+string(file_name)+string(" ")+string(destination_path);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* show_downloads(){
-	cout << "downloads shown..." << endl;
+	string command = string("show_downloads ");
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* stop_share(char* group_id, char* file_name){
-	cout << "group_id: " << group_id << "file_name: " << file_name << endl;
-	cout << "stopped sharing" << endl;
+	string command = string("stop_share ")+string(group_id)+string(" ")+string(file_name);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << response << endl;
 	return NULL;
 }
 char* logout(){

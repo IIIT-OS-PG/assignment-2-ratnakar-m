@@ -77,14 +77,16 @@ connected_tracker connect_tracker(vector<tracker> trackers){
 char* send_cmd_to_tracker(char* command) {
 
 	connected_tracker tracker_context= connect_tracker(trackers);
-	char* response = NULL;
+	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	
+	char buffer[BUFFER_SIZE];
 	if(*tracker_context.sockfd > 0){
-		char buffer[BUFFER_SIZE];
     	sprintf(buffer, "[%s:%d]=>%s", peer_context.host,*peer_context.portno, command);
     	cout << "command sent: " << buffer << endl;
 		response = communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
 	else
-		cout << "Both the trackers are down. Please ensure at least one is running." << endl;    
+		sprintf(response, "Both the trackers are down. Please ensure at least one is running."); 
+
+	return response;   
 }

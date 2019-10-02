@@ -4,7 +4,7 @@
 void manage_prompt() {
 	
 	
-	/*connected_tracker ct= connect_tracker(trackers);
+	connected_tracker tracker_context= connect_tracker(trackers);
 	//itoa(peer_context.portno,port_str,10);
 	//char * msg= (char*)string("CONNECT\n"+ (*peer_context.host)+":"+to_string(*peer_context.portno)).c_str();
 	//cout << "MSG=" << msg << endl;
@@ -17,7 +17,7 @@ void manage_prompt() {
 		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
 	else
-		cout << "Both the trackers are down. Please ensure at least one is running." << endl;*/
+		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
 
 	//cout << "sockfd of connected tracker: " << *sockfd << endl;
 

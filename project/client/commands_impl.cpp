@@ -5,15 +5,13 @@ char* create_user(char* username, char* password){
 	
 	string command = string("create_user ")+string(username)+string(" ")+string(password);
 	char* response = send_cmd_to_tracker((char*)command.c_str());
-	cout << response << endl;
-	return NULL;
+	return response;
 }
 
-bool login(char* username, char* password){
+char* login(char* username, char* password){
 	string command = string("login ")+string(username)+string(" ")+string(password);
 	char* response = send_cmd_to_tracker((char*)command.c_str());
-	cout << response << endl;
-	return true;
+	return response;
 }
 char* create_group(char* group_id, char* owner){
 	string command = string("create_group ")+string(group_id)+string(" ")+string(owner);

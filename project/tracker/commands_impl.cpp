@@ -11,10 +11,10 @@ char* create_user(char* username, char* password){
 	outfile.close();
 	return SUCCESS_MSG;
 }
-bool login(char* username, char* password){
+char* login(char* username, char* password){
 	ifstream infile("users.txt");
 	std::string line;
-	bool login_success = false;
+	char* login_msg = "Login Failed";
 	while (std::getline(infile, line))
 	{
 	    istringstream iss(line);
@@ -24,12 +24,12 @@ bool login(char* username, char* password){
 	    {
 	    	if(strcmp(existing_user, username)==0 && strcmp(existing_password, password)==0)
 	    	{
-	    		login_success=true;	
+	    		login_msg="Login Successful";	
 	    		break;
 	    	}
 	    }
 	}
-	return login_success;
+	return login_msg;
 }
 char* create_group(char* group_id, char* owner){
 	cout << "group_id: " << group_id << ", owner: "<< owner << endl;

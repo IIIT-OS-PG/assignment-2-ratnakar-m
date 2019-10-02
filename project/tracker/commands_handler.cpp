@@ -19,11 +19,7 @@ char* serve_command(char* command_line) {
 		char* passwd = strtok(NULL, " ");
 		if(username !=NULL && passwd !=NULL)
 		{
-			bool login_success = login(username, passwd);
-			if(login_success)
-				return "Login Successful";
-			else
-				return "Login Failed";
+			return login(username, passwd);
 		}
 	} 
 	else if(strcmp(command, "create_group")==0) {

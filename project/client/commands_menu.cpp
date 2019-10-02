@@ -48,14 +48,12 @@ char * manage_menu() {
 	command = strtok(input, " ");
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	bzero(response,BUFFER_SIZE);
-	cout << "command to send: " << command << endl;
 	if(strcmp(command, "create_user")==0) {
 		char* username = strtok(NULL, " ");
 		char* passwd = strtok(NULL, " ");
 		if(username !=NULL && passwd !=NULL)
 		{
 			response = create_user(username, passwd);
-			cout << "invoking create_user" << endl;
 		}
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
@@ -65,14 +63,9 @@ char * manage_menu() {
 		char* passwd = strtok(NULL, " ");
 		if(username !=NULL && passwd !=NULL)
 		{
-			bool login_success = login(username, passwd);
-			if(login_success)
-			{
-				cout << "You are now logged in" << endl;
-				current_user=clone(username);
-			}
-			else
-				cout << "Login Failed" << endl;
+			response = login(username, passwd);
+			if(strcmp(response, "Login Successful")==0)
+				current_user = clone(username);
 		}
 		else
 			cout << "invalid args. type 'help' for more details." << endl;

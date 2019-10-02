@@ -5,6 +5,8 @@ char* serve_command(char* command_line) {
 	char* from_client = strtok(command_line, "=>");
 	char* command = strtok(NULL, "=>");
 	command = strtok(command, " ");
+	if(command==NULL)
+		return "";
 	cout << "command received: " << command << endl;
 	if(strcmp(command, "create_user")==0) {
 		char* username = strtok(NULL, " ");

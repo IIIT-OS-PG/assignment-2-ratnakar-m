@@ -39,11 +39,11 @@ int main(int argc, char **argv) {
 	manage_prompt();
 }
 
-void send_cmd_to_tracker(char* command, int sockfd) {
+/*void send_cmd_to_tracker(char* command, int sockfd) {
     char buffer[BUFFER_SIZE];
     sprintf(buffer, "[%s:%d] %s", peer_context.host,*peer_context.portno, command);
     communicate_with_server(sockfd, buffer, BUFFER_SIZE);
-}
+}*/
 
 
 

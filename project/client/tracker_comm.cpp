@@ -78,11 +78,10 @@ char* send_cmd_to_tracker(char* command) {
 
 	connected_tracker tracker_context= connect_tracker(trackers);
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
-	
+	bzero(response,BUFFER_SIZE);
 	char buffer[BUFFER_SIZE];
 	if(*tracker_context.sockfd > 0){
     	sprintf(buffer, "[%s:%d]=>%s", peer_context.host,*peer_context.portno, command);
-    	cout << "command sent: " << buffer << endl;
 		response = communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
 	else

@@ -12,7 +12,8 @@ void manage_prompt() {
 	cout << "server fd: " << *tracker_context.sockfd << endl;
 	if(*tracker_context.sockfd > 0){
 		cout << "Connected to tracker" << endl;
-		char buffer[BUFFER_SIZE];
+		char* buffer = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
+		bzero(buffer,BUFFER_SIZE);
   		sprintf(buffer, "CONNECT:%s:%d", peer_context.host,*peer_context.portno);
 		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
@@ -45,11 +46,17 @@ char * manage_menu() {
 	strcpy(tempInput, input);
 	command = strtok(input, "\n");
 	command = strtok(input, " ");
+	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
+	bzero(response,BUFFER_SIZE);
+	cout << "command to send: " << command << endl;
 	if(strcmp(command, "create_user")==0) {
 		char* username = strtok(NULL, " ");
 		char* passwd = strtok(NULL, " ");
 		if(username !=NULL && passwd !=NULL)
-			create_user(username, passwd);
+		{
+			response = create_user(username, passwd);
+			cout << "invoking create_user" << endl;
+		}
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 	} 
@@ -77,7 +84,7 @@ char * manage_menu() {
 			char* group_id = strtok(NULL, " ");
 		
 			if(group_id !=NULL)
-				create_group(group_id,current_user);
+				response = create_group(group_id,current_user);
 			else
 				cout << "invalid args. type 'help' for more details." << endl;
 		}
@@ -99,7 +106,7 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		
 		if(group_id !=NULL)
-			leave_group(group_id, current_user);
+			response = leave_group(group_id, current_user);
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 
@@ -108,7 +115,7 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		
 		if(group_id !=NULL)
-			list_requests(group_id);
+			response = list_requests(group_id);
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 
@@ -124,7 +131,7 @@ char * manage_menu() {
 
 	} 
 	else if(strcmp(command, "list_groups")==0) {
-		list_groups();
+		response = list_groups();
 	} 
 	else if(strcmp(command, "list_files")==0) {
 		char* group_id = strtok(NULL, " ");
@@ -139,7 +146,7 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		
 		if(file_path != NULL && group_id !=NULL)
-			upload_file(file_path, group_id);
+			response = upload_file(file_path, group_id);
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 
@@ -151,26 +158,26 @@ char * manage_menu() {
 		char* dest_path = strtok(NULL, " ");
 		
 		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
-			download_file(group_id,file_name,dest_path );
+			response = download_file(group_id,file_name,dest_path );
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 
 	} 
 	else if(strcmp(command, "show_downloads")==0) {
-		show_downloads();
+		response = show_downloads();
 	} 
 	else if(strcmp(command, "stop_share")==0) {
 		char* group_id = strtok(NULL, " ");
 		char* file_name = strtok(NULL, " ");
 		
 		if(group_id !=NULL && file_name != NULL)
-			stop_share(group_id,file_name);
+			response = stop_share(group_id,file_name);
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 
 	} 
 	else if(strcmp(command, "logout")==0) {
-		current_user=NULL;
+		response=logout(current_user);
 	} 
 	else if(strcmp(command, "help")==0) {
 		help();
@@ -182,6 +189,8 @@ char * manage_menu() {
 	else {
 		cout << "bad command, type 'help' to get list of commands\n" << endl;
 	}
+
+	cout << response << endl;
 	return command;
 }
 

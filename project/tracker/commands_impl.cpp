@@ -39,7 +39,8 @@ char* create_group(char* group_id, char* owner){
 	outfile.open("groups.txt", ios::out | ios::app);
 	outfile << group_id_str+":"+owner_str<<+":"+owner_str<<endl;
 	outfile.close();
-	return SUCCESS_MSG;
+	string response = "group created";
+	return (char*)response.c_str();
 }
 char* join_group(char* group_id, char* username){
 	cout << "group_id: " << group_id << ", username: "<< username << endl;

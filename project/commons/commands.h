@@ -11,4 +11,4 @@ char* upload_file(char* file_path, char* group_id);
 char* download_file(char* group_id, char* file_name, char* destination_path);
 char* show_downloads();
 char* stop_share(char* group_id, char* file_name);
-char* logout();
+char* logout(char* username);

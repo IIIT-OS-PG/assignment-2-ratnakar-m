@@ -9,7 +9,7 @@ char* create_user(char* username, char* password){
 	outfile.open("users.txt", ios::out | ios::app);
 	outfile << username_str+":"+password_str<<endl;
 	outfile.close();
-	return NULL;
+	return SUCCESS_MSG;
 }
 bool login(char* username, char* password){
 	ifstream infile("users.txt");
@@ -39,42 +39,41 @@ char* create_group(char* group_id, char* owner){
 	outfile.open("groups.txt", ios::out | ios::app);
 	outfile << group_id_str+":"+owner_str<<+":"+owner_str<<endl;
 	outfile.close();
-	return NULL;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* join_group(char* group_id, char* username){
 	cout << "group_id: " << group_id << ", username: "<< username << endl;
 	cout << "group joined" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* leave_group(char* group_id, char* username){
 	cout << "group_id: " << group_id << ", username: "<< username << endl;
 	cout << "group left" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* list_requests(char* group_id){
 	cout << "group_id: " << group_id << endl;
 	cout << "requested listed" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* accept_request( char* group_id, char* username){
 	cout << "group_id: " << group_id << ", username: "<< username << endl;
 	cout << "request accepted" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* list_groups(){
 	cout << "groups listed" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* list_files(char* group_id){
 	cout << "group_id: " << group_id << endl;
 	cout << "files listed" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* upload_file(char* file_path, char* group_id){
 	cout << "file_path: " << file_path << ", group_id: "<< group_id << endl;
 	cout << "uploaded file" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* download_file(char* group_id, char* file_name, char* destination_path){
 	cout << "group_id: " << group_id << "file_name: " << file_name << ", destination_path: "<< destination_path << endl;
@@ -83,14 +82,14 @@ char* download_file(char* group_id, char* file_name, char* destination_path){
 }
 char* show_downloads(){
 	cout << "downloads shown..." << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
 char* stop_share(char* group_id, char* file_name){
 	cout << "group_id: " << group_id << "file_name: " << file_name << endl;
 	cout << "stopped sharing" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }
-char* logout(){
+char* logout(char* username){
 	cout << "logged out" << endl;
-	return NULL;
+	return SUCCESS_MSG;
 }

@@ -80,7 +80,7 @@ char* stop_share(char* group_id, char* file_name){
 	cout << response << endl;
 	return NULL;
 }
-char* logout(){
+char* logout(char* username){
 	cout << "logged out" << endl;
 	return NULL;
 }

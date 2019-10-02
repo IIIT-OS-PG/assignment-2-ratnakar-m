@@ -27,6 +27,7 @@
 
 #define BUFFER_SIZE 256
 #define PROMPT "peer>"
+#define SUCCESS_MSG "Command Successful"
 
 using namespace std;
 

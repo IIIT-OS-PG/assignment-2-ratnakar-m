@@ -41,7 +41,7 @@ char* accept_request( char* group_id, char* username){
 char* list_groups(){
 	string command = string("list_groups ");
 	char* response = send_cmd_to_tracker((char*)command.c_str());
-	cout << response << endl;
+	return response;
 }
 char* list_files(char* group_id){
 	string command = string("list_files ")+string(group_id);

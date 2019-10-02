@@ -1,6 +1,9 @@
 #include <assign2.h>
+#include <tracker.h>
 
 char* create_user(char* username, char* password){
+	if(user_exists(username))
+		return "user already exists";
 	cout << "username: " << string(username) << ", password: "<< string(password) << endl;
 	cout << "user created" << endl;
 	string username_str=string(username);
@@ -12,10 +15,11 @@ char* create_user(char* username, char* password){
 	return SUCCESS_MSG;
 }
 char* login(char* username, char* password){
+
 	ifstream infile("users.txt");
-	std::string line;
+	string line;
 	char* login_msg = "login failed";
-	while (std::getline(infile, line))
+	while (getline(infile, line))
 	{
 	    istringstream iss(line);
 	    char* existing_user = strtok((char*)line.c_str(), ":");
@@ -32,6 +36,8 @@ char* login(char* username, char* password){
 	return login_msg;
 }
 char* create_group(char* group_id, char* owner){
+	if(group_exists(group_id))
+		return "group already exists";
 	cout << "group_id: " << group_id << ", owner: "<< owner << endl;
 	string group_id_str=string(group_id);
 	string owner_str=string(owner);
@@ -63,8 +69,7 @@ char* accept_request( char* group_id, char* username){
 	return SUCCESS_MSG;
 }
 char* list_groups(){
-	cout << "groups listed" << endl;
-	return SUCCESS_MSG;
+	return get_groups();
 }
 char* list_files(char* group_id){
 	cout << "group_id: " << group_id << endl;

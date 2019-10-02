@@ -11,6 +11,7 @@ TRACKER_SRC = \
 	tracker/tracker_main.cpp  \
 	tracker/commands_handler.cpp \
 	tracker/commands_impl.cpp \
+	tracker/tracker_util.cpp \
 	commons/network_util.cpp \
 	commons/commons_util.cpp \
 

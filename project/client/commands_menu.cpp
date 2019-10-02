@@ -1,26 +1,10 @@
 #include <assign2.h>
 #include <client.h>
 
-void manage_prompt() {
-	
-	
-	connected_tracker tracker_context= connect_tracker(trackers);
-	//itoa(peer_context.portno,port_str,10);
-	//char * msg= (char*)string("CONNECT\n"+ (*peer_context.host)+":"+to_string(*peer_context.portno)).c_str();
-	//cout << "MSG=" << msg << endl;
-	
-	cout << "server fd: " << *tracker_context.sockfd << endl;
-	if(*tracker_context.sockfd > 0){
-		cout << "Connected to tracker" << endl;
-		char* buffer = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
-		bzero(buffer,BUFFER_SIZE);
-  		sprintf(buffer, "CONNECT:%s:%d", peer_context.host,*peer_context.portno);
-		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
-	}
-	else
-		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
 
-	//cout << "sockfd of connected tracker: " << *sockfd << endl;
+void manage_prompt() {
+		
+	tracker_status_check();
 
 	reset_prompt();
 	bzero((char *) &current_user, sizeof(char));
@@ -64,7 +48,7 @@ char * manage_menu() {
 		if(username !=NULL && passwd !=NULL)
 		{
 			response = login(username, passwd);
-			if(strcmp(response, "Login Successful")==0)
+			if(strcmp(response, "login successful")==0)
 				current_user = clone(username);
 		}
 		else
@@ -170,7 +154,15 @@ char * manage_menu() {
 
 	} 
 	else if(strcmp(command, "logout")==0) {
-		response=logout(current_user);
+		if(current_user == NULL)
+			response="not logged in yet";
+		else
+		{
+			response=logout(current_user);
+			if(strcmp(response, "logout successful")==0){
+				current_user = NULL;
+			}
+		}
 	} 
 	else if(strcmp(command, "help")==0) {
 		help();

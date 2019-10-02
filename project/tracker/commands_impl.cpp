@@ -14,7 +14,7 @@ char* create_user(char* username, char* password){
 char* login(char* username, char* password){
 	ifstream infile("users.txt");
 	std::string line;
-	char* login_msg = "Login Failed";
+	char* login_msg = "login failed";
 	while (std::getline(infile, line))
 	{
 	    istringstream iss(line);
@@ -24,7 +24,7 @@ char* login(char* username, char* password){
 	    {
 	    	if(strcmp(existing_user, username)==0 && strcmp(existing_password, password)==0)
 	    	{
-	    		login_msg="Login Successful";	
+	    		login_msg="login successful";	
 	    		break;
 	    	}
 	    }
@@ -90,6 +90,6 @@ char* stop_share(char* group_id, char* file_name){
 	return SUCCESS_MSG;
 }
 char* logout(char* username){
-	cout << "logged out" << endl;
-	return SUCCESS_MSG;
+	cout << string(username) << " logged out" << endl;
+	return "logout successful";
 }

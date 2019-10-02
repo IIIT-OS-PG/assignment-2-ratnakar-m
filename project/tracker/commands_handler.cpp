@@ -86,6 +86,12 @@ char* serve_command(char* command_line) {
 		
 		if(group_id !=NULL && file_name != NULL)
 			return stop_share(group_id,file_name);
+	}
+	else if(strcmp(command, "logout")==0) {
+		char* username = strtok(NULL, " ");
+		
+		if(username !=NULL)
+			return logout(username);
 	} 
 	else if(strcmp(command, "username")==0) {
 		char* username = strtok(NULL, " ");

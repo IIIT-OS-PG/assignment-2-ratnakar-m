@@ -74,6 +74,21 @@ connected_tracker connect_tracker(vector<tracker> trackers){
 	return ct;
 }
 
+void tracker_status_check(){
+	connected_tracker tracker_context= connect_tracker(trackers);
+	
+	//cout << "server fd: " << *tracker_context.sockfd << endl;
+	if(*tracker_context.sockfd > 0){
+		cout << "Tracker Online check: True" << endl;
+		char* buffer = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
+		bzero(buffer,BUFFER_SIZE);
+  		sprintf(buffer, "CONNECT:%s:%d", peer_context.host,*peer_context.portno);
+		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
+	}
+	else
+		cout << "Both the trackers are down. Please ensure at least one is running." << endl;
+}
+
 char* send_cmd_to_tracker(char* command) {
 
 	connected_tracker tracker_context= connect_tracker(trackers);

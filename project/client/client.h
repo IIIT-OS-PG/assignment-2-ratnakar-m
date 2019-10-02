@@ -26,6 +26,7 @@ typedef struct
 vector<tracker> extract_tracker_info(char* tracker_info);
 void print_tracker_info(vector<tracker> trackers);
 connected_tracker connect_tracker(vector<tracker> trackers);
+void tracker_status_check();
 extern vector<tracker> trackers;
 extern struct peer_ctx peer_context;
 //extern connected_tracker tracker_context;

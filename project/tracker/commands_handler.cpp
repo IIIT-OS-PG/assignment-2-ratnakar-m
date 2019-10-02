@@ -48,9 +48,10 @@ char* serve_command(char* command_line) {
 	} 
 	else if(strcmp(command, "accept_request")==0) {
 		char* group_id = strtok(NULL, " ");
-		char* username = strtok(NULL, " ");
-		if(group_id !=NULL && username !=NULL)
-			return accept_request(group_id, username);
+		char* owner = strtok(NULL, " ");
+		char* subject = strtok(NULL, " ");
+		if(group_id !=NULL && owner != NULL && subject !=NULL)
+			return accept_request(group_id, owner, subject);
 
 	} 
 	else if(strcmp(command, "list_groups")==0) {

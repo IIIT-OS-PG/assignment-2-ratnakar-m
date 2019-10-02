@@ -68,7 +68,7 @@ char* join_group(char* group_id, char* username){
 }
 char* leave_group(char* group_id, char* username){
 	string deleteline = string(group_id)+":"+string(username);
-	delete_line("join_requests.txt",deleteline);
+	delete_line("groups.txt",deleteline);
 
 	return "user left from the group";
 }
@@ -76,9 +76,11 @@ char* list_requests(char* group_id){
 	char* requests = get_requests();
 	return requests;
 }
-char* accept_request( char* group_id, char* username){ 
-	cout << "group_id: " << group_id << ", username: "<< username << endl;
-	cout << "request accepted" << endl;
+char* accept_request( char* group_id, char* owner, char* username){ 
+
+	bool isowner = is_owner(group_id, owner);
+	if(!isowner)
+		return "You are not the owner of this group. You must be owner to accept requests";
 
 	string group_id_str=string(group_id);
 	string username_str=string(username);
@@ -87,6 +89,7 @@ char* accept_request( char* group_id, char* username){
 	ofstream outfile;
 	outfile.open("membership.txt", ios::out | ios::app);
 	outfile << group_id_str+":"+username_str<<endl;
+	cout << "accepting membership "  << group_id_str+":"+username_str<<endl;
 	outfile.close();
 
 	//remove from pending requests

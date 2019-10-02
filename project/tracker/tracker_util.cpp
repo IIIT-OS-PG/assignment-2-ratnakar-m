@@ -70,6 +70,24 @@ char* get_groups(){
 	return clone((char*)groups_list.c_str());
 }
 
+bool is_owner(char* group_id, char* username){
+	ifstream infile("groups.txt");
+	string line;
+	bool isowner = false;
+	while (getline(infile, line))
+	{
+	    istringstream iss(line);
+	    char* existing_group = strtok((char*)line.c_str(), ":");
+	    char* existing_owner = strtok(NULL, ":");
+	    if(existing_group != NULL && existing_owner != NULL)
+	    {
+	    	if(strcmp(existing_group, group_id)==0 && strcmp(existing_owner, username)==0)
+	    		isowner=true;	
+	    }
+	}
+	return isowner;
+}
+
 char* get_requests(){
 	ifstream infile("join_requests.txt");
 	string line;
@@ -81,7 +99,7 @@ char* get_requests(){
 	    char* existing_user = strtok(NULL, ":");
 	    if(existing_group != NULL)
 	    {
-	    	requests_list = requests_list + existing_group + ":" + existing_user;	
+	    	requests_list = requests_list + existing_group + ":" + existing_user + "\n";	
 	    }
 	}
 	return clone((char*)requests_list.c_str());

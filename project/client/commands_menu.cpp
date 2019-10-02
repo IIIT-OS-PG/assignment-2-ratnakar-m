@@ -98,14 +98,18 @@ char * manage_menu() {
 
 	} 
 	else if(strcmp(command, "accept_request")==0) {
-		char* group_id = strtok(NULL, " ");
-		char* username = strtok(NULL, " ");
-		
-		if(group_id !=NULL && username != NULL)
-			accept_request(group_id,username);
-		else
-			cout << "invalid args. type 'help' for more details." << endl;
 
+		if(current_user == NULL)
+			response="You must be logged in to accept requests";
+		else{
+			char* group_id = strtok(NULL, " ");
+			char* username = strtok(NULL, " ");
+			
+			if(group_id !=NULL && username != NULL)
+				response=accept_request(group_id,current_user,username);
+			else
+				cout << "invalid args. type 'help' for more details." << endl;
+		}
 	} 
 	else if(strcmp(command, "list_groups")==0) {
 		response = list_groups();

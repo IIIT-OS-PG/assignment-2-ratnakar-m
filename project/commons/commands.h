@@ -4,7 +4,7 @@ char* create_group(char* group_id, char* owner);
 char* join_group(char* group_id, char* username);
 char* leave_group(char* group_id, char* username);
 char* list_requests(char* group_id);
-char* accept_request( char* group_id, char* username);
+char* accept_request( char* group_id, char* owner, char* subject);
 char* list_groups();
 char* list_files(char* group_id);
 char* upload_file(char* file_path, char* group_id);

@@ -33,8 +33,8 @@ char* list_requests(char* group_id){
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }
-char* accept_request( char* group_id, char* username){
-	string command = string("accept_request ")+string(group_id)+string(" ")+string(username);
+char* accept_request( char* group_id, char* owner, char* subject){
+	string command = string("accept_request ")+string(group_id)+string(" ")+string(owner)+string(" ")+string(subject);
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }

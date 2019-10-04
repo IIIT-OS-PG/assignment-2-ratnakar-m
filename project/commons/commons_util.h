@@ -25,7 +25,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+
 #define BUFFER_SIZE 256
+#define CHUNK_SIZE 512*1024 //512 KB
+//const int CHUNK_SIZE = 512*1024; //512 KB
 #define PROMPT "peer>"
 #define SUCCESS_MSG "Command Successful"
 
@@ -39,6 +42,13 @@ struct request_ctx
     int* logfd;
 };
 
+typedef struct chunk_info
+{
+	char* data;
+	string sha1;
+	int* size; //size of data
+};
+
 pair<int,char*> get_msg(string);
 int write_msg(int, string);
 int write_msg_line(int fd, string msg_str);
@@ -47,5 +57,8 @@ void error(const char *msg);
 string get_time();
 string get_time_compact();
 int* open_log_file(int port);
+string get_base_name(string file_path);
+string split_chunks(string file_path, vector<chunk_info>& chunks);
+string get_hash_digest(char* str1);
 
 #endif //COMMONS_H

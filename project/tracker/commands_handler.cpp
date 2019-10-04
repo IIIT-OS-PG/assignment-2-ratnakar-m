@@ -63,11 +63,12 @@ char* serve_command(char* command_line) {
 			return list_files(group_id);
 	} 
 	else if(strcmp(command, "upload_file")==0) {
-		char* file_path = strtok(NULL, " ");
+		char* file_name = strtok(NULL, " ");
 		char* group_id = strtok(NULL, " ");
+		char* sha1 = strtok(NULL, " ");
 		
-		if(file_path != NULL && group_id !=NULL)
-			return upload_file(file_path, group_id);
+		if(file_name != NULL && group_id !=NULL && sha1 != NULL)
+			return upload_file(file_name, group_id,sha1);
 	} 
 	else if(strcmp(command, "download_file")==0) {
 		

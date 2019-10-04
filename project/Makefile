@@ -14,6 +14,7 @@ TRACKER_SRC = \
 	tracker/tracker_util.cpp \
 	commons/network_util.cpp \
 	commons/commons_util.cpp \
+	commons/hash_util.cpp \
 
 CLIENT_SRC = \
 	client/client_main.cpp \
@@ -23,6 +24,7 @@ CLIENT_SRC = \
 	client/commands_impl.cpp \
 	commons/network_util.cpp \
 	commons/commons_util.cpp \
+	commons/hash_util.cpp \
 
 build:
 	g++ -g -w  -std=c++0x  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -I $(TRACKER_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && chmod +x $(EXEC_TRACKER) 

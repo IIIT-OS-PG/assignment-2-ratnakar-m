@@ -127,7 +127,12 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		
 		if(file_path != NULL && group_id !=NULL)
-			response = upload_file(file_path, group_id);
+		{
+			string base_name = get_base_name(string(file_path));
+			vector<chunk_info> chunks;
+			string file_sha1 = split_chunks(file_path, chunks);
+			response = upload_file(file_path, group_id, (char*) file_sha1.c_str());
+		}
 		else
 			cout << "invalid args. type 'help' for more details." << endl;
 

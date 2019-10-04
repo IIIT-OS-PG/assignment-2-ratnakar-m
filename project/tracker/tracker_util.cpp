@@ -121,3 +121,18 @@ void delete_line(string old_file, string deleteline) {
 	remove(olf);
 	rename("tmp.txt", olf);
 }
+
+int  hash_code(string text){
+    int hash_val = 0;
+    int len = text.length();
+    int k;
+    char ch;
+    if (len == 0)
+        return hash_val;
+    for (k = 0; k < len; k++) {
+        ch = text.at(k);
+        hash_val = (31 * hash_val) + ((int)ch);
+    }
+    return hash_val; 
+}
+

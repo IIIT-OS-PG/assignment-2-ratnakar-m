@@ -1,0 +1,8 @@
+cricket_code.pdf:cricket
+cricket_field_pos.png:cricket
+umpiring_for_beginners.pdf:cricket
+civics_iea.pdf:law
+legal_docs.pdf:law
+legal_edu.pdf:law
+os_concepts.pdf:os
+os_slides.pdf:os

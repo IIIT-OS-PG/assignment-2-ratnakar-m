@@ -26,7 +26,7 @@
 #include <unistd.h>
 
 
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 1024
 #define CHUNK_SIZE 512*1024 //512 KB
 //const int CHUNK_SIZE = 512*1024; //512 KB
 #define PROMPT "peer>"

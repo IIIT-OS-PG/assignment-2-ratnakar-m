@@ -65,10 +65,11 @@ char* serve_command(char* command_line) {
 	else if(strcmp(command, "upload_file")==0) {
 		char* file_name = strtok(NULL, " ");
 		char* group_id = strtok(NULL, " ");
+		char* file_size_str = strtok(NULL, " ");
 		char* sha1 = strtok(NULL, " ");
-		
+		int file_size = atoi(file_size_str);
 		if(file_name != NULL && group_id !=NULL && sha1 != NULL)
-			return upload_file(file_name, group_id,sha1);
+			return upload_file(file_name, group_id, file_size, sha1);
 	} 
 	else if(strcmp(command, "download_file")==0) {
 		

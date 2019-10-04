@@ -40,7 +40,7 @@ char * manage_menu() {
 			response = create_user(username, passwd);
 		}
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 	} 
 	else if(strcmp(command, "login")==0) {
 		char* username = strtok(NULL, " ");
@@ -52,7 +52,7 @@ char * manage_menu() {
 				current_user = clone(username);
 		}
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	} 
 	else if(strcmp(command, "create_group")==0) {
@@ -63,7 +63,7 @@ char * manage_menu() {
 			if(group_id !=NULL)
 				response = create_group(group_id,current_user);
 			else
-				cout << "invalid args. type 'help' for more details." << endl;
+				cout << INVALID_ARGS << endl;
 		}
 		else
 			cout << "You need to login to create a group" << endl;
@@ -76,7 +76,7 @@ char * manage_menu() {
 		if(group_id !=NULL)
 			join_group(group_id,current_user);
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	}
 	else if(strcmp(command, "leave_group")==0) {
@@ -85,7 +85,7 @@ char * manage_menu() {
 		if(group_id !=NULL)
 			response = leave_group(group_id, current_user);
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	}  
 	else if(strcmp(command, "list_requests")==0) {
@@ -94,7 +94,7 @@ char * manage_menu() {
 		if(group_id !=NULL)
 			response = list_requests(group_id);
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	} 
 	else if(strcmp(command, "accept_request")==0) {
@@ -108,7 +108,7 @@ char * manage_menu() {
 			if(group_id !=NULL && username != NULL)
 				response=accept_request(group_id,current_user,username);
 			else
-				cout << "invalid args. type 'help' for more details." << endl;
+				cout << INVALID_ARGS << endl;
 		}
 	} 
 	else if(strcmp(command, "list_groups")==0) {
@@ -120,7 +120,7 @@ char * manage_menu() {
 		if(group_id !=NULL)
 			list_files(group_id);
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 	} 
 	else if(strcmp(command, "upload_file")==0) {
 		char* file_path = strtok(NULL, " ");
@@ -130,11 +130,13 @@ char * manage_menu() {
 		{
 			string base_name = get_base_name(string(file_path));
 			vector<chunk_info> chunks;
-			string file_sha1 = split_chunks(file_path, chunks);
-			response = upload_file(file_path, group_id, (char*) file_sha1.c_str());
+			pair<string,int> file_info = split_chunks(file_path, chunks);
+			string file_sha1 = file_info.first;
+			int file_size = file_info.second;
+			response = upload_file((char*)base_name.c_str(), group_id, file_size, (char*) file_sha1.c_str());
 		}
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	} 
 	else if(strcmp(command, "download_file")==0) {
@@ -146,7 +148,7 @@ char * manage_menu() {
 		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
 			response = download_file(group_id,file_name,dest_path );
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	} 
 	else if(strcmp(command, "show_downloads")==0) {
@@ -159,7 +161,7 @@ char * manage_menu() {
 		if(group_id !=NULL && file_name != NULL)
 			response = stop_share(group_id,file_name);
 		else
-			cout << "invalid args. type 'help' for more details." << endl;
+			cout << INVALID_ARGS << endl;
 
 	} 
 	else if(strcmp(command, "logout")==0) {

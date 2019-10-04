@@ -7,7 +7,7 @@ char* list_requests(char* group_id);
 char* accept_request( char* group_id, char* owner, char* subject);
 char* list_groups();
 char* list_files(char* group_id);
-char* upload_file(char* file_path, char* group_id, char* sha1);
+char* upload_file(char* file_path, char* group_id, int file_size, char* sha1);
 char* download_file(char* group_id, char* file_name, char* destination_path);
 char* show_downloads();
 char* stop_share(char* group_id, char* file_name);

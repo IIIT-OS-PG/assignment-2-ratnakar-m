@@ -106,8 +106,8 @@ char* list_files(char* group_id){
 	cout << "files listed" << endl;
 	return SUCCESS_MSG;
 }
-char* upload_file(char* file_name, char* group_id, char* sha1){
-	cout << "file_path: " << file_name << ", group_id: "<< group_id << ", sha1: " << sha1 << endl;
+char* upload_file(char* file_name, char* group_id, int file_size, char* sha1){
+	cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file size: " << file_size << ", sha1: " << sha1 << endl;
 	cout << "uploaded file" << endl;
 	return SUCCESS_MSG;
 }

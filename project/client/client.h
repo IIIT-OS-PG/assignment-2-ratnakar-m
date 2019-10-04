@@ -42,6 +42,8 @@ char* send_cmd_to_tracker(char* command);
 
 extern char* current_user;
 
+#define INVALID_ARGS "invalid args. type 'help' for more details."
+
 
 
 #endif //CLIENT_H

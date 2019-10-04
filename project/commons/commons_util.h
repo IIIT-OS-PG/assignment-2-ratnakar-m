@@ -58,7 +58,7 @@ string get_time();
 string get_time_compact();
 int* open_log_file(int port);
 string get_base_name(string file_path);
-string split_chunks(string file_path, vector<chunk_info>& chunks);
+pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks);
 string get_hash_digest(char* str1);
 
 #endif //COMMONS_H

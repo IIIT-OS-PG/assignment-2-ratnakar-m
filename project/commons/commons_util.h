@@ -25,14 +25,18 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+using namespace std;
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 512*1024
 #define CHUNK_SIZE 512*1024 //512 KB
 //const int CHUNK_SIZE = 512*1024; //512 KB
 #define PROMPT "peer>"
 #define SUCCESS_MSG "Command Successful"
 
-using namespace std;
+#include <jsoncpp/json/json.h>
+using namespace Json;
+
+
 
 struct request_ctx 
 {

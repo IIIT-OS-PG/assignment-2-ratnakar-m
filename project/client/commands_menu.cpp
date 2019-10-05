@@ -131,9 +131,8 @@ char * manage_menu() {
 			string base_name = get_base_name(string(file_path));
 			vector<chunk_info> chunks;
 			pair<string,int> file_info = split_chunks(file_path, chunks);
-			string file_sha1 = file_info.first;
-			int file_size = file_info.second;
-			response = upload_file((char*)base_name.c_str(), group_id, file_size, (char*) file_sha1.c_str());
+			char* file_meta = build_metadata(base_name, group_id, file_info, chunks);
+			response = upload_file((char*)base_name.c_str(), group_id, file_meta);
 		}
 		else
 			cout << INVALID_ARGS << endl;

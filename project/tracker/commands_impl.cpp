@@ -106,12 +106,13 @@ char* list_files(char* group_id){
 	cout << "files listed" << endl;
 	return SUCCESS_MSG;
 }
-char* upload_file(char* file_name, char* group_id, int file_size, char* sha1){
-	cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file size: " << file_size << ", sha1: " << sha1 << endl;
+char* upload_file(char* file_name, char* group_id, char* file_meta){
+	cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file_meta: " << file_meta << endl;
 	ofstream outfile;
-	outfile.open("files.txt", ios::out | ios::app);
-	outfile << string(file_name) << string(":") << string(group_id)<< ":" << to_string(file_size)<< ":" <<string(sha1) << endl;
+	outfile.open((string(file_name)+".meta"), ios::out | ios::app);
+	outfile << string(file_meta) << endl;
 	outfile.close();
+
 	cout << "uploaded file" << endl;
 	return SUCCESS_MSG;
 }

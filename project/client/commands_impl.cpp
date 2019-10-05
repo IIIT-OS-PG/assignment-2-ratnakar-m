@@ -48,8 +48,8 @@ char* list_files(char* group_id){
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }
-char* upload_file(char* file_name, char* group_id, int file_size, char* file_sha1){
-	string command = string("upload_file ")+string(file_name)+string(" ")+string(group_id)+string(" ")+to_string(file_size)+string(" ")+file_sha1;
+char* upload_file(char* file_name, char* group_id, char* file_meta){
+	string command = string("upload_file ")+string(file_name)+string(" ")+string(group_id)+string("\n$$\n")+file_meta;
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }
@@ -72,4 +72,30 @@ char* logout(char* username){
 	string command = string("logout ")+string(username);
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
+}
+
+char* build_metadata(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks){
+	Value meta; 
+    meta["name"] = file_name;
+    meta["group"] = group_id;
+    meta["file_sha1"] = file_info.first;
+    meta["size"] = file_info.second;
+    meta["pieces"] = Value(arrayValue);
+    for(int i=0; i<chunks.size(); i++){
+    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1);
+    }
+    StyledWriter writer;
+    string meta_str = writer.write( meta );
+    //cout << root << endl; //printing using the root itself
+    //cout << meta_str << endl; //printing using the string of root
+    return (char*)meta_str.c_str();
+}
+
+void append_piece(Value& document, int idx, int size, string sha1){
+    Value piece;
+    piece["piece_no"] = idx;
+    piece["piece_size"] = size;
+    piece["piece_sha1"] = sha1;
+    piece["peers"] = Value(arrayValue);
+    document["pieces"].append(piece);
 }

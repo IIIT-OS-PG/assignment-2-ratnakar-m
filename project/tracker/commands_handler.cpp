@@ -1,13 +1,14 @@
 #include <assign2.h>
 
 char* serve_command(char* command_line) {
-
 	char* from_client = strtok(command_line, "=>");
 	char* command = strtok(NULL, "=>");
-	command = strtok(command, " ");
 	if(command==NULL)
 		return "";
-	cout << "command received: " << command << endl;
+	command = strtok(command, "$$");
+	char* body = strtok(NULL, "$$");
+	command = strtok(command, " ");
+	
 	if(strcmp(command, "create_user")==0) {
 		char* username = strtok(NULL, " ");
 		char* passwd = strtok(NULL, " ");
@@ -63,13 +64,16 @@ char* serve_command(char* command_line) {
 			return list_files(group_id);
 	} 
 	else if(strcmp(command, "upload_file")==0) {
-		char* file_name = strtok(NULL, " ");
+		
+		char* command_line = strtok(NULL, "\n");
+
+		char* file_name = strtok(command_line, " ");
 		char* group_id = strtok(NULL, " ");
-		char* file_size_str = strtok(NULL, " ");
-		char* sha1 = strtok(NULL, " ");
-		int file_size = atoi(file_size_str);
-		if(file_name != NULL && group_id !=NULL && sha1 != NULL)
-			return upload_file(file_name, group_id, file_size, sha1);
+
+		char* file_meta = body;
+		//int file_size = atoi(file_size_str);
+		if(file_name != NULL && group_id !=NULL && file_meta != NULL)
+			return upload_file(file_name, group_id, file_meta);
 	} 
 	else if(strcmp(command, "download_file")==0) {
 		

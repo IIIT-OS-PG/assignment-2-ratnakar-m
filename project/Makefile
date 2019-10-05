@@ -1,7 +1,7 @@
 EXEC_TRACKER = tracker/tracker
 EXEC_CLIENT = client/client
 
-LIBS = -lpthread -lcrypto
+LIBS = -lpthread -lcrypto -ljsoncpp
 
 COMMON_INCLUDES = ./commons/
 CLIENT_INCLUDES = ./client

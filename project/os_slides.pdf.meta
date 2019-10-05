@@ -1,0 +1,44 @@
+
+{
+   "file_sha1" : "aabd95452561a875687afd995e4a5381a2bd9248b19a20f679895d818c3812166a9942c6b296d7bf",
+   "group" : "law",
+   "name" : "os_slides.pdf",
+   "pieces" : [
+      {
+         "peers" : [],
+         "piece_no" : 0,
+         "piece_sha1" : "aabd95452561a875687afd995e4a5381a2bd9248",
+         "piece_size" : 524288
+      },
+      {
+         "peers" : [],
+         "piece_no" : 1,
+         "piece_sha1" : "b19a20f679895d818c3812166a9942c6b296d7bf",
+         "piece_size" : 274926
+      }
+   ],
+   "size" : 799214
+}
+
+
+{
+   "file_sha1" : "aabd95452561a875687afd995e4a5381a2bd9248b19a20f679895d818c3812166a9942c6b296d7bf",
+   "group" : "law",
+   "name" : "os_slides.pdf",
+   "pieces" : [
+      {
+         "peers" : [],
+         "piece_no" : 0,
+         "piece_sha1" : "aabd95452561a875687afd995e4a5381a2bd9248",
+         "piece_size" : 524288
+      },
+      {
+         "peers" : [],
+         "piece_no" : 1,
+         "piece_sha1" : "b19a20f679895d818c3812166a9942c6b296d7bf",
+         "piece_size" : 274926
+      }
+   ],
+   "size" : 799214
+}
+

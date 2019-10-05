@@ -16,7 +16,6 @@ int main() {
     append_piece(root,1,512000,"");
     append_piece(root,2,299522,"");
     StyledWriter writer;
-    // Make a new JSON document for the configuration. Preserve original comments.
     string outputConfig = writer.write( root );
     cout << root << endl; //printing using the root itself
     cout << outputConfig << endl; //printing using the string of root

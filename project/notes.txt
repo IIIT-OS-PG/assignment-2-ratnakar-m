@@ -1,4 +1,22 @@
-peer has two interfaces:
+Project Dependencies:
+-----------------------
+pthread
+crypto
+jsoncpp
+
+sudo yum install jsoncpp-devel 
+sudo yum install -y openssl-devel
+
+Project Limitations:
+--------------------
+1) file name should have no spaces
+2) command buffer size 1024
+3) max file size - ?
+
+
+
+Peer has two interfaces:
+--------------------------
 
 a). command interface
 	peer>
@@ -6,33 +24,34 @@ b). socket interface (for other peers to download)
 	telnet localhost 8888
 
 
-scenario:
+Scenario:
 -----------
 
-file 1 has 4 chunks: chunk1, chunk2, chunk3, chunk4
-peer4 requesting file1 for download
+	file 1 has 4 chunks: chunk1, chunk2, chunk3, chunk4
+	peer4 requesting file1 for download
 
-chunks availability table
----------------------------
+	chunks availability table
+	---------------------------
 
-chunk1	chunk2	chunk3	chunk4
-------	------	------	------
-peer1	peer3	peer2	peer1
-peer2			peer1
-peer3
+	chunk1	chunk2	chunk3	chunk4
+	------	------	------	------
+	peer1	peer3	peer2	peer1
+	peer2			peer1
+	peer3
 
-piece selection algorithm:
----------------------------
+	piece selection algorithm:
+	---------------------------
 
-- Choose peer withs rarest available chunks first to dowlnload those chunks
-	download chunk2 and chunk4
+	- Choose peer withs rarest available chunks first to dowlnload those chunks
+		download chunk2 and chunk4
 
-- For other chunks which are found on multiple peers, choose peers for those chunks such that load is balance among the peers
-	download chunk 1 from peer1 and download chunk3 from peer2
+	- For other chunks which are found on multiple peers, choose peers for those chunks such that load is balance among the peers
+		download chunk 1 from peer1 and download chunk3 from peer2
 
-download distribution (balancing) among peers
-------------------------------------------------
+	download distribution (balancing) among peers
+	------------------------------------------------
 
-peer1 	peer2	peer3
-chunk4	chunk3	chunk2
-chunk1
+	peer1 	peer2	peer3
+	chunk4	chunk3	chunk2
+	chunk1
+

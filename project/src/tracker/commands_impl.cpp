@@ -108,11 +108,8 @@ char* list_files(char* group_id){
 }
 char* upload_file(char* file_name, char* group_id, char* file_meta){
 	cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file_meta: " << file_meta << endl;
-	ofstream outfile;
-	outfile.open((string(file_name)+".meta"), ios::out | ios::app);
-	outfile << string(file_meta) << endl;
-	outfile.close();
-
+	string meta_file_name=strip_extn(file_name);
+	write_to_file(string("./metadata"), string(meta_file_name+".meta"), string(file_meta));
 	cout << "uploaded file" << endl;
 	return SUCCESS_MSG;
 }

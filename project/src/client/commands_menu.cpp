@@ -132,7 +132,12 @@ char * manage_menu() {
 			vector<chunk_info> chunks;
 			pair<string,int> file_info = split_chunks(file_path, chunks);
 			char* file_meta = build_metadata(base_name, group_id, file_info, chunks);
+
 			response = upload_file((char*)base_name.c_str(), group_id, file_meta);
+			char* file_meta_cli = build_metadata(file_path, group_id, file_info, chunks);
+			string meta_file_name=strip_extn(base_name);
+
+			write_to_file(string("./.chunks_info"), string(meta_file_name+".meta"), string(file_meta_cli));
 		}
 		else
 			cout << INVALID_ARGS << endl;

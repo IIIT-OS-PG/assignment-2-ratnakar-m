@@ -1,10 +1,5 @@
 #include<assign2.h>
 
-string get_base_name(string file_path){
-    string base_filename = file_path.substr(file_path.find_last_of("/") + 1);
-    return base_filename;
-}
-
 //returns file sha1 and size
 //populates chunk info in the input structure: list of sha1s and the data of each piece
 pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks) {

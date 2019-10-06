@@ -74,12 +74,32 @@ char* logout(char* username){
 	return response;
 }
 
-char* build_metadata(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks){
+char* build_metadata_for_tracker(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks){
 	Value meta; 
     meta["name"] = file_name;
     meta["group"] = group_id;
     meta["file_sha1"] = file_info.first;
     meta["size"] = file_info.second;
+    meta["pieces"] = Value(arrayValue);
+    meta["num_pieces"] = (int)chunks.size();
+    for(int i=0; i<chunks.size(); i++){
+    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1);
+    }
+    StyledWriter writer;
+    string meta_str = writer.write( meta );
+    //cout << root << endl; //printing using the root itself
+    //cout << meta_str << endl; //printing using the string of root
+    return (char*)meta_str.c_str();
+}
+
+char* build_metadata_for_self(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks){
+	Value meta; 
+    meta["name"] = file_name;
+    meta["group"] = group_id;
+    meta["file_sha1"] = file_info.first;
+    meta["size"] = file_info.second;
+    meta["num_pieces"] = (int)chunks.size();
+    meta["status"] = "COMPLETED";
     meta["pieces"] = Value(arrayValue);
     for(int i=0; i<chunks.size(); i++){
     	append_piece(meta,i,*chunks[i].size,chunks[i].sha1);
@@ -97,5 +117,7 @@ void append_piece(Value& document, int idx, int size, string sha1){
     piece["piece_size"] = size;
     piece["piece_sha1"] = sha1;
     piece["peers"] = Value(arrayValue);
+    string peer_addr = string(peer_context.host) + string(":") + to_string(*(peer_context.portno));
+    piece["peers"].append(peer_addr);
     document["pieces"].append(piece);
 }

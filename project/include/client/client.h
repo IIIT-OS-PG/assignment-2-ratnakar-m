@@ -31,7 +31,8 @@ extern vector<tracker> trackers;
 extern struct peer_ctx peer_context;
 //extern connected_tracker tracker_context;
 extern vector<tracker> trackers;
-char* build_metadata(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks);
+char* build_metadata_for_tracker(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks);
+char* build_metadata_for_self(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks);
 void append_piece(Value& document, int idx, int size, string sha1);
 
 void manage_prompt();

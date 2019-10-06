@@ -20,7 +20,7 @@ pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks) {
         string digest = get_hash_digest(buffer.get());
 
         result = result + digest;
-        cout << "digest: " << digest << endl;
+        //cout << "digest: " << digest << endl;
         int *chunk_size = (int *) malloc(sizeof(int));
         *chunk_size=inStream.gcount();
         total_size=total_size + (*chunk_size);

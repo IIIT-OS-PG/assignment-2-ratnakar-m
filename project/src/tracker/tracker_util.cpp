@@ -17,6 +17,33 @@ bool user_exists(char* username){
 	return user_exists;
 }
 
+bool file_exists(char* group_id, char* filename){
+	ifstream infile("files.txt");
+	string line;
+	bool does_file_exist = false;
+	while (getline(infile, line))
+	{
+	    istringstream iss(line);
+	    char* existing_file = strtok((char*)line.c_str(), ":");
+	    char* existing_group = strtok(NULL, ":");
+	    if(existing_file != NULL && existing_group != NULL)
+	    {
+	    	if(strcmp(existing_file, filename)==0 && strcmp(existing_group, group_id)==0){
+	    		does_file_exist = true;
+	    		break;
+	    	}
+	    }
+	}
+	return does_file_exist;
+}
+
+void append_file(string file_name, string group_id, int file_size, string file_sha1){
+	ofstream outfile;
+	outfile.open("files.txt", ios::out | ios::app);
+	outfile << file_name+":"+group_id+":"+to_string(file_size)+":"+file_sha1<<endl;
+	outfile.close();
+}
+
 bool group_exists(char* group_id){
 	ifstream infile("groups.txt");
 	string line;

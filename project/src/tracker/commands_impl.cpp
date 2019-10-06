@@ -111,9 +111,28 @@ char* upload_file(char* file_name, char* group_id, char* username, char* file_me
 	if(!ismember)
 		return "You need to be part of the group to upload the file to that group";
 
-	cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file_meta: " << file_meta << endl;
+	//cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file_meta: " << file_meta << endl;
 	string meta_file_name=strip_extn(file_name);
+	Value root;
+    Reader reader;
+
+    bool does_file_exist = file_exists(group_id, file_name);
+    if(does_file_exist)
+    	return "file already exists in this group";
+
+
+    
+
+    bool parsing_status = reader.parse( file_meta, root );
+    if(!parsing_status)
+    	return "issues on parsing payload";
+    cout << "file_name: " << root["name"] << ", file_size: " << root["size"] << endl;
+    cout << "file sha1: " << root["file_sha1"] << endl;
+    int file_size = root["size"].asInt();
+    string file_sha1 = root["file_sha1"].asString();
+    append_file(file_name, group_id, file_size, file_sha1);
 	write_to_file(string("./metadata"), string(meta_file_name+".meta"), string(file_meta));
+
 	cout << "uploaded file" << endl;
 	return SUCCESS_MSG;
 }

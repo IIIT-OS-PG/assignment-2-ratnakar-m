@@ -162,7 +162,18 @@ char * manage_menu() {
 		char* dest_path = strtok(NULL, " ");
 		
 		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
+		{
+			//download is a multi step process
+			//step1: get the peer addresses where the file is available
+				//interface in tracker to get the trackers having the file
+			//step2: connect to those peers and get the meta info about the available chunks with them
+				//does the chunks availability with the peers needs to be at tracker or at the peers?
+			//step3: piece selection algorithm to select the peers for the pieces
+			//step4: send request to those peers to get the pieces
+			//step5: update the tracker with the piece availaility which are freshely downloaded
+
 			response = download_file(group_id,file_name,dest_path );
+		}
 		else
 			cout << INVALID_ARGS << endl;
 

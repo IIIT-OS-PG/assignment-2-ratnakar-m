@@ -215,7 +215,7 @@ void help(){
 	cout << "4. join_group <group_id>" << endl;
 	cout << "5. leave_group <group_id>" << endl;
 	cout << "6. list_requests <group_id>" << endl;
-	cout << "7. list_requests <group_id>" << endl;
+	cout << "7. accept_request <group_id> <user_id>" << endl;
 	cout << "8. list_groups" << endl;
 	cout << "9. list_files <group_id>" << endl;
 	cout << "10. upload_file <file_path> <group_id>" << endl;

@@ -30,16 +30,16 @@ build:
 	@mkdir -p bin && \
 	g++ -g -w  -std=c++0x  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -I $(TRACKER_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && \
 	chmod +x $(EXEC_TRACKER) && \
-	mkdir -p workspace/tracker && \
-	cp $(EXEC_TRACKER) workspace/tracker
+	mkdir -p demo_space/tracker && \
+	cp $(EXEC_TRACKER) demo_space/tracker
 	@g++ -g -w -std=c++0x  $(CLIENT_SRC) -I $(COMMON_INCLUDES) -I $(CLIENT_INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) && \
 	chmod +x $(EXEC_CLIENT) && \
-        mkdir -p workspace/peer1 && \
-        mkdir -p workspace/peer2 && \
-        mkdir -p workspace/peer3 && \
-        cp $(EXEC_CLIENT) workspace/peer1 && \
-        cp $(EXEC_CLIENT) workspace/peer2 && \
-        cp $(EXEC_CLIENT) workspace/peer3
+        mkdir -p demo_space/peer1 && \
+        mkdir -p demo_space/peer2 && \
+        mkdir -p demo_space/peer3 && \
+        cp $(EXEC_CLIENT) demo_space/peer1 && \
+        cp $(EXEC_CLIENT) demo_space/peer2 && \
+        cp $(EXEC_CLIENT) demo_space/peer3
 
 
 run: build

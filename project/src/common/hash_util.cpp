@@ -5,6 +5,8 @@
 pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks) {
 
     ifstream inStream(file_path);
+    if(!inStream)
+      return make_pair("",-1);
     unique_ptr<char[]> buffer(new char[CHUNK_SIZE]);
 
     string result;

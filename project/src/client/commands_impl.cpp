@@ -48,8 +48,8 @@ char* list_files(char* group_id){
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }
-char* upload_file(char* file_name, char* group_id, char* file_meta){
-	string command = string("upload_file ")+string(file_name)+string(" ")+string(group_id)+string("\n")+string(HEADER_AND_BODY_SEPARATOR)+string("\n")+file_meta;
+char* upload_file(char* file_name, char* group_id, char* username, char* file_meta){
+	string command = string("upload_file ")+string(file_name)+string(" ")+string(group_id)+string(" ")+string(username)+string("\n")+string(HEADER_AND_BODY_SEPARATOR)+string("\n")+file_meta;
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }

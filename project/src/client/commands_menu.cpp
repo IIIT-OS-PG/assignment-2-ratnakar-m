@@ -123,25 +123,37 @@ char * manage_menu() {
 			cout << INVALID_ARGS << endl;
 	} 
 	else if(strcmp(command, "upload_file")==0) {
-		char* file_path = strtok(NULL, " ");
-		char* group_id = strtok(NULL, " ");
-		
-		if(file_path != NULL && group_id !=NULL)
-		{
-			string base_name = get_base_name(string(file_path));
-			vector<chunk_info> chunks;
-			pair<string,int> file_info = split_chunks(file_path, chunks);
-			char* file_meta = build_metadata_for_tracker(base_name, group_id, file_info, chunks);
 
-			response = upload_file((char*)base_name.c_str(), group_id, file_meta);
-			char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
-			string meta_file_name=strip_extn(base_name);
+		if(current_user!=NULL){
+			char* file_path = strtok(NULL, " ");
+			char* group_id = strtok(NULL, " ");
+			
+			if(file_path != NULL && group_id !=NULL)
+			{
+				string base_name = get_base_name(string(file_path));
+				vector<chunk_info> chunks;
 
-			write_to_file(string("./.chunks_info"), string(meta_file_name+".meta"), string(file_meta_cli));
-		}
+				pair<string,int> file_info = split_chunks(file_path, chunks);
+				if(file_info.second==-1)
+				{
+					string error_msg = string(file_path)+ ": file does not exist. please check.";
+					response = (char*)error_msg.c_str();
+				}
+				else{
+					char* file_meta = build_metadata_for_tracker(base_name, group_id, file_info, chunks);
+
+					response = upload_file((char*)base_name.c_str(), group_id, current_user, file_meta);
+					char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
+					string meta_file_name=strip_extn(base_name);
+
+					write_to_file(string("./.chunks_info"), string(meta_file_name+".meta"), string(file_meta_cli));
+				}
+			}
+			else
+				cout << INVALID_ARGS << endl;
+			}
 		else
-			cout << INVALID_ARGS << endl;
-
+			cout << "You need to login to upload a file" << endl;
 	} 
 	else if(strcmp(command, "download_file")==0) {
 		

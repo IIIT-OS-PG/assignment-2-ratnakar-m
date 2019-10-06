@@ -106,7 +106,11 @@ char* list_files(char* group_id){
 	cout << "files listed" << endl;
 	return SUCCESS_MSG;
 }
-char* upload_file(char* file_name, char* group_id, char* file_meta){
+char* upload_file(char* file_name, char* group_id, char* username, char* file_meta){
+	bool ismember = is_member(group_id, username);
+	if(!ismember)
+		return "You need to be part of the group to upload the file to that group";
+
 	cout << "file_name: " << file_name << ", group_id: "<< group_id << ", file_meta: " << file_meta << endl;
 	string meta_file_name=strip_extn(file_name);
 	write_to_file(string("./metadata"), string(meta_file_name+".meta"), string(file_meta));

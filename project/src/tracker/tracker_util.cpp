@@ -88,6 +88,24 @@ bool is_owner(char* group_id, char* username){
 	return isowner;
 }
 
+bool is_member(char* group_id, char* username){
+	ifstream infile("membership.txt");
+	string line;
+	bool ismember = false;
+	while (getline(infile, line))
+	{
+	    istringstream iss(line);
+	    char* existing_group = strtok((char*)line.c_str(), ":");
+	    char* existing_user = strtok(NULL, ":");
+	    if(existing_group != NULL && existing_user != NULL)
+	    {
+	    	if(strcmp(existing_group, group_id)==0 && strcmp(existing_user, username)==0)
+	    		ismember=true;	
+	    }
+	}
+	return ismember;
+}
+
 char* get_requests(){
 	ifstream infile("join_requests.txt");
 	string line;

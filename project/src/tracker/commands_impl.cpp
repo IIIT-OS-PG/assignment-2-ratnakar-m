@@ -102,9 +102,8 @@ char* list_groups(){
 	return get_groups();
 }
 char* list_files(char* group_id){
-	cout << "group_id: " << group_id << endl;
-	cout << "files listed" << endl;
-	return SUCCESS_MSG;
+	char* files_list = get_files_by_group(group_id);
+	return files_list;
 }
 char* upload_file(char* file_name, char* group_id, char* username, char* file_meta){
 	bool ismember = is_member(group_id, username);

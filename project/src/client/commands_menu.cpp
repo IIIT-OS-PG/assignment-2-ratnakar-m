@@ -118,7 +118,7 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		
 		if(group_id !=NULL)
-			list_files(group_id);
+			response = list_files(group_id);
 		else
 			cout << INVALID_ARGS << endl;
 	} 

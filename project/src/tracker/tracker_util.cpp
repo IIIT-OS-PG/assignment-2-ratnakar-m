@@ -97,6 +97,26 @@ char* get_groups(){
 	return clone((char*)groups_list.c_str());
 }
 
+char* get_files_by_group(char* group_id){
+	ifstream infile("files.txt");
+	string line;
+	string files_list = string("");
+	while (getline(infile, line))
+	{
+	    istringstream iss(line);
+	    char* file_name = strtok((char*)line.c_str(), ":");
+	    char* existing_group_id = strtok(NULL, ":");
+	    char* size = strtok(NULL, ":");
+	    char* sha1 = strtok(NULL, ":");
+	    if(existing_group_id != NULL && strcmp(existing_group_id, group_id)==0)
+	    {
+	    	string entry = string(file_name) +", " + string(size) + ", " + string(sha1);
+	    	files_list = files_list + entry + "\n";	
+	    }
+	}
+	return clone((char*)files_list.c_str());
+}
+
 bool is_owner(char* group_id, char* username){
 	ifstream infile("groups.txt");
 	string line;

@@ -2,13 +2,14 @@
 
 char* serve_command(char* command_line) {
 	char* from_client = strtok(command_line, "=>");
-	cout << "from: " << from_client << endl;
-
 	char* command = strtok(NULL, "=>");
 	if(command==NULL)
 		return "";
 	command = strtok(command, HEADER_AND_BODY_SEPARATOR);
 	char* body = strtok(NULL, HEADER_AND_BODY_SEPARATOR);
+
+	cout << "from: " << from_client << ", command: " << command << endl;
+
 	command = strtok(command, " ");
 	
 	if(strcmp(command, "create_user")==0) {
@@ -62,8 +63,7 @@ char* serve_command(char* command_line) {
 	} 
 	else if(strcmp(command, "list_files")==0) {
 		char* group_id = strtok(NULL, " ");
-		if(group_id !=NULL)
-			return list_files(group_id);
+		return list_files(group_id);
 	} 
 	else if(strcmp(command, "upload_file")==0) {
 		

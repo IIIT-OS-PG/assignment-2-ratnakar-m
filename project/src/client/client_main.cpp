@@ -25,8 +25,11 @@ int main(int argc, char **argv) {
 	peer_context.host=clone(host);
 	peer_context.portno=portno;
 	peer_context.sockfd=sockfd;
-	cout << "peer_context.host: " << peer_context.host << endl;
-	cout << "peer_context.portno: " << *peer_context.portno << endl;
+	pair<string,string> hostname_ip = get_hostname_ip();
+	string ip = hostname_ip.second;
+	cout << "peer host: " << peer_context.host << endl;
+	cout << "peer ip: " << ip << endl;
+	cout << "peer portno: " << *peer_context.portno << endl;
 
 
 	pthread_t listener_thread;

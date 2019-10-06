@@ -17,8 +17,7 @@ int main(int argc, char **argv) {
          ctx.newsockfd=newsockfd;
          ctx.cli_addr=cli_addr;
          ctx.clilen=clilen;
-         printf("server: got connection from %s port %d\n",
-                inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+         //printf("server: got connection from %s port %d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 
         pthread_t my_thread;
         ret =  pthread_create(&my_thread, NULL, &handle_request, (void*)&ctx);
@@ -38,6 +37,8 @@ void *handle_request(void * ctx_st)
     request_ctx ctx = *((request_ctx*) ctx_st);
     int newsockfd = *ctx.newsockfd;
     sockaddr_in cli_addr = ctx.cli_addr;
+    char* client_ip = inet_ntoa(cli_addr.sin_addr);
+
     int n;
     
      if (newsockfd < 0) 

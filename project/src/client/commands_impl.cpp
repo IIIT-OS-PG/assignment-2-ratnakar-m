@@ -82,8 +82,10 @@ char* build_metadata_for_tracker(string file_name, string group_id, pair<string,
     meta["size"] = file_info.second;
     meta["pieces"] = Value(arrayValue);
     meta["num_pieces"] = (int)chunks.size();
+    pair<string,string> hostname_ip = get_hostname_ip();
+	string ip = hostname_ip.second;
     for(int i=0; i<chunks.size(); i++){
-    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1);
+    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,ip);
     }
     StyledWriter writer;
     string meta_str = writer.write( meta );
@@ -101,8 +103,10 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     meta["num_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
     meta["pieces"] = Value(arrayValue);
+    pair<string,string> hostname_ip = get_hostname_ip();
+	string ip = hostname_ip.second;
     for(int i=0; i<chunks.size(); i++){
-    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1);
+    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,ip);
     }
     StyledWriter writer;
     string meta_str = writer.write( meta );
@@ -111,13 +115,13 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     return (char*)meta_str.c_str();
 }
 
-void append_piece(Value& document, int idx, int size, string sha1){
+void append_piece(Value& document, int idx, int size, string sha1, string ip){
     Value piece;
     piece["piece_no"] = idx;
     piece["piece_size"] = size;
     piece["piece_sha1"] = sha1;
     piece["peers"] = Value(arrayValue);
-    string peer_addr = string(peer_context.host) + string(":") + to_string(*(peer_context.portno));
+    string peer_addr = ip + string(":") + to_string(*(peer_context.portno));
     piece["peers"].append(peer_addr);
     document["pieces"].append(piece);
 }

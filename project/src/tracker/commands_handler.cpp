@@ -2,6 +2,8 @@
 
 char* serve_command(char* command_line) {
 	char* from_client = strtok(command_line, "=>");
+	cout << "from: " << from_client << endl;
+
 	char* command = strtok(NULL, "=>");
 	if(command==NULL)
 		return "";

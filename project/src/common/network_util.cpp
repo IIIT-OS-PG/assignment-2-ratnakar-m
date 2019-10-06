@@ -9,10 +9,12 @@ int start_service(char* host, int portno){
 
     bzero((char *) &serv_addr, sizeof(serv_addr)); //clear addr struct
 
-    // server byte order
     serv_addr.sin_family = AF_INET;  //byte order
-    serv_addr.sin_addr.s_addr = INADDR_ANY;  //automatic host name
+    serv_addr.sin_addr.s_addr = INADDR_ANY; 
     serv_addr.sin_port = htons(portno); //short int to n/w byte order
+
+    pair<string,string> hostname_ip = get_hostname_ip();
+    cout << "hostname: " << hostname_ip.first << ", ip: " << hostname_ip.second << endl;
 
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
        error("error on binding");
@@ -58,6 +60,21 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 	close (sockfd);
 
     return buffer;
+}
+
+pair<string, string> get_hostname_ip(){
+    char host_buffer[512]; 
+    char *ip_buffer; 
+    struct hostent *host_entry; 
+    int host_name_ret; 
+  
+    host_name_ret = gethostname(host_buffer, sizeof(host_buffer)); 
+    host_entry = gethostbyname(host_buffer); 
+    /*if (host_entry == NULL|| host_name_ret == NULL) 
+        error("gethost details");*/
+  
+    ip_buffer = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0])); 
+    return make_pair(string(host_buffer), string(ip_buffer));
 }
 
 

@@ -83,7 +83,11 @@ void tracker_status_check(){
 		char* buffer = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 		bzero(buffer,BUFFER_SIZE);
 		pair<string,string> hostname_ip = get_hostname_ip();
-		char* ip = (char*) (hostname_ip.second).c_str();
+		char* ip = peer_context.host;
+	    if(INFER_IP){
+	    	pair<string,string> hostname_ip = get_hostname_ip();
+			ip = (char*) (hostname_ip.second).c_str();
+	    }
   		sprintf(buffer, "[%s:%d:connection_check]", ip,*peer_context.portno);
 		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
@@ -97,8 +101,11 @@ char* send_cmd_to_tracker(char* command) {
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	bzero(response,BUFFER_SIZE);
 	char buffer[BUFFER_SIZE];
-	pair<string,string> hostname_ip = get_hostname_ip();
-	char* ip = (char*) (hostname_ip.second).c_str();
+	char* ip = peer_context.host;
+    if(INFER_IP){
+    	pair<string,string> hostname_ip = get_hostname_ip();
+		ip = (char*) (hostname_ip.second).c_str();
+    }
 	if(*tracker_context.sockfd > 0){
     	sprintf(buffer, "[%s:%d]=>%s",ip ,*peer_context.portno, command);
 		response = communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);

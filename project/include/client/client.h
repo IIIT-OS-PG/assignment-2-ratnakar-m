@@ -23,6 +23,8 @@ typedef struct
 
 } connected_tracker;
 
+extern bool INFER_IP;
+
 vector<tracker> extract_tracker_info(char* tracker_info);
 void print_tracker_info(vector<tracker> trackers);
 connected_tracker connect_tracker(vector<tracker> trackers);

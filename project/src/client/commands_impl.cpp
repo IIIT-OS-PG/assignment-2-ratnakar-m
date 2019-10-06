@@ -1,6 +1,8 @@
 #include <assign2.h>
 #include <client.h>
 
+bool INFER_IP = false;
+
 char* create_user(char* username, char* password){
 	
 	string command = string("create_user ")+string(username)+string(" ")+string(password);
@@ -82,8 +84,12 @@ char* build_metadata_for_tracker(string file_name, string group_id, pair<string,
     meta["size"] = file_info.second;
     meta["pieces"] = Value(arrayValue);
     meta["num_pieces"] = (int)chunks.size();
-    pair<string,string> hostname_ip = get_hostname_ip();
-	string ip = hostname_ip.second;
+    string ip = string(peer_context.host);
+    if(INFER_IP){
+    	pair<string,string> hostname_ip = get_hostname_ip();
+		ip = hostname_ip.second;
+    }
+    
     for(int i=0; i<chunks.size(); i++){
     	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,ip);
     }
@@ -103,8 +109,11 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     meta["num_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
     meta["pieces"] = Value(arrayValue);
-    pair<string,string> hostname_ip = get_hostname_ip();
-	string ip = hostname_ip.second;
+    string ip = string(peer_context.host);
+    if(INFER_IP){
+    	pair<string,string> hostname_ip = get_hostname_ip();
+		ip = hostname_ip.second;
+    }
     for(int i=0; i<chunks.size(); i++){
     	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,ip);
     }

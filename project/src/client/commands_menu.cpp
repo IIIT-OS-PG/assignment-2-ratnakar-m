@@ -172,7 +172,25 @@ char * manage_menu() {
 			else if(strcmp(file_info, "NOT_EXIST")==0)
 				response="file does not exist";
 			else
-				response=file_info;
+			{
+				Value file_info_root;
+			    Reader reader;
+
+			    bool parsing_status = reader.parse( file_info, file_info_root );
+			    if(!parsing_status)
+			    	return "error parsing the file_info content";
+
+			    //file_info
+			    if(file_info_root.isMember("seeders")){
+			    	Value seeders = file_info_root["seeders"];
+			    	vector<string> members = seeders.getMemberNames();
+			    	cout << "Seeders Info: " << endl;
+			    	for(int i=0; i<members.size(); i++)
+			    		cout << members[i] << endl;
+			    }
+
+				
+			}
 
 			//step2: connect to those peers and get the meta info about the available chunks with them
 				//does the chunks availability with the peers needs to be at tracker or at the peers?

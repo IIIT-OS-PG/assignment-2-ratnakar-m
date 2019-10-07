@@ -14,18 +14,12 @@ char* serve_command(char* command_line, int* logfd) {
 		char* file_name = strtok(NULL, " ");
 		
 		string meta_file_name=strip_extn(file_name);
-		string full_path = string("./pieces_info")+string("/")+string(meta_file_name)+string(string(".meta"));
-	    
-		cout << full_path << endl;
+		string full_path = string("./pieces_info")+string("/")+string(meta_file_name)+string(string(".meta"));	    
 	    bool does_file_exist = piece_info_exists((char*)full_path.c_str());
 	    if(!does_file_exist)
 	    	response = "get_pieces_info: file does not exist";
-	    else
-	    	cout << "file exists" << endl;
 
-	    cout << string("./pieces_info") << "/" << string(meta_file_name)+string(".meta") << endl;
 		response = read_from_file(string("./pieces_info"), string(meta_file_name)+string(".meta"));
 	} 
-	cout << "pieces_info " << response;
 	return response;
 }

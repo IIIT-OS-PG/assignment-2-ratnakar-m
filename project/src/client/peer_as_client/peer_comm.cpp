@@ -6,8 +6,9 @@ this file represents the operations of a peer as a requestor to another peer
 outbound requests
 */
 Value get_pieces_info(char* peer_addr, char* file_name){
-	stringstream ss;
-	char* command = (char*) ss.str().c_str();
+	stringstream command_stream;
+	command_stream << "get_pieces_info " << file_name;
+	char* command = (char*) command_stream.str().c_str();
 	char* pieces_info_str = send_cmd_to_peer(peer_addr, clone(command));
 	Value pieces_info_root;
 	Reader reader;

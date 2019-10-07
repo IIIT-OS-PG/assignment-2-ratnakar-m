@@ -1,8 +1,6 @@
 #include <assign2.h>
 #include <client.h>
 
-bool INFER_IP = false;
-
 char* create_user(char* username, char* password){
 	
 	string command = string("create_user ")+string(username)+string(" ")+string(password);
@@ -82,22 +80,26 @@ char* build_metadata_for_tracker(string file_name, string group_id, pair<string,
     meta["group"] = group_id;
     meta["file_sha1"] = file_info.first;
     meta["size"] = file_info.second;
-    meta["pieces"] = Value(arrayValue);
-    meta["num_pieces"] = (int)chunks.size();
-    string ip = string(peer_context.host);
-    if(INFER_IP){
-    	pair<string,string> hostname_ip = get_hostname_ip();
-		ip = hostname_ip.second;
-    }
     
+    meta["num_pieces"] = (int)chunks.size();
+    pair<string, int*> host_port = get_hostname_port();
+    string host_port_str = host_port.first+string(":")+to_string(*host_port.second);
+    Value seeders;
+
+    seeders[host_port_str]="ACTIVE";
+    meta["seeders"]=seeders;
+    //commented below as pieces info is not required at tracker side
+    /*meta["pieces"] = Value(arrayValue); 
     for(int i=0; i<chunks.size(); i++){
-    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,ip);
-    }
+    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,host_port.first);
+    }*/
+
     StyledWriter writer;
     string meta_str = writer.write( meta );
     //cout << root << endl; //printing using the root itself
-    //cout << meta_str << endl; //printing using the string of root
-    return (char*)meta_str.c_str();
+    //cout << meta_str << endl; //printing using the string of root    
+    char* ret =  clone((char*)meta_str.c_str());
+    return ret;
 }
 
 char* build_metadata_for_self(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks){
@@ -109,13 +111,9 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     meta["num_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
     meta["pieces"] = Value(arrayValue);
-    string ip = string(peer_context.host);
-    if(INFER_IP){
-    	pair<string,string> hostname_ip = get_hostname_ip();
-		ip = hostname_ip.second;
-    }
+    pair<string, int*> host_port = get_hostname_port();
     for(int i=0; i<chunks.size(); i++){
-    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,ip);
+    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,host_port.first);
     }
     StyledWriter writer;
     string meta_str = writer.write( meta );

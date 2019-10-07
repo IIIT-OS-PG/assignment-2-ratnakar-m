@@ -1,6 +1,7 @@
 #include <assign2.h>
 #include <client.h>
 
+bool INFER_IP = false;
 vector<tracker> extract_tracker_info(char* tracker_info){
 
 	cout << "tracker file: " << tracker_info << endl;
@@ -82,13 +83,8 @@ void tracker_status_check(){
 		cout << "Tracker Online check: True" << endl;
 		char* buffer = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 		bzero(buffer,BUFFER_SIZE);
-		pair<string,string> hostname_ip = get_hostname_ip();
-		char* ip = peer_context.host;
-	    if(INFER_IP){
-	    	pair<string,string> hostname_ip = get_hostname_ip();
-			ip = (char*) (hostname_ip.second).c_str();
-	    }
-  		sprintf(buffer, "[%s:%d:connection_check]", ip,*peer_context.portno);
+	    pair<string, int*> host_port = get_hostname_port();
+  		sprintf(buffer, "[%s:%d:connection_check]", host_port.first.c_str(),*host_port.second);
 		communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
 	else
@@ -101,17 +97,24 @@ char* send_cmd_to_tracker(char* command) {
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	bzero(response,BUFFER_SIZE);
 	char buffer[BUFFER_SIZE];
-	char* ip = peer_context.host;
-    if(INFER_IP){
-    	pair<string,string> hostname_ip = get_hostname_ip();
-		ip = (char*) (hostname_ip.second).c_str();
-    }
+	pair<string, int*> host_port = get_hostname_port();
 	if(*tracker_context.sockfd > 0){
-    	sprintf(buffer, "[%s:%d]=>%s",ip ,*peer_context.portno, command);
+    	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);
 		response = communicate_with_server(*tracker_context.sockfd, buffer, BUFFER_SIZE);
 	}
 	else
 		sprintf(response, "Both the trackers are down. Please ensure at least one is running."); 
 
 	return response;   
+}
+
+pair<string, int*> get_hostname_port(){
+    string ip = string(peer_context.host);
+    if(INFER_IP){
+        pair<string,string> hostname_ip = get_hostname_ip();
+        ip = hostname_ip.second;
+    }
+    int* port = peer_context.portno;
+
+    return make_pair(ip,port);
 }

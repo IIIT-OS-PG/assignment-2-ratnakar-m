@@ -119,9 +119,6 @@ char* upload_file(char* file_name, char* group_id, char* username, char* file_me
     if(does_file_exist)
     	return "file already exists in this group";
 
-
-    
-
     bool parsing_status = reader.parse( file_meta, root );
     if(!parsing_status)
     	return "issues on parsing payload";

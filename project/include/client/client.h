@@ -44,6 +44,8 @@ void help();
 void *listener_handler(void * peer_ctx_struct_ptr);
 void *handle_request(void * ctx_st);
 char* send_cmd_to_tracker(char* command);
+pair<string, int*> get_hostname_port();
+
 
 extern char* current_user;
 

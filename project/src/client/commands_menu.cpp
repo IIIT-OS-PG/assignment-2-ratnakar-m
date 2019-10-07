@@ -141,7 +141,6 @@ char * manage_menu() {
 				}
 				else{
 					char* file_meta = build_metadata_for_tracker(base_name, group_id, file_info, chunks);
-
 					response = upload_file((char*)base_name.c_str(), group_id, current_user, file_meta);
 					char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
 					string meta_file_name=strip_extn(base_name);

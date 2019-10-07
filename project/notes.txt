@@ -39,9 +39,14 @@ peer as a receiver of pieces:
 -----------------------------
 	 - request pieces information from "all seeders" of the file
 	 - perform piece selection algorithm which maps pieces to the target seeders
+			output of piece selection algorithm
+				piece_idx: seeder_addr
+				
 	 - request piece from the seeder as mentioned by piece selection algorithm
 	 - update information in available pieces in piece_info file
-			file_name.pieces_info
+			- file_name.pieces_info
+			- piece_idx: status //uploaded or not
+			- verify the sha1 of content of the piece with the sha1 received
 	 - after receiving the first piece, send a request to tracket to update the seeders list for that file		
 	
 	
@@ -49,6 +54,10 @@ what about peer that has the completed file and uploaded to tracker?
 	- consider this as a peer that received complete file
 	- its availability for seeding is alreadt updated in the tracker metadata file
 	- build information of all available pieces in pieces_info file
+	
+shared resource at receiver side: 
+	- a flag that says that the peer has downloaded at least one piece with it.
+	- update num_pieces and pieces document should be a critical section (pieces_info)
 
 
 Scenario:

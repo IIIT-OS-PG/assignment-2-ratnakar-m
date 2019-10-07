@@ -74,7 +74,7 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		
 		if(group_id !=NULL)
-			join_group(group_id,current_user);
+			response = join_group(group_id,current_user);
 		else
 			cout << INVALID_ARGS << endl;
 
@@ -145,7 +145,7 @@ char * manage_menu() {
 					char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
 					string meta_file_name=strip_extn(base_name);
 
-					write_to_file(string("./.pieces_info"), string(meta_file_name+".meta"), string(file_meta_cli));
+					write_to_file(string("./pieces_info"), string(meta_file_name+".meta"), string(file_meta_cli));
 				}
 			}
 			else

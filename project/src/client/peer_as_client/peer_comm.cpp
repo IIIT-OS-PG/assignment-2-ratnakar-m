@@ -1,8 +1,14 @@
 #include <assign2.h>
 #include <client.h>
 
-Value get_pieces_info(char* peer_addr){
-	char* pieces_info_str = send_cmd_to_peer(peer_addr, "get_pieces_info");
+/*
+this file represents the operations of a peer as a requestor to another peer
+outbound requests
+*/
+Value get_pieces_info(char* peer_addr, char* file_name){
+	stringstream ss;
+	char* command = (char*) ss.str().c_str();
+	char* pieces_info_str = send_cmd_to_peer(peer_addr, clone(command));
 	Value pieces_info_root;
 	Reader reader;
 	bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
@@ -29,7 +35,7 @@ char* send_cmd_to_peer(char* peer_addr, char* command) {
 		response = communicate_with_server(*peer_addr_struct.sockfd, buffer, BUFFER_SIZE);
 	}
 	else
-		sprintf(response, "Unable to connect to the peer: [%s,%d]. Make sure it is up.", host, *portno); 
+		sprintf(response, "Unable to connect to the peer: [%s:%d]. Make sure it is up.", host, *portno); 
 
 	return response;   
 }
@@ -45,8 +51,9 @@ peer_ctx connect_peer(char* host, int* port){
 
 	int *sockfd = (int *) malloc(sizeof(int));
 	*sockfd = -1;
-	
-	*sockfd = connect_server(host,*port);
+	cout <<" connecting to peer: " << host << ":" << to_string(*port) << endl;
+	*peer_addr.sockfd = connect_server(host,*port);
+	cout <<" sockfd: " << *peer_addr.sockfd << endl;
 	return peer_addr;
 }
 

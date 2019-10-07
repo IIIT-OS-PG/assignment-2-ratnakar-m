@@ -16,12 +16,14 @@ TRACKER_SRC = \
 
 CLIENT_SRC = \
 	src/client/client_main.cpp \
-	src/client/tracker_comm.cpp \
-	src/client/peer_request_handler.cpp \
-	src/client/commands_menu.cpp \
-	src/client/commands_impl.cpp \
-	src/client/download_impl.cpp \
-	src/client/peer_comm.cpp \
+	src/client/client_of_tracker/tracker_comm.cpp \
+	src/client/client_of_tracker/commands_menu.cpp \
+	src/client/client_of_tracker/cli_commands_impl.cpp \
+	src/client/peer_as_client/download_impl.cpp \
+	src/client/peer_as_client/peer_comm.cpp \
+	src/client/peer_as_service/peer_listener.cpp \
+	src/client/peer_as_service/commands_handler.cpp \
+	src/client/peer_util.cpp \
 	src/common/network_util.cpp \
 	src/common/commons_util.cpp \
 	src/common/hash_util.cpp \

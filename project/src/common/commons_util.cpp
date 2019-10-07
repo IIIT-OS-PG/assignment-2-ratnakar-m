@@ -31,11 +31,6 @@ string get_time_compact(){
     return ts; 
 }
 
-pair<int,char*> get_msg(string s){
-    char* msg = clone((char*)s.c_str());
-    return make_pair(s.size(),msg);
-}
-
 string get_base_name(string file_path){
     string base_filename = file_path.substr(file_path.find_last_of("/") + 1);
     return base_filename;
@@ -96,15 +91,18 @@ char* read_from_file(string dir_path, string file_name){
 }
 
 
+pair<int,char*> get_msg(string s){
+    char* msg = clone((char*)s.c_str());
+    return make_pair(s.size(),msg);
+}
 
-
-int write_msg(int fd, string msg_str){
+int write_msg(int* fd, string msg_str){
     pair<int,char*> msg = get_msg(msg_str);
-    int written_size = write (fd, msg.second, (ssize_t) msg.first);
+    int written_size = write (*fd, msg.second, (ssize_t) msg.first);
     return written_size;
 }
 
-int write_msg_line(int fd, string msg_str){
+int write_msg_line(int* fd, string msg_str){
     msg_str=msg_str+"\n";
     return write_msg(fd,msg_str);
 }

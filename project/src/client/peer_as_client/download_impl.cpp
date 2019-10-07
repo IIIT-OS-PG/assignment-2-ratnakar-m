@@ -29,10 +29,13 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	cout << "Seeders Info: " << endl;
 	    	for(int i=0; i<members.size(); i++)
 	    	{
-	    		cout << members[i] << endl;
 	    		//2. get chunks info from seeders (peers)
 	    		//separate threads?
-	    		Value pieces_info = get_pieces_info((char*)members[i].c_str());
+
+	    		char* member = (char*)members[i].c_str();
+	    		Value pieces_info = get_pieces_info(member, file_name);
+	    		cout << "Received pieces info: " << endl;
+	    		cout << pieces_info << endl;
 	    	}
 	    }
 	}

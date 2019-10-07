@@ -58,7 +58,7 @@ typedef struct chunk_info
 
 pair<int,char*> get_msg(string);
 int write_msg(int, string);
-int write_msg_line(int fd, string msg_str);
+int write_msg_line(int* fd, string msg_str);
 char* clone(char* orig);
 void error(const char *msg);
 string get_time();

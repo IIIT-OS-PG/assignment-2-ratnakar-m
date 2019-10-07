@@ -62,6 +62,23 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
     return buffer;
 }
 
+char* communicate_with_server_one_way(int sockfd, char *buffer, int buffersize) {
+    //bzero(buffer, buffersize);
+    int n = send(sockfd, buffer, buffersize,0);
+    if (n < 0)
+        perror("ERROR writing to socket");
+    //printf("[%s]\n", buffer);
+    bzero(buffer, buffersize);
+    /*n = recv(sockfd, buffer, buffersize-1,0);
+
+    if (n < 0)
+        perror("ERROR reading from socket");
+    //printf("[%s]\n", buffer);
+    close (sockfd);*/
+
+    return buffer;
+}
+
 pair<string, string> get_hostname_ip(){
     char host_buffer[512]; 
     char *ip_buffer; 

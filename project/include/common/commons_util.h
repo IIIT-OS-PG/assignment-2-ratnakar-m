@@ -27,7 +27,7 @@
 
 using namespace std;
 
-#define BUFFER_SIZE 512*1024
+
 #define CHUNK_SIZE 512*1024 //512 KB
 //const int CHUNK_SIZE = 512*1024; //512 KB
 #define PROMPT "peer>"
@@ -54,6 +54,8 @@ typedef struct chunk_info
 	int* size; //size of data
 };
 
+#define BUFFER_SIZE 512*1024
+
 pair<int,char*> get_msg(string);
 int write_msg(int, string);
 int write_msg_line(int fd, string msg_str);
@@ -68,5 +70,6 @@ pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks);
 string get_hash_digest(char* str1);
 int* open_file(string dir_path, string file_name);
 void write_to_file(string dir_path, string file_name, string content);
+char* read_from_file(string dir_path, string file_name);
 
 #endif //COMMONS_H

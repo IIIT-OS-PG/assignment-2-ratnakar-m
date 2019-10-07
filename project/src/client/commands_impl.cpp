@@ -53,6 +53,13 @@ char* upload_file(char* file_name, char* group_id, char* username, char* file_me
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }
+
+char* get_file_info(char* group_id, char* file_name, char* user_name){
+	string command = string("get_file_info ")+string(group_id)+string(" ")+string(file_name)+string(" ")+string(user_name);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	return response;
+}
+
 char* download_file(char* group_id, char* file_name, char* destination_path){
 	string command = string("download_file ")+string(group_id)+string(" ")+string(file_name)+string(" ")+string(destination_path);
 	char* response = send_cmd_to_tracker((char*)command.c_str());

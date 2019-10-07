@@ -165,13 +165,22 @@ char * manage_menu() {
 			//download is a multi step process
 			//step1: get the peer addresses where the file is available
 				//interface in tracker to get the trackers having the file
+
+			char* file_info = get_file_info(group_id, file_name, current_user);
+			if(strcmp(file_info, "NOT_A_MEMBER")==0)
+				response="user is not a member of the group";
+			else if(strcmp(file_info, "NOT_EXIST")==0)
+				response="file does not exist";
+			else
+				response=file_info;
+
 			//step2: connect to those peers and get the meta info about the available chunks with them
 				//does the chunks availability with the peers needs to be at tracker or at the peers?
 			//step3: piece selection algorithm to select the peers for the pieces
 			//step4: send request to those peers to get the pieces
 			//step5: update the tracker with the piece availaility which are freshely downloaded
 
-			response = download_file(group_id,file_name,dest_path );
+			//response = download_file(group_id,file_name,dest_path );
 		}
 		else
 			cout << INVALID_ARGS << endl;

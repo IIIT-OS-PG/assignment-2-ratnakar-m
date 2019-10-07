@@ -81,6 +81,20 @@ void write_to_file(string dir_path, string file_name, string content){
     outfile.close();
 }
 
+char* read_from_file(string dir_path, string file_name){
+    struct stat st = {0};
+    if (stat(dir_path.c_str(), &st) == -1) {
+        mkdir(dir_path.c_str(), 0777);
+    }
+    string file_path=dir_path+"/"+file_name;
+    ifstream f(file_path);
+    stringstream buffer;
+    buffer << f.rdbuf();
+    const string& tmp = buffer.str();   
+    char* cstr = (char*)tmp.c_str();
+    return clone(cstr);
+}
+
 
 
 

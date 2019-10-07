@@ -78,6 +78,15 @@ char* serve_command(char* command_line) {
 		if(file_name != NULL && group_id !=NULL && file_meta != NULL)
 			return upload_file(file_name, group_id, username, file_meta);
 	} 
+	else if(strcmp(command, "get_file_info")==0) { //returns file metadata including seeders list
+		
+		char* group_id = strtok(NULL, " ");
+		char* file_name = strtok(NULL, " ");
+		char* username = strtok(NULL, " ");
+		
+		if(group_id !=NULL && file_name != NULL)
+			return get_file_info(group_id,file_name,username);
+	}
 	else if(strcmp(command, "download_file")==0) {
 		
 		char* group_id = strtok(NULL, " ");

@@ -9,6 +9,7 @@ char* list_groups();
 char* list_files(char* group_id);
 //char* upload_file(char* file_path, char* group_id, char* file_metadata);
 char* upload_file(char* file_name, char* group_id, char* username, char* file_meta);
+char* get_file_info(char* group_id, char* file_name, char* user_name);
 char* download_file(char* group_id, char* file_name, char* destination_path);
 char* show_downloads();
 char* stop_share(char* group_id, char* file_name);

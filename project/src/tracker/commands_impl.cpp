@@ -132,6 +132,22 @@ char* upload_file(char* file_name, char* group_id, char* username, char* file_me
 	cout << "uploaded file" << endl;
 	return SUCCESS_MSG;
 }
+char* get_file_info(char* group_id, char* file_name, char* username){
+
+	bool ismember = is_member(group_id, username);
+	if(!ismember)
+		return "NOT_A_MEMBER";
+
+	string meta_file_name=strip_extn(file_name);
+
+    bool does_file_exist = file_exists(group_id, file_name);
+    if(!does_file_exist)
+    	return "NOT_EXIST";
+
+	char* content = read_from_file(string("./metadata"), string(meta_file_name)+string(".meta"));
+  	//cout << content << endl;
+  	return content;
+}
 char* download_file(char* group_id, char* file_name, char* destination_path){
 	cout << "group_id: " << group_id << "file_name: " << file_name << ", destination_path: "<< destination_path << endl;
 	cout << "downloaded file" << endl;

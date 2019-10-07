@@ -20,6 +20,8 @@ CLIENT_SRC = \
 	src/client/peer_request_handler.cpp \
 	src/client/commands_menu.cpp \
 	src/client/commands_impl.cpp \
+	src/client/download_impl.cpp \
+	src/client/peer_comm.cpp \
 	src/common/network_util.cpp \
 	src/common/commons_util.cpp \
 	src/common/hash_util.cpp \

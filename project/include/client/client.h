@@ -30,12 +30,18 @@ void print_tracker_info(vector<tracker> trackers);
 connected_tracker connect_tracker(vector<tracker> trackers);
 void tracker_status_check();
 extern vector<tracker> trackers;
-extern struct peer_ctx peer_context;
+
+extern struct peer_ctx peer_context; //"peer_context" stores peer_ctx of self
+peer_ctx connect_peer(char* host, int* port); //connect to other peers and get their context
+char* send_cmd_to_peer(char* peer_addr, char* command);
+Value get_pieces_info(char* peer_addr);
+
 //extern connected_tracker tracker_context;
 extern vector<tracker> trackers;
 char* build_metadata_for_tracker(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks);
 char* build_metadata_for_self(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks);
 void add_piece(Value& document, int idx, int size, string sha1, string from_peer);
+char* download_impl(char* group_id, char* file_name, char* dest_path, char* username);
 
 void manage_prompt();
 void reset_prompt();

@@ -1,6 +1,9 @@
 #include <assign2.h>
 #include <client.h>
 
+/*
+This file is an interface to the requests inbound to the peer
+*/
 void *listener_handler(void * peer_ctx_struct_ptr)
 {
     struct peer_ctx ctx = *((peer_ctx*) peer_ctx_struct_ptr);

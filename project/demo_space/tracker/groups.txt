@@ -1,1 +1,2 @@
 law:samyu
+arts_sci:samyu

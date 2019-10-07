@@ -1,232 +1,234 @@
-
 {
+   "available_pieces" : 37,
    "file_sha1" : "8f8599ad33bf0ac70fbcc18453781ff0e08f2756d381925ee0c9b1861d97ef4f92eb285b537220eb290bdf6ff84ea5f30a5d505679fe51926250e8d78f80f6ac526bd73f2a6398f7ee770427170d00ae0918773ccc3be2b2fa22c9f29c7176e3060b33774f6b853b43a33c6b7dae162e0eec984a5aef2ee62deb9ab95f455d7a1193a60b61065afb79200c0a12031b59ed42274857bd68c8fe529791ef503b2ca4c6dd91686aa83377994ecfc45b3b796547c6098e38d90d5af279c58d02d4b211fe83612ee51afb981af261ee529815af1a12ef1bb185699851795032cd70cf30eb4c7231a9bce821296b7edf495bb0f2c79eac4b30f5f77edf2824327e0394e25e65361e742337f04f44efb83d13065e186ebc8da41531c71e1313c38fd93f65869c116bf455fdd45a371db358f8a0b7269141470c8e5676e53722ee7b581f27938dcf4368456969c20a854b8006e7cd0c0170b409f04a0ae32f95bc6d138e98a38260cb806b31e6e7d27a38c9fb443d094221bebcea39f88c19a8148d5842495a9777c9960fb49333c3bc7e56547122b0b4ec4d1f556cf6792ef5b1ac40286729a0846b07a2f0eeb9af8d1f4d1a7fbf1cb0b3338640f3e19b38cd04c2c0b78cd0c19f5b9a5561cae8bfa6f4ceaa0ac368b718b5e524194398456bb4aeb14543496af998f8a37703d421495f3d1e059a1f4e25922ce31c09c03df4bfb27b84990eab9763a340f2b7f9161bf3a2ae58d241592eb61edb639715bf630416dd2d63db3a14db766ce38f7071c60d70993f72acef6a5fc3dee6049bf76388498a8d64e3161041f815fa24cb969212d7a5ffcdafc0c2926481b1e32711a3b1103135a993c9234b832f1bedcb1b2f7e5b07f37ce2e5af928ab0f5ff189c20b7c66482d6a4a0d13c7969af75db01d78b8649b00910cf01088f326a3cbc6f7f9b7d7fe132b01ca955d395ee48fe240ba2558a31bf3573c424a06e9adc90161eb09b7353b1a01b8b5a80d3dfe20b8ae17b3fc32e2bac647cbf7a2f56d1e46947c2ba229df031d840",
    "group" : "arts_sci",
-   "name" : "3d_drawing.mp4",
-   "pieces" : [
-      {
-         "peers" : [],
+   "name" : "./resources/3d_drawing.mp4",
+   "pieces" : {
+      "0" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 0,
          "piece_sha1" : "8f8599ad33bf0ac70fbcc18453781ff0e08f2756",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "1" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 1,
          "piece_sha1" : "d381925ee0c9b1861d97ef4f92eb285b537220eb",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
-         "piece_no" : 2,
-         "piece_sha1" : "290bdf6ff84ea5f30a5d505679fe51926250e8d7",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 3,
-         "piece_sha1" : "8f80f6ac526bd73f2a6398f7ee770427170d00ae",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 4,
-         "piece_sha1" : "0918773ccc3be2b2fa22c9f29c7176e3060b3377",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 5,
-         "piece_sha1" : "4f6b853b43a33c6b7dae162e0eec984a5aef2ee6",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 6,
-         "piece_sha1" : "2deb9ab95f455d7a1193a60b61065afb79200c0a",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 7,
-         "piece_sha1" : "12031b59ed42274857bd68c8fe529791ef503b2c",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 8,
-         "piece_sha1" : "a4c6dd91686aa83377994ecfc45b3b796547c609",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
-         "piece_no" : 9,
-         "piece_sha1" : "8e38d90d5af279c58d02d4b211fe83612ee51afb",
-         "piece_size" : 524288
-      },
-      {
-         "peers" : [],
+      "10" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 10,
          "piece_sha1" : "981af261ee529815af1a12ef1bb1856998517950",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "11" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 11,
          "piece_sha1" : "32cd70cf30eb4c7231a9bce821296b7edf495bb0",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "12" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 12,
          "piece_sha1" : "f2c79eac4b30f5f77edf2824327e0394e25e6536",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "13" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 13,
          "piece_sha1" : "1e742337f04f44efb83d13065e186ebc8da41531",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "14" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 14,
          "piece_sha1" : "c71e1313c38fd93f65869c116bf455fdd45a371d",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "15" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 15,
          "piece_sha1" : "b358f8a0b7269141470c8e5676e53722ee7b581f",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "16" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 16,
          "piece_sha1" : "27938dcf4368456969c20a854b8006e7cd0c0170",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "17" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 17,
          "piece_sha1" : "b409f04a0ae32f95bc6d138e98a38260cb806b31",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "18" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 18,
          "piece_sha1" : "e6e7d27a38c9fb443d094221bebcea39f88c19a8",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "19" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 19,
          "piece_sha1" : "148d5842495a9777c9960fb49333c3bc7e565471",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "2" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 2,
+         "piece_sha1" : "290bdf6ff84ea5f30a5d505679fe51926250e8d7",
+         "piece_size" : 524288
+      },
+      "20" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 20,
          "piece_sha1" : "22b0b4ec4d1f556cf6792ef5b1ac40286729a084",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "21" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 21,
          "piece_sha1" : "6b07a2f0eeb9af8d1f4d1a7fbf1cb0b3338640f3",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "22" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 22,
          "piece_sha1" : "e19b38cd04c2c0b78cd0c19f5b9a5561cae8bfa6",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "23" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 23,
          "piece_sha1" : "f4ceaa0ac368b718b5e524194398456bb4aeb145",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "24" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 24,
          "piece_sha1" : "43496af998f8a37703d421495f3d1e059a1f4e25",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "25" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 25,
          "piece_sha1" : "922ce31c09c03df4bfb27b84990eab9763a340f2",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "26" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 26,
          "piece_sha1" : "b7f9161bf3a2ae58d241592eb61edb639715bf63",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "27" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 27,
          "piece_sha1" : "0416dd2d63db3a14db766ce38f7071c60d70993f",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "28" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 28,
          "piece_sha1" : "72acef6a5fc3dee6049bf76388498a8d64e31610",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "29" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 29,
          "piece_sha1" : "41f815fa24cb969212d7a5ffcdafc0c2926481b1",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "3" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 3,
+         "piece_sha1" : "8f80f6ac526bd73f2a6398f7ee770427170d00ae",
+         "piece_size" : 524288
+      },
+      "30" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 30,
          "piece_sha1" : "e32711a3b1103135a993c9234b832f1bedcb1b2f",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "31" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 31,
          "piece_sha1" : "7e5b07f37ce2e5af928ab0f5ff189c20b7c66482",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "32" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 32,
          "piece_sha1" : "d6a4a0d13c7969af75db01d78b8649b00910cf01",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "33" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 33,
          "piece_sha1" : "088f326a3cbc6f7f9b7d7fe132b01ca955d395ee",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "34" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 34,
          "piece_sha1" : "48fe240ba2558a31bf3573c424a06e9adc90161e",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "35" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 35,
          "piece_sha1" : "b09b7353b1a01b8b5a80d3dfe20b8ae17b3fc32e",
          "piece_size" : 524288
       },
-      {
-         "peers" : [],
+      "36" : {
+         "from_peer" : "localhost:8888",
          "piece_no" : 36,
          "piece_sha1" : "2bac647cbf7a2f56d1e46947c2ba229df031d840",
          "piece_size" : 317855
+      },
+      "4" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 4,
+         "piece_sha1" : "0918773ccc3be2b2fa22c9f29c7176e3060b3377",
+         "piece_size" : 524288
+      },
+      "5" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 5,
+         "piece_sha1" : "4f6b853b43a33c6b7dae162e0eec984a5aef2ee6",
+         "piece_size" : 524288
+      },
+      "6" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 6,
+         "piece_sha1" : "2deb9ab95f455d7a1193a60b61065afb79200c0a",
+         "piece_size" : 524288
+      },
+      "7" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 7,
+         "piece_sha1" : "12031b59ed42274857bd68c8fe529791ef503b2c",
+         "piece_size" : 524288
+      },
+      "8" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 8,
+         "piece_sha1" : "a4c6dd91686aa83377994ecfc45b3b796547c609",
+         "piece_size" : 524288
+      },
+      "9" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 9,
+         "piece_sha1" : "8e38d90d5af279c58d02d4b211fe83612ee51afb",
+         "piece_size" : 524288
       }
-   ],
-   "size" : 19192223
+   },
+   "size" : 19192223,
+   "status" : "COMPLETED",
+   "total_pieces" : 37
 }
 

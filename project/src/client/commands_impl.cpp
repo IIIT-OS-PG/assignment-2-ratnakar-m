@@ -88,7 +88,7 @@ char* build_metadata_for_tracker(string file_name, string group_id, pair<string,
     meta["file_sha1"] = file_info.first;
     meta["size"] = file_info.second;
     
-    meta["num_pieces"] = (int)chunks.size();
+    meta["total_pieces"] = (int)chunks.size();
     pair<string, int*> host_port = get_hostname_port();
     string host_port_str = host_port.first+string(":")+to_string(*host_port.second);
     Value seeders;
@@ -115,14 +115,27 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     meta["group"] = group_id;
     meta["file_sha1"] = file_info.first;
     meta["size"] = file_info.second;
-    meta["num_pieces"] = (int)chunks.size();
+    meta["total_pieces"] = (int)chunks.size();
+    meta["available_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
-    meta["pieces"] = Value(arrayValue);
+    Value pieces;
+    //meta["pieces"] = Value(arrayValue); //array of pieces
+    //changing from array of pieces to dictionary of pieces with index as piece idx
     
     pair<string, int*> host_port = get_hostname_port();
+    string from_peer=string(host_port.first)+string(":")+to_string(*host_port.second);
+
     for(int i=0; i<chunks.size(); i++){
-    	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,host_port.first);
+    	Value piece;
+	    piece["piece_no"] = i;
+	    piece["piece_size"] = *chunks[i].size;
+	    piece["piece_sha1"] = chunks[i].sha1;
+	    piece["from_peer"] = from_peer;
+
+	    pieces[to_string(i)] = piece;
+
     }
+    meta["pieces"] = pieces;
     StyledWriter writer;
     string meta_str = writer.write( meta );
     //cout << root << endl; //printing using the root itself
@@ -130,13 +143,4 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     return (char*)meta_str.c_str();
 }
 
-void append_piece(Value& document, int idx, int size, string sha1, string ip){
-    Value piece;
-    piece["piece_no"] = idx;
-    piece["piece_size"] = size;
-    piece["piece_sha1"] = sha1;
-    piece["peers"] = Value(arrayValue);
-    string peer_addr = ip + string(":") + to_string(*(peer_context.portno));
-    piece["peers"].append(peer_addr);
-    document["pieces"].append(piece);
-}
+void add_piece(Value& document, int idx, int size, string sha1, string from_peer){}

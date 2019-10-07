@@ -145,7 +145,7 @@ char * manage_menu() {
 					char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
 					string meta_file_name=strip_extn(base_name);
 
-					write_to_file(string("./.chunks_info"), string(meta_file_name+".meta"), string(file_meta_cli));
+					write_to_file(string("./.pieces_info"), string(meta_file_name+".meta"), string(file_meta_cli));
 				}
 			}
 			else
@@ -166,6 +166,7 @@ char * manage_menu() {
 			//step1: get the peer addresses where the file is available
 				//interface in tracker to get the trackers having the file
 
+			//1. get file_info from tracker
 			char* file_info = get_file_info(group_id, file_name, current_user);
 			if(strcmp(file_info, "NOT_A_MEMBER")==0)
 				response="user is not a member of the group";
@@ -180,7 +181,6 @@ char * manage_menu() {
 			    if(!parsing_status)
 			    	return "error parsing the file_info content";
 
-			    //file_info
 			    if(file_info_root.isMember("seeders")){
 			    	Value seeders = file_info_root["seeders"];
 			    	vector<string> members = seeders.getMemberNames();
@@ -188,6 +188,8 @@ char * manage_menu() {
 			    	for(int i=0; i<members.size(); i++)
 			    		cout << members[i] << endl;
 			    }
+
+			    //2. get chunks info from seeders (peers)
 
 				
 			}

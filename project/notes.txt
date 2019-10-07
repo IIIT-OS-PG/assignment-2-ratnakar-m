@@ -24,6 +24,33 @@ b). socket interface (for other peers to download)
 	telnet localhost 8888
 
 
+peer as a sender of piece:
+---------------------------
+	- provide an interface to send the metadata of the available pieces
+		list of:
+			piece number
+			piece size
+	
+	- provide an interface to send the requested piece
+		- check if it has the requested piece
+		- read the data of that piece (with the offset info) from the file
+
+peer as a receiver of pieces:
+-----------------------------
+	 - request pieces information from "all seeders" of the file
+	 - perform piece selection algorithm which maps pieces to the target seeders
+	 - request piece from the seeder as mentioned by piece selection algorithm
+	 - update information in available pieces in piece_info file
+			file_name.pieces_info
+	 - after receiving the first piece, send a request to tracket to update the seeders list for that file		
+	
+	
+what about peer that has the completed file and uploaded to tracker?
+	- consider this as a peer that received complete file
+	- its availability for seeding is alreadt updated in the tracker metadata file
+	- build information of all available pieces in pieces_info file
+
+
 Scenario:
 -----------
 
@@ -54,4 +81,6 @@ Scenario:
 	peer1 	peer2	peer3
 	chunk4	chunk3	chunk2
 	chunk1
+
+
 

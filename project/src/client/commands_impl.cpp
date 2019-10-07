@@ -118,6 +118,7 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     meta["num_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
     meta["pieces"] = Value(arrayValue);
+    
     pair<string, int*> host_port = get_hostname_port();
     for(int i=0; i<chunks.size(); i++){
     	append_piece(meta,i,*chunks[i].size,chunks[i].sha1,host_port.first);

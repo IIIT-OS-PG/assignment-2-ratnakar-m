@@ -32,11 +32,11 @@ LIBS = -lpthread -lcrypto -ljsoncpp
 
 build:
 	@mkdir -p bin && \
-	g++ -g -w  -std=c++0x  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -I $(TRACKER_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && \
+	g++ -g -w  -std=c++14  $(TRACKER_SRC) -I $(COMMON_INCLUDES) -I $(TRACKER_INCLUDES) -o $(EXEC_TRACKER) $(LIBS) && \
 	chmod +x $(EXEC_TRACKER) && \
 	mkdir -p demo_space/tracker && \
 	cp $(EXEC_TRACKER) demo_space/tracker
-	@g++ -g -w -std=c++0x  $(CLIENT_SRC) -I $(COMMON_INCLUDES) -I $(CLIENT_INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) && \
+	@g++ -g -w -std=c++14  $(CLIENT_SRC) -I $(COMMON_INCLUDES) -I $(CLIENT_INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) && \
 	chmod +x $(EXEC_CLIENT) && \
         mkdir -p demo_space/peer1 && \
         mkdir -p demo_space/peer2 && \

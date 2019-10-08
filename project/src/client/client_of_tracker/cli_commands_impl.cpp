@@ -55,6 +55,7 @@ char* upload_file(char* file_name, char* group_id, char* username, char* file_me
 }
 
 char* get_file_info(char* group_id, char* file_name, char* user_name){
+	cout << "grup: " << group_id << "file_name " << file_name << "user_name " << user_name << endl;
 	string command = string("get_file_info ")+string(group_id)+string(" ")+string(file_name)+string(" ")+string(user_name);
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
@@ -130,6 +131,7 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
 	    piece["piece_no"] = i;
 	    piece["piece_size"] = *chunks[i].size;
 	    piece["piece_sha1"] = chunks[i].sha1;
+	    cout << "sha1: " << chunks[i].sha1 << endl;
 	    piece["from_peer"] = from_peer;
 
 	    pieces[to_string(i)] = piece;
@@ -140,7 +142,8 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     string meta_str = writer.write( meta );
     //cout << root << endl; //printing using the root itself
     //cout << meta_str << endl; //printing using the string of root
-    return (char*)meta_str.c_str();
+    pair<int, char*> meta_msg = get_msg(meta_str);
+    return meta_msg.second;
 }
 
 void add_piece(Value& document, int idx, int size, string sha1, string from_peer){}

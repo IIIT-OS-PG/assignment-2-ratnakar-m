@@ -130,23 +130,29 @@ char * manage_menu() {
 			
 			if(file_path != NULL && group_id !=NULL)
 			{
-				string base_name = get_base_name(string(file_path));
-				vector<chunk_info> chunks;
-
-				pair<string,int> file_info = split_chunks(file_path, chunks);
-				if(file_info.second==-1)
-				{
-					string error_msg = string(file_path)+ ": file does not exist. please check.";
-					response = (char*)error_msg.c_str();
-				}
+				if(!does_file_exist(file_path))
+					response = "Given file does not exist";
 				else{
-					char* file_meta = build_metadata_for_tracker(base_name, group_id, file_info, chunks);
-					response = upload_file((char*)base_name.c_str(), group_id, current_user, file_meta);
-					char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
-					string meta_file_name=strip_extn(base_name);
+					string base_name = get_base_name(string(file_path));
+					vector<chunk_info> chunks;
 
-					write_to_file(string("./pieces_info"), string(meta_file_name+".meta"), string(file_meta_cli));
+					pair<string,int> file_info = split_chunks(file_path, chunks);
+					if(file_info.second==-1)
+					{
+						string error_msg = string(file_path)+ ": file does not exist. please check.";
+						response = (char*)error_msg.c_str();
+					}
+					else{
+						char* file_meta = build_metadata_for_tracker(base_name, group_id, file_info, chunks);
+						response = upload_file((char*)base_name.c_str(), group_id, current_user, file_meta);
+						char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
+						cout << file_meta_cli << endl;
+						string meta_file_name=strip_extn(base_name);
+
+						write_to_file(string("./pieces_info"), string(meta_file_name+".meta"), string(file_meta_cli));
+					}
 				}
+				
 			}
 			else
 				cout << INVALID_ARGS << endl;
@@ -161,7 +167,7 @@ char * manage_menu() {
 		char* dest_path = strtok(NULL, " ");
 		
 		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
-			return download_impl(group_id, file_name, dest_path, current_user);
+			return download_impl(group_id, file_name, dest_path, clone(current_user));
 		else
 		{
 			cout << INVALID_ARGS << endl;

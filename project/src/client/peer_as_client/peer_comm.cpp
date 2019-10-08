@@ -6,10 +6,10 @@ this file represents the operations of a peer as a requestor to another peer
 outbound requests
 */
 Value get_pieces_info(char* peer_addr, char* file_name){
-	stringstream command_stream;
-	command_stream << "get_pieces_info " << file_name;
-	char* command = (char*) command_stream.str().c_str();
-	char* pieces_info_str = send_cmd_to_peer(peer_addr, clone(command));
+	string command_str = string("get_pieces_info ") + string(file_name);
+	pair<int,char*> command_msg = get_msg(command_str);
+	cout << "command to be sent" << command_msg.second << endl;
+	char* pieces_info_str = send_cmd_to_peer(peer_addr, command_msg.second);
 	Value pieces_info_root;
 	Reader reader;
 	bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
@@ -29,6 +29,7 @@ char* send_cmd_to_peer(char* peer_addr, char* command) {
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	bzero(response,BUFFER_SIZE);
 	char buffer[BUFFER_SIZE];
+	cout << "command sent" << command << endl;
 	pair<string, int*> host_port = get_hostname_port(); //extract info from self context
 	if(*peer_addr_struct.sockfd > 0){
     	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);

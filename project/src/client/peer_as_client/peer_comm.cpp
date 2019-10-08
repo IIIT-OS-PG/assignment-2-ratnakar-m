@@ -17,6 +17,13 @@ Value get_pieces_info(char* peer_addr, char* file_name){
 	return pieces_info_root;
 }
 
+char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size){
+	string command_str = string("download_piece ") + string(file_name) + string(" ") + to_string(piece_idx) + string(" ") + to_string(piece_size);
+	pair<int,char*> command_msg = get_msg(command_str);
+	char* piece_data = send_cmd_to_peer(peer_addr, command_msg.second);
+	return piece_data;
+}
+
 char* send_cmd_to_peer(char* peer_addr, char* command) {
 	char* host = strtok(peer_addr, ":");
 	char* port_str = strtok(NULL, ":");

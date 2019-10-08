@@ -162,18 +162,21 @@ char * manage_menu() {
 	} 
 	else if(strcmp(command, "download_file")==0) {
 		
-		char* group_id = strtok(NULL, " ");
-		char* file_name = strtok(NULL, " ");
-		char* dest_path = strtok(NULL, " ");
-		
-		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
-			return download_impl(group_id, file_name, dest_path, clone(current_user));
-		else
-		{
-			cout << INVALID_ARGS << endl;
-			return INVALID_ARGS;
+		if(current_user!=NULL){
+			char* group_id = strtok(NULL, " ");
+			char* file_name = strtok(NULL, " ");
+			char* dest_path = strtok(NULL, " ");
+			
+			if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
+				return download_impl(group_id, file_name, dest_path, clone(current_user));
+			else
+			{
+				cout << INVALID_ARGS << endl;
+				return INVALID_ARGS;
+			}
 		}
-
+		else
+			cout << "You need to login to download a file" << endl;
 	} 
 	else if(strcmp(command, "show_downloads")==0) {
 		response = show_downloads();

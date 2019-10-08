@@ -72,5 +72,8 @@ string get_hash_digest(char* str1);
 int* open_file(string dir_path, string file_name);
 void write_to_file(string dir_path, string file_name, string content);
 char* read_from_file(string dir_path, string file_name);
+char* read_piece_data_from_file(string file_name, int piece_idx, int piece_size);
+void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, char* piece_data);
+
 
 #endif //COMMONS_H

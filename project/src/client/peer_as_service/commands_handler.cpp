@@ -21,5 +21,17 @@ char* serve_command(char* command_line, int* logfd) {
 
 		response = read_from_file(string("./pieces_info"), string(meta_file_name)+string(".meta"));
 	} 
+	if(strcmp(command, "download_piece")==0) {
+		char* file_name = strtok(NULL, " ");
+		char* piece_idx_arr = strtok(NULL, " ");
+		char* piece_size_arr = strtok(NULL, " ");
+		int piece_idx = atoi(piece_idx_arr);
+		int piece_size = atoi(piece_size_arr);
+
+		string full_path = string("./resources/")+string(file_name);
+		char* piece_data = read_piece_data_from_file(full_path, piece_idx, piece_size);
+		
+		response = piece_data;
+	} 
 	return response;
 }

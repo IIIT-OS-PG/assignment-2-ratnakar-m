@@ -90,6 +90,25 @@ char* read_from_file(string dir_path, string file_name){
     return clone(cstr);
 }
 
+char* read_piece_data_from_file(string file_path, int piece_idx, int piece_size){
+    ifstream fl(file_path); 
+    int seek_pos =  piece_idx*CHUNK_SIZE;
+    char* piece_data = new char[piece_size];  
+    fl.seekg(seek_pos,ios::beg);   
+    fl.read(piece_data, piece_size);  
+    fl.close();  
+    return piece_data;  
+} 
+
+void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, char* piece_data){
+    ofstream fl; 
+    fl.open(file_path, ios::out);
+    int seek_pos =  piece_idx*CHUNK_SIZE;
+    fl.seekp(seek_pos,ios::beg);   
+    fl.write(piece_data, piece_size);  
+    fl.close();   
+} 
+
 
 pair<int,char*> get_msg(string s){
     char* msg = clone((char*)s.c_str());

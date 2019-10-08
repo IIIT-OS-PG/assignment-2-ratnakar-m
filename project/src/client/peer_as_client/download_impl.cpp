@@ -37,6 +37,12 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	piece_info_ctx.file_name=file_name;
 	    	unordered_map<string, int*> piece_info_stats;
 	    	piece_info_ctx.piece_info_stats = &piece_info_stats;
+
+	    	unordered_map<string, Value*> pieces_roots;
+	    	piece_info_ctx.pieces_roots = &pieces_roots;
+
+	    	unordered_map<string, Value> pieces_roots_val;
+	    	piece_info_ctx.pieces_roots_val = &pieces_roots_val;
 	    	for(int i=0; i<members.size(); i++)
 	    	{
 	    		//2. get chunks info from seeders (peers)
@@ -53,6 +59,7 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    		//available pieces in the members
 	    		cout << "size: " << (*piece_info_ctx.piece_info_stats).size() << endl;
 	    		cout << members[i] << ": " << *((*piece_info_ctx.piece_info_stats)[members[i]])<<endl;
+	    		cout << "file size" << ": " << (((*piece_info_ctx.pieces_roots_val)[members[i]]))["size"]<<endl;
 	    	}	    	
 	    }
 	}
@@ -63,14 +70,14 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 		//does the chunks availability with the peers needs to be at tracker or at the peers?
 	//step3: piece selection algorithm to select the peers for the pieces
 	//step4: send request to those peers to get the pieces
+	
 	//step5: update the tracker with the piece availaility which are freshely downloaded
 
 	return response;
 }
 
-void* get_pieces_info_func(void* piece_info_holder){
-	piece_info_struct piece_info_ctx = *((piece_info_struct*) piece_info_holder);
-	unordered_map<string, int*> piece_info_stats = *(piece_info_ctx.piece_info_stats);
+void* get_pieces_info_func(void* pieces_meta_holder){
+	piece_info_struct piece_info_ctx = *((piece_info_struct*) pieces_meta_holder);
 	string member_str = piece_info_ctx.member;
 	char* filename = piece_info_ctx.file_name;
 	char* member = (char*)member_str.c_str();
@@ -82,4 +89,14 @@ void* get_pieces_info_func(void* piece_info_holder){
 	*available_pieces = pieces_info["available_pieces"].asInt();
 	cout << "available pieces: " << *available_pieces << endl;
 	(*piece_info_ctx.piece_info_stats)[member_str]=available_pieces;
+	(*piece_info_ctx.pieces_roots)[member_str]=&pieces_info;
+	(*piece_info_ctx.pieces_roots_val)[member_str]=pieces_info;
+}
+
+void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size){
+	char* piece_data = 
+		download_piece(peer_addr, file_name,piece_idx,piece_size);
+	string full_path = string("./resources/")+string(file_name);
+	
+	write_piece_data_to_file(full_path, piece_idx, piece_size, piece_data);
 }

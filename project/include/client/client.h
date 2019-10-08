@@ -27,6 +27,8 @@ typedef struct
 {
 	string member;
 	unordered_map<string, int*>* piece_info_stats;
+	unordered_map<string, Value*>* pieces_roots;
+	unordered_map<string, Value>* pieces_roots_val;
 	char* file_name;
 } piece_info_struct;
 
@@ -42,6 +44,8 @@ extern struct peer_ctx peer_context; //"peer_context" stores peer_ctx of self
 peer_ctx connect_peer(char* host, int* port); //connect to other peers and get their context
 char* send_cmd_to_peer(char* peer_addr, char* command);
 Value get_pieces_info(char* peer_addr, char* file_name);
+char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size);
+
 bool does_file_exist(char* full_path);
 void* get_pieces_info_func(void* piece_info_holder);
 

@@ -48,6 +48,7 @@ char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_
 
 bool does_file_exist(char* full_path);
 void* get_pieces_info_func(void* piece_info_holder);
+void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size);
 
 
 char* serve_command(char* command_line, int* logfd);

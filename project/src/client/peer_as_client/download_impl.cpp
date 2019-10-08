@@ -60,7 +60,21 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    		cout << "size: " << (*piece_info_ctx.piece_info_stats).size() << endl;
 	    		cout << members[i] << ": " << *((*piece_info_ctx.piece_info_stats)[members[i]])<<endl;
 	    		cout << "file size" << ": " << (((*piece_info_ctx.pieces_roots_val)[members[i]]))["size"]<<endl;
-	    	}	    	
+	    	}	 
+
+	    	char* peer_addr = (char*) members[0].c_str();
+	    	int file_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["size"].asInt();
+	    	int num_pieces = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["total_pieces"].asInt();
+
+	    	for(int i=0; i<num_pieces; i++){
+
+	    		//cout << (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)] << endl;
+	    		int piece_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_size"].asInt();
+	    		cout << "piece sizes: " << piece_size << endl;
+	    		download_and_write_piece_data(peer_addr, file_name, i, piece_size);
+	    	}
+
+
 	    }
 	}
 
@@ -94,8 +108,9 @@ void* get_pieces_info_func(void* pieces_meta_holder){
 }
 
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size){
+	cout << "peer addr: " << peer_addr << endl;
 	char* piece_data = 
-		download_piece(peer_addr, file_name,piece_idx,piece_size);
+		download_piece(clone(peer_addr), file_name,piece_idx,piece_size);
 	string full_path = string("./resources/")+string(file_name);
 	
 	write_piece_data_to_file(full_path, piece_idx, piece_size, piece_data);

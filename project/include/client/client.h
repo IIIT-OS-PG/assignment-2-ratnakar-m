@@ -23,6 +23,13 @@ typedef struct
 
 } connected_tracker;
 
+typedef struct
+{
+	string member;
+	unordered_map<string, int*>* piece_info_stats;
+	char* file_name;
+} piece_info_struct;
+
 extern bool INFER_IP;
 
 vector<tracker> extract_tracker_info(char* tracker_info);
@@ -36,6 +43,7 @@ peer_ctx connect_peer(char* host, int* port); //connect to other peers and get t
 char* send_cmd_to_peer(char* peer_addr, char* command);
 Value get_pieces_info(char* peer_addr, char* file_name);
 bool does_file_exist(char* full_path);
+void* get_pieces_info_func(void* piece_info_holder);
 
 
 char* serve_command(char* command_line, int* logfd);

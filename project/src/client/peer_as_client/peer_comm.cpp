@@ -8,7 +8,6 @@ outbound requests
 Value get_pieces_info(char* peer_addr, char* file_name){
 	string command_str = string("get_pieces_info ") + string(file_name);
 	pair<int,char*> command_msg = get_msg(command_str);
-	cout << "command to be sent" << command_msg.second << endl;
 	char* pieces_info_str = send_cmd_to_peer(peer_addr, command_msg.second);
 	Value pieces_info_root;
 	Reader reader;
@@ -29,7 +28,6 @@ char* send_cmd_to_peer(char* peer_addr, char* command) {
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	bzero(response,BUFFER_SIZE);
 	char buffer[BUFFER_SIZE];
-	cout << "command sent" << command << endl;
 	pair<string, int*> host_port = get_hostname_port(); //extract info from self context
 	if(*peer_addr_struct.sockfd > 0){
     	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);

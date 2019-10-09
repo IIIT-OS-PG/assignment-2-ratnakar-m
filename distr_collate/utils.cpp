@@ -53,14 +53,14 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 
 	if (n < 0)
 		perror("ERROR reading from socket");
-	printf("[%s]\n", buffer);
+	//printf("[%s]\n", buffer);
 	close (sockfd);
 
     return buffer;
 }
 
 
-char* clone(char* orig){
+char* clone(char* orig){ //based on '\0'
     char* cl = (char *) malloc(BUFFER_SIZE);
     int g = 0;
     while(orig[g] != '\0')
@@ -69,6 +69,17 @@ char* clone(char* orig){
         g++;
     }
     cl[g]='\0';
+
+    return cl;
+}
+
+char* clone2(char* orig, int size){ //make sure size <=BUFFER_SIZE
+    char* cl = (char *) malloc(BUFFER_SIZE);
+    int g = 0;
+    for(int i=0; i<size; i++){
+        cl[g] = orig[g];
+        g++;
+    }
 
     return cl;
 }
@@ -103,7 +114,7 @@ pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks) {
         total_size=total_size + (*chunk_size);
         chunk.sha1=digest;
         chunk.size=chunk_size;
-        chunk.data=clone(buffer.get());
+        chunk.data=clone2(buffer.get(),*chunk_size);
         chunks.push_back(chunk);
         
         

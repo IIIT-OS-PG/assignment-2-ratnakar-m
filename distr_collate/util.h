@@ -37,6 +37,7 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize);
 char* respond_to_client(int newsockfd);
 char* request_handler(int* newsockfd);
 char* clone(char* orig);
+char* clone(char* orig, int size);
 void error(const char *msg);
 char* download_piece(char* piece_idx_str, char* piece_size_str);
 char* get_file_info(char* filename);

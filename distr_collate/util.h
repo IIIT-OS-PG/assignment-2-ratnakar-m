@@ -43,4 +43,4 @@ char* get_file_info(char* filename);
 char* serve_command(char* command_line);
 pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks);
 string get_hash_digest(char* str1);
-char* build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks);
+Value build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks);

@@ -18,13 +18,15 @@ char* get_file_info(char* filename){
     pair<string,int> file_info = split_chunks(filename, chunks);
     cout << chunks.size() << endl;
     cout << "filename: " << filename << endl;
-    char* response = build_metadata_for_self(filename, file_info, chunks);
-
-   //return clone("this is file info");
-    return clone(response);
+    Value response = build_metadata_for_self(filename, file_info, chunks);
+    //cout << response << endl;
+    StyledWriter writer;
+    string meta_str = writer.write( response );
+    //pair<int, char*> meta_msg = get_msg(meta_str);
+    return (char*)meta_str.c_str();
 }
 
-char* build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks){
+Value build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks){
 	Value meta; 
     meta["name"] = file_name;
     meta["file_sha1"] = file_info.first;
@@ -41,16 +43,11 @@ char* build_metadata_for_self(string file_name, pair<string,int> file_info, vect
 	    piece["piece_size"] = *chunks[i].size;
 	    piece["piece_sha1"] = chunks[i].sha1;
 	    piece["piece_data"] = chunks[i].data;
-	    //pieces[to_string(i)] = piece;
+	    pieces[to_string(i)] = piece;
 
     }
     meta["pieces"] = pieces;
-    StyledWriter writer;
-    string meta_str = writer.write( meta );
-    //cout << root << endl; //printing using the root itself
-    //cout << meta_str << endl; //printing using the string of root
-    pair<int, char*> meta_msg = get_msg(meta_str);
-    return meta_msg.second;
+    return meta;
 }
 
 char* download_piece(char* piece_idx_str, char* piece_size_str){

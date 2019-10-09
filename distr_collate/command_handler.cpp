@@ -14,14 +14,17 @@ char* get_file_info(char* filename){
 	}
 
 	close(srcfd);
+    vector<chunk_info> chunks;
+    pair<string,int> file_info = split_chunks(filename, chunks);
+    char* response = build_metadata_for_self(filename, file_info, chunks);
 
-   return clone("this is file info");
+   //return clone("this is file info");
+    return clone(response);
 }
 
-char* build_metadata_for_self(string file_name, string group_id, pair<string,int> file_info, vector<chunk_info> chunks){
+char* build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks){
 	Value meta; 
     meta["name"] = file_name;
-    meta["group"] = group_id;
     meta["file_sha1"] = file_info.first;
     meta["size"] = file_info.second;
     meta["total_pieces"] = (int)chunks.size();
@@ -36,7 +39,7 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
 	    piece["piece_no"] = i;
 	    piece["piece_size"] = *chunks[i].size;
 	    piece["piece_sha1"] = chunks[i].sha1;
-	    piece["piece_data"] = 
+	    piece["piece_data"] = chunks[i].data;
 	    pieces[to_string(i)] = piece;
 
     }

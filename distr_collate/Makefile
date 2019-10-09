@@ -1,13 +1,14 @@
 EXEC_SERVER = server
 EXEC_CLIENT = client
 
-LIBS = -lpthread -lcrypto
+LIBS = -lpthread -lcrypto -ljsoncpp
 
 INCLUDES = .
 
 SERVER_SRC = \
 	server.cpp \
-	utils.cpp
+	utils.cpp \
+	command_handler.cpp
 
 CLIENT_SRC = \
 	client.cpp \

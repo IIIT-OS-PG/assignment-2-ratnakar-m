@@ -43,10 +43,3 @@ char* serve_command(char* command_line){
   }
 
 }
-char* get_file_info(char* filename){
-  return clone("this is file info");
-}
-
-char* download_piece(char* piece_idx_str, char* piece_size_str){
-  return clone("this is piece data");
-}

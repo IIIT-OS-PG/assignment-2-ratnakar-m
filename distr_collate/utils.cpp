@@ -53,7 +53,7 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 
 	if (n < 0)
 		perror("ERROR reading from socket");
-	//printf("[%s]\n", buffer);
+	printf("[%s]\n", buffer);
 	close (sockfd);
 
     return buffer;

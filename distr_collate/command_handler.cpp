@@ -12,7 +12,7 @@ char* get_file_info(char* filename){
 	while((read_size = read (srcfd, &buffer, BUFFER_SIZE)) > 0){
         
 	}
-
+    cout << "HERE " << endl;
 	close(srcfd);
     vector<chunk_info> chunks;
     pair<string,int> file_info = split_chunks(filename, chunks);
@@ -23,7 +23,9 @@ char* get_file_info(char* filename){
     StyledWriter writer;
     string meta_str = writer.write( response );
     //pair<int, char*> meta_msg = get_msg(meta_str);
-    return (char*)meta_str.c_str();
+    cout << "RETURNED: " << endl;
+    return clone((char*)meta_str.c_str());
+    //return "this is file info";
 }
 
 Value build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks){
@@ -42,7 +44,7 @@ Value build_metadata_for_self(string file_name, pair<string,int> file_info, vect
 	    piece["piece_no"] = i;
 	    piece["piece_size"] = *chunks[i].size;
 	    piece["piece_sha1"] = chunks[i].sha1;
-	    piece["piece_data"] = chunks[i].data;
+	    //piece["piece_data"] = chunks[i].data;
 	    pieces[to_string(i)] = piece;
 
     }

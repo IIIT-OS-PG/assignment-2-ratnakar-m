@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     vector<string> names = pieces.getMemberNames();
 
-    int destfd = open("new.txt", O_WRONLY | O_CREAT, 0644);
+    int destfd = open("new.txt", O_WRONLY | O_CREAT, 0777);
     if(destfd == -1){
       perror("open");
       return 2;
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
             error("error on lseek");
             return NULL;
           }
-        int written_size = write (destfd, &piece_data, size);
-        //cout << "Piece Data: " << piece_data << endl;
+        int written_size = write (destfd, &piece_data, size+1);
+        cout << "Piece Data: " << piece_data << endl;
     }    
 
     close(destfd);

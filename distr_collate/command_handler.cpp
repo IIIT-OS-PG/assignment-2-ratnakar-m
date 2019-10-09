@@ -16,6 +16,8 @@ char* get_file_info(char* filename){
 	close(srcfd);
     vector<chunk_info> chunks;
     pair<string,int> file_info = split_chunks(filename, chunks);
+    cout << chunks.size() << endl;
+    cout << "filename: " << filename << endl;
     char* response = build_metadata_for_self(filename, file_info, chunks);
 
    //return clone("this is file info");
@@ -31,8 +33,7 @@ char* build_metadata_for_self(string file_name, pair<string,int> file_info, vect
     meta["available_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
     Value pieces;
-    //meta["pieces"] = Value(arrayValue); //array of pieces
-    //changing from array of pieces to dictionary of pieces with index as piece idx
+    
     
     for(int i=0; i<chunks.size(); i++){
     	Value piece;
@@ -40,7 +41,7 @@ char* build_metadata_for_self(string file_name, pair<string,int> file_info, vect
 	    piece["piece_size"] = *chunks[i].size;
 	    piece["piece_sha1"] = chunks[i].sha1;
 	    piece["piece_data"] = chunks[i].data;
-	    pieces[to_string(i)] = piece;
+	    //pieces[to_string(i)] = piece;
 
     }
     meta["pieces"] = pieces;

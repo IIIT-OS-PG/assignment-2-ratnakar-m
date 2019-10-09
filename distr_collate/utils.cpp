@@ -103,7 +103,7 @@ pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks) {
         total_size=total_size + (*chunk_size);
         chunk.sha1=digest;
         chunk.size=chunk_size;
-        chunk.data=buffer.get();
+        chunk.data=clone(buffer.get());
         chunks.push_back(chunk);
         
         

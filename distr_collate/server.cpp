@@ -1,16 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <iostream>
-#include <stdlib.h>
-#include <fcntl.h>
-
-using namespace std;
-
-#define BUFFER_SIZE 512*1024 //512 KB
-
-char* command_handler(char* request);
-char* get_piece_info(char* file_name);
-char* get_piece_data(int piece_idx, int piece_size);
+#include <util.h>
 
 int main(){
 	int sockfd = start_service("localhost",9999);
@@ -23,15 +11,43 @@ int main(){
      int *newsockfd = (int *) malloc(sizeof(int));
      *newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
      //printf("server: got connection from %s port %d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
-
-    respond_to_client(newsockfd);
+     request_handler(newsockfd);
+    
   }     
  close(sockfd);
  return 0; 
 }
 
-char* request_handler(char* request){
-	cout << "request received: " << request << endl;
+
+char* request_handler(int* newsockfd) {
+    char buffer [ BUFFER_SIZE] ; 
+    recv ( *newsockfd , buffer, BUFFER_SIZE, 0);
+    char* response = serve_command(buffer);
+    send ( *newsockfd , response, BUFFER_SIZE, 0);
 }
-char* get_piece_info(char* file_name);
-char* get_piece_data(int piece_idx, int piece_size);
+
+char* serve_command(char* command_line){
+  char* from_client = strtok(command_line, "=>");
+  char* command = strtok(NULL, "=>");
+  if(command==NULL)
+    return "";
+  
+  if(strcmp(command, "get_file_info")==0) {
+    char* filename = strtok(NULL, " ");
+    cout << "file name" << endl;
+    return get_file_info(filename);
+  } 
+  else if(strcmp(command, "download_piece")==0){
+    char* piece_idx_str = strtok(NULL, " ");
+    char* piece_size_str = strtok(NULL, " ");
+    return download_piece(piece_idx_str, piece_size_str);
+  }
+
+}
+char* get_file_info(char* filename){
+  return clone("this is file info");
+}
+
+char* download_piece(char* piece_idx_str, char* piece_size_str){
+  return clone("this is piece data");
+}

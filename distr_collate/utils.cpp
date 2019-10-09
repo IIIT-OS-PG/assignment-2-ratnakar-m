@@ -1,3 +1,4 @@
+#include <util.h>
 
 int start_service(char* host, int portno){
 	char buffer[BUFFER_SIZE];
@@ -12,13 +13,12 @@ int start_service(char* host, int portno){
     serv_addr.sin_addr.s_addr = INADDR_ANY; 
     serv_addr.sin_port = htons(portno); //short int to n/w byte order
 
-    pair<string,string> hostname_ip = get_hostname_ip();
-    cout << "hostname: " << hostname_ip.first << ", ip: " << hostname_ip.second << endl;
-
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
        error("error on binding");
 
     listen(sockfd,5);
+
+    cout << "sockfd: " << sockfd << endl;
 
     return sockfd;
 }
@@ -38,7 +38,7 @@ int connect_server(char * server_host, int portno) {
     result = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
     if(result<0) 
     {
-    	//error("error connecting to server");
+    	error("error connecting to server");
     	return -1;
     }
 	return sockfd;
@@ -46,6 +46,7 @@ int connect_server(char * server_host, int portno) {
 
 char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 	//bzero(buffer, buffersize);
+    cout << "sockfd: " << sockfd << endl;
 	int n = send(sockfd, buffer, buffersize,0);
 	if (n < 0)
 		perror("ERROR writing to socket");
@@ -61,11 +62,22 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
     return buffer;
 }
 
-char* respond_to_client(int newsockfd) {
-    char buffer [ BUFFER_SIZE] ; 
-    recv ( newsockfd , buffer, BUFFER_SIZE, 0);
-    
-    char* command_response = serve_command(buffer,ctx.logfd);
 
-    send ( newsockfd , command_response, BUFFER_SIZE, 0);
+char* clone(char* orig){
+    char* cl = (char *) malloc(BUFFER_SIZE);
+    int g = 0;
+    while(orig[g] != '\0')
+    {
+        cl[g] = orig[g];
+        g++;
+    }
+    cl[g]='\0';
+
+    return cl;
+}
+
+void error(const char *msg)
+{
+    perror(msg);
+    exit(0);
 }

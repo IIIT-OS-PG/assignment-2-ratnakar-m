@@ -15,7 +15,7 @@ CLIENT_SRC = \
 
 build:
 	g++ -g -w -std=c++0x  $(SERVER_SRC) -I $(INCLUDES) -o $(EXEC_SERVER) $(LIBS) && chmod +x $(EXEC_SERVER) 
-	g++ -g -w -std=c++0x  $(SERVER2_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
+	g++ -g -w -std=c++0x  $(CLIENT_SRC) -I $(INCLUDES) -o $(EXEC_CLIENT) $(LIBS) && chmod +x $(EXEC_CLIENT) 
 
 run: build
 	./$(EXEC)

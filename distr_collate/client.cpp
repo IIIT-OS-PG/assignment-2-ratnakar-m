@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     //cout << "File Info: " << file_info << endl;
     Value pieces = file_info_root["pieces"];
-    sockfd = connect_server("localhost", port);
+    
 
     vector<string> names = pieces.getMemberNames();
     for(int k=0; k<names.size(); k++){
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
         string piece_data_command = "download_piece "+to_string(k)+string(" ")+to_string(size);
         cout << "piece_data_command: " << piece_data_command << endl;
         command_buffer = clone((char*)piece_data_command.c_str());
-
+        sockfd = connect_server("localhost", port);
         char* piece_data = communicate_with_server(sockfd, command_buffer, BUFFER_SIZE);
         cout << "Piece Data: " << piece_data << endl;
     }    

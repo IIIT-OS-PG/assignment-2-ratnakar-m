@@ -28,8 +28,6 @@ char* request_handler(int* newsockfd) {
 }
 
 char* serve_command(char* command_line){
-  cout << "RECEIVED: " << command_line << endl;
-
   char* command = strtok(command_line, " ");
   if(command==NULL)
     return "";
@@ -41,8 +39,6 @@ char* serve_command(char* command_line){
   else if(strcmp(command, "download_piece")==0){
     char* piece_idx_str = strtok(NULL, " ");
     char* piece_size_str = strtok(NULL, " ");
-    cout << "piece_idx_str: " << piece_idx_str << endl;
-    cout << "piece_size_str: " << piece_size_str << endl;
     return download_piece(piece_idx_str, piece_size_str);
   }
 

@@ -1,29 +1,14 @@
 #include <util.h>
 
 char* get_file_info(char* filename){
-
-	int srcfd = open ("moby_dick.txt", O_RDONLY);
-	if (srcfd == -1) {
-		perror ("open");
-		return NULL;
-	}
-	char buffer[BUFFER_SIZE];	
-	int read_size;	
-	while((read_size = read (srcfd, &buffer, BUFFER_SIZE)) > 0){
-        
-	}
-    cout << "HERE " << endl;
-	close(srcfd);
     vector<chunk_info> chunks;
     pair<string,int> file_info = split_chunks(filename, chunks);
     cout << chunks.size() << endl;
-    cout << "filename: " << filename << endl;
     Value response = build_metadata_for_self(filename, file_info, chunks);
     //cout << response << endl;
     StyledWriter writer;
     string meta_str = writer.write( response );
     //pair<int, char*> meta_msg = get_msg(meta_str);
-    cout << "RETURNED: " << endl;
     return clone((char*)meta_str.c_str());
     //return "this is file info";
 }
@@ -53,7 +38,27 @@ Value build_metadata_for_self(string file_name, pair<string,int> file_info, vect
 }
 
 char* download_piece(char* piece_idx_str, char* piece_size_str){
-  return clone("this is piece data");
+  int srcfd = open ("moby_dick.txt", O_RDONLY);
+  if (srcfd == -1) {
+     perror ("open");
+     return NULL;
+  }
+  char buffer[BUFFER_SIZE];   
+  int read_size;  
+  int offset = atoi(piece_idx_str)*BUFFER_SIZE;
+  int size = atoi(piece_size_str);
+  cout << "offset: " << offset << ", " << "size: " << size << endl;
+  if(lseek(srcfd,offset,SEEK_SET) < 0) 
+  {
+    error("error on lseek");
+    return NULL;
+  }
+
+  read_size = read (srcfd, &buffer, BUFFER_SIZE);
+
+  //close(srcfd);
+  cout << buffer << endl;
+  return clone(buffer);
 }
 
 pair<int,char*> get_msg(string s){

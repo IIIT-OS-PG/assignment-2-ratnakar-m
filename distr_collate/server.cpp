@@ -22,19 +22,18 @@ int main(){
 char* request_handler(int* newsockfd) {
     char buffer [ BUFFER_SIZE] ; 
     recv ( *newsockfd , buffer, BUFFER_SIZE, 0);
+    //cout << "Server: Received command: " << buffer << endl;
     char* response = serve_command(buffer);
     send ( *newsockfd , response, BUFFER_SIZE, 0);
 }
 
 char* serve_command(char* command_line){
-  char* from_client = strtok(command_line, "=>");
-  char* command = strtok(NULL, "=>");
+  char* command = strtok(command_line, " ");
   if(command==NULL)
     return "";
   
   if(strcmp(command, "get_file_info")==0) {
     char* filename = strtok(NULL, " ");
-    cout << "file name" << endl;
     return get_file_info(filename);
   } 
   else if(strcmp(command, "download_piece")==0){

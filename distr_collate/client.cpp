@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    int port = 8888;
+    int port = 9999;
     int sockfd = connect_server("localhost", port);
     char* file_info_command = "get_file_info moby_dick.txt";
     char* command_buffer = clone(file_info_command);

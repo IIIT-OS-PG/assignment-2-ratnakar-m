@@ -18,8 +18,6 @@ int start_service(char* host, int portno){
 
     listen(sockfd,5);
 
-    cout << "sockfd: " << sockfd << endl;
-
     return sockfd;
 }
 
@@ -46,7 +44,6 @@ int connect_server(char * server_host, int portno) {
 
 char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 	//bzero(buffer, buffersize);
-    cout << "sockfd: " << sockfd << endl;
 	int n = send(sockfd, buffer, buffersize,0);
 	if (n < 0)
 		perror("ERROR writing to socket");

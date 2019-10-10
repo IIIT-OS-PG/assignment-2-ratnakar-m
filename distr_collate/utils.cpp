@@ -61,7 +61,7 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 
 
 char* clone(char* orig){ //based on '\0'
-    char* cl = (char *) malloc(BUFFER_SIZE);
+    char* cl = (char *) malloc(BUFFER_SIZE*sizeof(char));
     int g = 0;
     while(orig[g] != '\0')
     {
@@ -73,10 +73,15 @@ char* clone(char* orig){ //based on '\0'
     return cl;
 }
 
+char* clone3(string orig){
+    char* cstr = (char *) malloc((orig.size()+1)*sizeof(char));
+    strcpy(cstr, orig.c_str());
+    return cstr;
+}
+
 char* clone2(char* orig, int size){ //make sure size <=BUFFER_SIZE
-    char* cl = (char *) malloc(BUFFER_SIZE);
-    int g = 0;
-    for(int i=0; i<size; i++){
+    char* cl = (char *) malloc(BUFFER_SIZE*sizeof(char));
+    for(int g=0; g<size; g++){
         cl[g] = orig[g];
         g++;
     }

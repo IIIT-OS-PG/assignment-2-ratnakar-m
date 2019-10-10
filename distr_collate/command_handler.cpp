@@ -8,9 +8,15 @@ char* get_file_info(char* filename){
     //cout << response << endl;
     StyledWriter writer;
     string meta_str = writer.write( response );
+
+    //cout << buffer << endl;
     //pair<int, char*> meta_msg = get_msg(meta_str);
-    return clone((char*)meta_str.c_str());
-    //return "this is file info";
+    //cout << (char*)meta_str.c_str() << endl;
+    //return clone2((char*)meta_str.c_str(),meta_str.length());
+
+    //cout << meta_msg.second << endl;
+    //return meta_msg.second;
+    return clone3(meta_str);
 }
 
 Value build_metadata_for_self(string file_name, pair<string,int> file_info, vector<chunk_info> chunks){
@@ -38,7 +44,7 @@ Value build_metadata_for_self(string file_name, pair<string,int> file_info, vect
 }
 
 char* download_piece(char* piece_idx_str, char* piece_size_str){
-  int srcfd = open ("moby_dick.txt", O_RDONLY);
+  int srcfd = open ("short.txt", O_RDONLY);
   if (srcfd == -1) {
      perror ("open");
      return NULL;

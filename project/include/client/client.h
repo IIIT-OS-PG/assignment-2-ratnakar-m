@@ -46,9 +46,8 @@ char* send_cmd_to_peer(char* peer_addr, char* command);
 Value get_pieces_info(char* peer_addr, char* file_name);
 char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size);
 
-bool does_file_exist(char* full_path);
 void* get_pieces_info_func(void* piece_info_holder);
-void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size);
+void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1);
 
 
 char* serve_command(char* command_line, int* logfd);

@@ -61,6 +61,7 @@ pair<int,char*> get_msg(string);
 int write_msg(int, string);
 int write_msg_line(int* fd, string msg_str);
 char* clone(char* orig);
+char* clone2(char* orig, int size);
 void error(const char *msg);
 string get_time();
 string get_time_compact();
@@ -74,6 +75,7 @@ void write_to_file(string dir_path, string file_name, string content);
 char* read_from_file(string dir_path, string file_name);
 char* read_piece_data_from_file(string file_name, int piece_idx, int piece_size);
 void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, char* piece_data);
-
+void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, char* piece_data);
+bool does_file_exist(char* full_path);
 
 #endif //COMMONS_H

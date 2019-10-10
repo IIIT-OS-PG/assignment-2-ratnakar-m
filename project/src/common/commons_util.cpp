@@ -77,6 +77,7 @@ void write_to_file(string dir_path, string file_name, string content){
 }
 
 char* read_from_file(string dir_path, string file_name){
+    cout << "reading from file: " << endl;
     struct stat st = {0};
     if (stat(dir_path.c_str(), &st) == -1) {
         mkdir(dir_path.c_str(), 0777);
@@ -87,6 +88,7 @@ char* read_from_file(string dir_path, string file_name){
     buffer << f.rdbuf();
     const string& tmp = buffer.str();   
     char* cstr = (char*)tmp.c_str();
+    cout << cstr << endl;
     return clone(cstr);
 }
 
@@ -107,6 +109,22 @@ void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, c
     fl.seekp(seek_pos,ios::beg);   
     fl.write(piece_data, piece_size);  
     fl.close();   
+} 
+
+void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, char* piece_data){
+    cout << "=====================================" << endl;
+    cout << "SIZE: " << strlen(piece_data) << endl;
+    cout << "IDX: " << piece_idx << endl;
+
+    cout << "DOWNLOAD 2: " << endl;
+    FILE *file_ptr;
+    file_ptr = fopen(file_path.c_str(), "w+b"); 
+    int offset =  piece_idx*CHUNK_SIZE;
+    fseek(file_ptr, offset, SEEK_SET);
+    cout << "PIECE SIZE: " << piece_size << " Filepath: " << file_path<< endl;
+    int written_c = fwrite(&piece_data, 1, piece_size, file_ptr);;
+    cout << "COUNT: " << written_c << endl; 
+    fclose(file_ptr);
 } 
 
 
@@ -142,6 +160,16 @@ unsigned char* get_hash(char* str1){
     return hash;
 }
 
+char* clone2(char* orig, int size){ //make sure size <=BUFFER_SIZE
+    char* cl = (char *) malloc(BUFFER_SIZE*sizeof(char));
+    for(int g=0; g<size; g++){
+        cl[g] = orig[g];
+        g++;
+    }
+
+    return cl;
+}
+
 char* clone(char* orig){
     char* cl = (char *) malloc(BUFFER_SIZE);
     int g = 0;
@@ -153,4 +181,12 @@ char* clone(char* orig){
     cl[g]='\0';
 
     return cl;
+}
+
+bool does_file_exist(char* full_path){
+    struct stat st = {0};
+    if (stat(full_path, &st) == -1) {
+        return false;
+    }
+    return true;
 }

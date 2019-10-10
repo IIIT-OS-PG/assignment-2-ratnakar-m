@@ -134,6 +134,7 @@ char* upload_file(char* file_name, char* group_id, char* username, char* file_me
 }
 char* get_file_info(char* group_id, char* file_name, char* username){
 
+	cout << "In get file " << endl;
 	bool ismember = is_member(group_id, username);
 	if(!ismember)
 		return "NOT_A_MEMBER";
@@ -141,11 +142,15 @@ char* get_file_info(char* group_id, char* file_name, char* username){
 	string meta_file_name=strip_extn(file_name);
 
     bool does_file_exist = file_exists(group_id, file_name);
+    cout << "BEFORE " <<file_name << " " << endl;
+    cout << "BEFORE " <<meta_file_name << " " << endl;
     if(!does_file_exist)
     	return "NOT_EXIST";
+    
+    cout << "AFTER " <<meta_file_name << " " << endl;
 
 	char* content = read_from_file(string("./metadata"), string(meta_file_name)+string(".meta"));
-  	//cout << content << endl;
+  	cout << content << endl;
   	return content;
 }
 char* download_file(char* group_id, char* file_name, char* destination_path){

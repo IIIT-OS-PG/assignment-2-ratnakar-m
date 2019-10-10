@@ -7,6 +7,7 @@ outbound requests
 */
 Value get_pieces_info(char* peer_addr, char* file_name){
 	string command_str = string("get_pieces_info ") + string(file_name);
+	cout << "sending request: " << command_str << endl;
 	pair<int,char*> command_msg = get_msg(command_str);
 	char* pieces_info_str = send_cmd_to_peer(peer_addr, command_msg.second);
 	Value pieces_info_root;
@@ -21,7 +22,9 @@ char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_
 	string command_str = string("download_piece ") + string(file_name) + string(" ") + to_string(piece_idx) + string(" ") + to_string(piece_size);
 	pair<int,char*> command_msg = get_msg(command_str);
 	char* piece_data = send_cmd_to_peer(peer_addr, command_msg.second);
-	return piece_data;
+	
+	//return clone2(piece_data, piece_size);
+	return clone(piece_data);
 }
 
 char* send_cmd_to_peer(char* peer_addr, char* command) {

@@ -93,11 +93,15 @@ char* read_from_file(string dir_path, string file_name){
 }
 
 char* read_piece_data_from_file(string file_path, int piece_idx, int piece_size){
-    ifstream fl(file_path); 
+    ifstream fl(file_path, ios::binary); 
     int seek_pos =  piece_idx*CHUNK_SIZE;
     char* piece_data = new char[piece_size];  
     fl.seekg(seek_pos,ios::beg);   
-    fl.read(piece_data, piece_size);  
+    fl.read(piece_data, piece_size); 
+    cout << "PIECE IDX " << piece_idx << endl;
+    cout << "PIECE SIZE " << piece_size << endl;
+    cout << "SEEK POS " << seek_pos << endl;
+    cout << "READ SIZE " << fl.gcount() << endl; 
     fl.close();  
     return piece_data;  
 } 
@@ -142,7 +146,9 @@ void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, 
 
     cout << "PIECE SIZE: " << piece_size << " Filepath: " << file_path<< endl;
     int written_c = fwrite(mybuff, 1, piece_size, file_ptr);;
-    cout << "COUNT: " << written_c << endl; 
+    //int written_c = fwrite(piece_data, 1, piece_size, file_ptr);
+    cout << "WRITTEN SIZE: " << written_c << endl; 
+    fflush(file_ptr);
     fclose(file_ptr);
 } 
 

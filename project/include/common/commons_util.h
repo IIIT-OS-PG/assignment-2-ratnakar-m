@@ -29,7 +29,8 @@
 using namespace std;
 
 
-#define CHUNK_SIZE 2000 //512 KB
+//#define CHUNK_SIZE 2000 
+#define CHUNK_SIZE 512*1024 
 //const int CHUNK_SIZE = 512*1024; //512 KB
 #define PROMPT "peer>"
 #define SUCCESS_MSG "Command Successful"

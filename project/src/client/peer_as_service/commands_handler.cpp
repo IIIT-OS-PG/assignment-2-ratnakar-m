@@ -32,7 +32,7 @@ char* serve_command(char* command_line, int* logfd) {
 		char* piece_data = read_piece_data_from_file(full_path, piece_idx, piece_size);
 		
 		response = piece_data;
-		cout << piece_data << endl;
+		//cout << piece_data << endl;
 	} 
 	return response;
 }

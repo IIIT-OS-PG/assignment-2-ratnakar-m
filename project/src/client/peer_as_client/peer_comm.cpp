@@ -22,9 +22,11 @@ char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_
 	string command_str = string("download_piece ") + string(file_name) + string(" ") + to_string(piece_idx) + string(" ") + to_string(piece_size);
 	pair<int,char*> command_msg = get_msg(command_str);
 	char* piece_data = send_cmd_to_peer(peer_addr, command_msg.second);
-	
+	char* mybuff = (char *)malloc(piece_size);
+    bzero(mybuff,piece_size);
+    memcpy(mybuff,piece_data, piece_size);
 	//return clone2(piece_data, piece_size);
-	return clone(piece_data);
+	return mybuff;
 }
 
 char* send_cmd_to_peer(char* peer_addr, char* command) {

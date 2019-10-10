@@ -29,11 +29,12 @@
 using namespace std;
 
 
-#define CHUNK_SIZE 512*1024 //512 KB
+#define CHUNK_SIZE 2000 //512 KB
 //const int CHUNK_SIZE = 512*1024; //512 KB
 #define PROMPT "peer>"
 #define SUCCESS_MSG "Command Successful"
 #define HEADER_AND_BODY_SEPARATOR "$$"
+//#define BUFSIZ 512*1024
 
 #include <jsoncpp/json/json.h>
 using namespace Json;

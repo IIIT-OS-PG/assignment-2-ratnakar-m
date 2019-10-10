@@ -104,27 +104,50 @@ char* read_piece_data_from_file(string file_path, int piece_idx, int piece_size)
 
 void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, char* piece_data){
     ofstream fl; 
-    fl.open(file_path, ios::out);
+    //fl.open(file_path, ios::out|ios::binary);
+    fl.open(file_path, ios::binary);
     int seek_pos =  piece_idx*CHUNK_SIZE;
     fl.seekp(seek_pos,ios::beg);   
-    fl.write(piece_data, piece_size);  
+    cout << "----------------------------------------" << endl;
+    cout << "idx :" << piece_idx << ", seek_pos: " << seek_pos << endl;
+    /*char* mybuff = (char *)malloc(piece_size);
+    bzero(mybuff,piece_size);
+    memcpy(mybuff,piece_data, piece_size);
+    cout << mybuff << endl;
+    fl.write(mybuff, piece_size); 
+    free(mybuff); */
+    fl.write(piece_data, piece_size);
+    fl.flush(); 
+
+    cout << "PIECE SIZE: " << piece_size << " Filepath: " << file_path<< endl;
+    cout << "piece_idx*CHUNK_SIZE: " << piece_idx*CHUNK_SIZE << endl;
+
     fl.close();   
 } 
 
 void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, char* piece_data){
-    cout << "=====================================" << endl;
+    /*cout << "=====================================" << endl;
     cout << "SIZE: " << strlen(piece_data) << endl;
     cout << "IDX: " << piece_idx << endl;
 
-    cout << "DOWNLOAD 2: " << endl;
+    cout << "DOWNLOAD 2: " << endl;*/
     FILE *file_ptr;
-    file_ptr = fopen(file_path.c_str(), "w+b"); 
+    file_ptr = fopen(file_path.c_str(), "r+b"); 
     int offset =  piece_idx*CHUNK_SIZE;
     fseek(file_ptr, offset, SEEK_SET);
+
+    char* mybuff = (char *)malloc(piece_size);
+    bzero(mybuff,piece_size);
+    memcpy(mybuff,piece_data, piece_size);
+
     cout << "PIECE SIZE: " << piece_size << " Filepath: " << file_path<< endl;
-    int written_c = fwrite(&piece_data, 1, piece_size, file_ptr);;
+    int written_c = fwrite(mybuff, 1, piece_size, file_ptr);;
     cout << "COUNT: " << written_c << endl; 
     fclose(file_ptr);
+} 
+
+void write_piece_data_to_file3(string file_path, int piece_idx, int piece_size, char* piece_data){
+
 } 
 
 

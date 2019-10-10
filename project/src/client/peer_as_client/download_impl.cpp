@@ -9,7 +9,7 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 		//interface in tracker to get the trackers having the file
 
 	//1. get file_info from tracker
-	cout << "in dwnld impl" << endl;
+	//cout << "in dwnld impl" << endl;
 	char* file_info = get_file_info(group_id, file_name, username);
 	if(strcmp(file_info, "NOT_A_MEMBER")==0)
 		response="user is not a member of the group";
@@ -69,12 +69,17 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	int file_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["size"].asInt();
 	    	int num_pieces = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["total_pieces"].asInt();
 
+	    	FILE *file_ptr;
+	    	string full_path = string("./resources/")+string(file_name);
+   			file_ptr = fopen((char*)full_path.c_str(), "w");
+   			fclose(file_ptr);
+
 	    	for(int i=0; i<num_pieces; i++){
 
 	    		//cout << (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)] << endl;
 	    		int piece_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_size"].asInt();
 	    		string piece_sha1 = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_sha1"].asString();
-	    		cout << i << "th index - piece size: " << piece_size << endl;
+	    		//cout << i << "th index - piece size: " << piece_size << endl;
 	    		download_and_write_piece_data(peer_addr, file_name, i, piece_size, piece_sha1);
 	    	}
 
@@ -112,18 +117,18 @@ void* get_pieces_info_func(void* pieces_meta_holder){
 }
 
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1){
-	cout << "peer addr: " << peer_addr << endl;
+	//cout << "peer addr: " << peer_addr << endl;
 	char* piece_data = 
 		download_piece(clone(peer_addr), file_name,piece_idx,piece_size);
 	
 	
-	
+
 	string sha1_of_download_piece =  get_hash_digest(piece_data);
 
-	cout << "-----------------------------" << endl;
+	/*cout << "-----------------------------" << endl;
 	cout << sha1 << endl;
 	cout << sha1_of_download_piece << endl;
-	cout << "-----------------------------" << endl;
+	cout << "-----------------------------" << endl;*/
 	//cout << piece_data << endl;
 	string full_path = string("./resources/")+string(file_name);
 	

@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
             return NULL;
           }
         //int written_size = write (destfd, &piece_data, size);
-           fseek(file_ptr, offset, SEEK_CUR);
+           fseek(file_ptr, offset, SEEK_SET);
         int iCount = fwrite(piece_data, 1, size, file_ptr);
         cout << "COUNT: " << iCount << endl;
         /*for(int g=0; g<size; g++){

@@ -74,7 +74,7 @@ char* clone(char* orig){ //based on '\0'
 }
 
 char* clone3(string orig){
-    char* cstr = (char *) malloc((orig.size()+1)*sizeof(char));
+    char* cstr = (char *) malloc((orig.size())*sizeof(char));
     strcpy(cstr, orig.c_str());
     return cstr;
 }

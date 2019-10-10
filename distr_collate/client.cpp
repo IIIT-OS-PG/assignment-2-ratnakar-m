@@ -5,9 +5,7 @@ int main(int argc, char *argv[])
     int port = 9999;
     int sockfd = connect_server("localhost", port);
     char* src_file = "short.txt";
-    char* dest_file = "short_new.txt";
-    char* file_info_command = (char*)(string("get_file_info ")+string(src_file)).c_str();
-    cout << "file inf command: " << file_info_command << endl;
+    char* file_info_command = "get_file_info short.txt";
     char* command_buffer = clone(file_info_command);
     char* file_info_json = communicate_with_server(sockfd, command_buffer, BUFFER_SIZE);
     cout << "file info json: " << file_info_json << endl;
@@ -33,7 +31,7 @@ int main(int argc, char *argv[])
      int iCount;
      char arr[6] = "hello";
  
-     file_ptr = fopen(dest_file, "w");
+     file_ptr = fopen("short_new.txt", "wb");
      
 
     for(int k=0; k<names.size(); k++){
@@ -41,12 +39,11 @@ int main(int argc, char *argv[])
         cout << names[k] << endl;
         int size = pieces[names[k]]["piece_size"].asInt();
         
-        string piece_data_command = "download_piece "+string(src_file)+" "+to_string(k)+string(" ")+to_string(size);
+        string piece_data_command = "download_piece short.txt "+to_string(k)+string(" ")+to_string(size);
         command_buffer = clone((char*)piece_data_command.c_str());
         sockfd = connect_server("localhost", port);
         char buffer [BUFFER_SIZE] ; 
         char* piece_data= communicate_with_server(sockfd, command_buffer, size);
-
         
         int offset = k*BUFFER_SIZE;
         cout << "size: " << size << ", offset: " << offset<< endl;

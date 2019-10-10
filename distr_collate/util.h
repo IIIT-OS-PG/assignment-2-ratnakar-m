@@ -20,7 +20,7 @@ using namespace Json;
 
 using namespace std;
 
-#define BUFFER_SIZE 512*1024
+#define BUFFER_SIZE 1024
 
 typedef struct chunk_info
 {

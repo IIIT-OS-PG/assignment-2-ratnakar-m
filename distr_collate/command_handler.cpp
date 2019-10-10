@@ -49,7 +49,9 @@ char* download_piece(char* filename, char* piece_idx_str, char* piece_size_str){
      perror ("open");
      return NULL;
   }
-  char buffer[BUFFER_SIZE];   
+  char buffer[BUFFER_SIZE];  
+  char* buffer_n = new  char[BUFFER_SIZE];   
+  //char* buffer = (char*)malloc(BUFFER_SIZE*sizeof(char));
   int read_size;  
   int offset = atoi(piece_idx_str)*BUFFER_SIZE;
   int size = atoi(piece_size_str);
@@ -63,9 +65,36 @@ char* download_piece(char* filename, char* piece_idx_str, char* piece_size_str){
   read_size = read (srcfd, &buffer, BUFFER_SIZE);
 
   //close(srcfd);
-  cout << buffer << endl;
-  return clone(buffer);
+  //cout << buffer << endl;
+  memcpy(buffer_n,buffer,read_size);
+  //return clone2(buffer,read_size);
+  return buffer_n;
 }
+
+char* download_piece2(char* filename, char* piece_idx_str, char* piece_size_str){
+  
+  FILE* pFile = fopen ( filename , "rb" );
+  if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
+
+  char buffer[BUFFER_SIZE];  
+  char* buffer_n = new  char[BUFFER_SIZE];   
+  //char* buffer = (char*)malloc(BUFFER_SIZE*sizeof(char));
+  int read_size;  
+  int offset = atoi(piece_idx_str)*BUFFER_SIZE;
+  int size = atoi(piece_size_str);
+  cout << "offset: " << offset << ", " << "size: " << size << endl;
+  
+  fseek(pFile, offset, SEEK_SET);
+  read_size = fread (buffer,1,size,pFile);
+
+  fclose(pFile);
+  //cout << buffer << endl;
+  memcpy(buffer_n,buffer,read_size);
+  //return clone2(buffer,read_size);
+  return buffer_n;
+}
+
+
 
 pair<int,char*> get_msg(string s){
     char* msg = clone((char*)s.c_str());

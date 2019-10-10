@@ -43,8 +43,8 @@ Value build_metadata_for_self(string file_name, pair<string,int> file_info, vect
     return meta;
 }
 
-char* download_piece(char* piece_idx_str, char* piece_size_str){
-  int srcfd = open ("short.txt", O_RDONLY);
+char* download_piece(char* filename, char* piece_idx_str, char* piece_size_str){
+  int srcfd = open (filename, O_RDONLY);
   if (srcfd == -1) {
      perror ("open");
      return NULL;

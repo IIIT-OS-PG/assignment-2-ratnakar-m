@@ -37,9 +37,10 @@ char* serve_command(char* command_line){
     return get_file_info(filename);
   } 
   else if(strcmp(command, "download_piece")==0){
+    char* filename = strtok(NULL, " ");
     char* piece_idx_str = strtok(NULL, " ");
     char* piece_size_str = strtok(NULL, " ");
-    return download_piece(piece_idx_str, piece_size_str);
+    return download_piece(filename, piece_idx_str, piece_size_str);
   }
 
 }

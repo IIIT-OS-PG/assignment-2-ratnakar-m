@@ -20,7 +20,7 @@ using namespace Json;
 
 using namespace std;
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 512*1024
 
 typedef struct chunk_info
 {
@@ -31,6 +31,10 @@ typedef struct chunk_info
 
 pair<int,char*> get_msg(string);
 
+
+void write_to_file1(char* content, int size, int offset, int destfd);
+void write_to_file2(char* content, int size, int offset, FILE* file_ptr);
+
 int start_service(char* host, int portno);
 int connect_server(char * server_host, int portno);
 char* communicate_with_server(int sockfd, char *buffer, int buffersize);
@@ -40,7 +44,7 @@ char* clone(char* orig);
 char* clone2(char* orig, int size);
 char* clone3(string orig);
 void error(const char *msg);
-char* download_piece(char* piece_idx_str, char* piece_size_str);
+char* download_piece(char* filename, char* piece_idx_str, char* piece_size_str);
 char* get_file_info(char* filename);
 char* serve_command(char* command_line);
 pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks);

@@ -73,6 +73,7 @@ char* download_piece(char* filename, char* piece_idx_str, char* piece_size_str){
 
 char* download_piece2(char* filename, char* piece_idx_str, char* piece_size_str){
   
+  cout << "DOWNLOAD 2" << endl;
   FILE* pFile = fopen ( filename , "rb" );
   if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
 
@@ -88,7 +89,7 @@ char* download_piece2(char* filename, char* piece_idx_str, char* piece_size_str)
   read_size = fread (buffer,1,size,pFile);
 
   fclose(pFile);
-  //cout << buffer << endl;
+  cout << buffer << endl;
   memcpy(buffer_n,buffer,read_size);
   //return clone2(buffer,read_size);
   return buffer_n;

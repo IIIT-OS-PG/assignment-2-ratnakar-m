@@ -40,7 +40,7 @@ char* serve_command(char* command_line){
     char* filename = strtok(NULL, " ");
     char* piece_idx_str = strtok(NULL, " ");
     char* piece_size_str = strtok(NULL, " ");
-    return download_piece(filename, piece_idx_str, piece_size_str);
+    return download_piece2(filename, piece_idx_str, piece_size_str);
   }
 
 }

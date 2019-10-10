@@ -20,7 +20,7 @@ using namespace Json;
 
 using namespace std;
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 512*1024
 
 typedef struct chunk_info
 {
@@ -45,6 +45,7 @@ char* clone2(char* orig, int size);
 char* clone3(string orig);
 void error(const char *msg);
 char* download_piece(char* filename, char* piece_idx_str, char* piece_size_str);
+char* download_piece2(char* filename, char* piece_idx_str, char* piece_size_str);
 char* get_file_info(char* filename);
 char* serve_command(char* command_line);
 pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks);

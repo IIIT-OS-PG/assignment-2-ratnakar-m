@@ -4,8 +4,8 @@ int main(int argc, char *argv[])
 {
     int port = 9999;
     int sockfd = connect_server("localhost", port);
-    char* src_file = "short.txt";
-    char* file_info_command = "get_file_info short.txt";
+    char* src_file = "3d_drawing.mp4";
+    char* file_info_command = "get_file_info 3d_drawing.mp4";
     char* command_buffer = clone(file_info_command);
     char* file_info_json = communicate_with_server(sockfd, command_buffer, BUFFER_SIZE);
     cout << "file info json: " << file_info_json << endl;
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
      int iCount;
      char arr[6] = "hello";
  
-     file_ptr = fopen("short_new.txt", "wb");
+     file_ptr = fopen("3d_new.mp4", "wb");
      
 
     for(int k=0; k<names.size(); k++){
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         cout << names[k] << endl;
         int size = pieces[names[k]]["piece_size"].asInt();
         
-        string piece_data_command = "download_piece short.txt "+to_string(k)+string(" ")+to_string(size);
+        string piece_data_command = "download_piece 3d_drawing.mp4 "+to_string(k)+string(" ")+to_string(size);
         command_buffer = clone((char*)piece_data_command.c_str());
         sockfd = connect_server("localhost", port);
         char buffer [BUFFER_SIZE] ; 

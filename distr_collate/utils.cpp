@@ -49,7 +49,7 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 		perror("ERROR writing to socket");
 	//printf("[%s]\n", buffer);
 	bzero(buffer, buffersize);
-	n = recv(sockfd, buffer, buffersize-1,0);
+	n = recv(sockfd, buffer, buffersize,0);
 
 	if (n < 0)
 		perror("ERROR reading from socket");

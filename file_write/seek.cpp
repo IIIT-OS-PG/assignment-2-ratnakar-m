@@ -32,23 +32,27 @@ int main () {
    
    outfile.close();*/
 
-
    FILE *file_ptr;
-   file_ptr = fopen("tutorialspoint.txt", "ab"); 
+   file_ptr = fopen("tutorialspoint.txt", "w");
+   fclose(file_ptr); 
+
+
+   //FILE *file_ptr;
+   file_ptr = fopen("tutorialspoint.txt", "r+b"); 
    int offset =  0;
-   fseek(file_ptr, offset, SEEK_CUR);
+   fseek(file_ptr, offset, SEEK_SET);
    int written_c = fwrite("ra", 1, 2, file_ptr);;
    fclose(file_ptr);
 
-   file_ptr = fopen("tutorialspoint.txt", "ab"); 
+   file_ptr = fopen("tutorialspoint.txt", "r+b"); 
    offset =  2;
-   fseek(file_ptr, offset, SEEK_CUR);
+   fseek(file_ptr, offset, SEEK_SET);
    written_c = fwrite("tn", 1, 2, file_ptr);;
    fclose(file_ptr);
 
-   file_ptr = fopen("tutorialspoint.txt", "ab"); 
+   file_ptr = fopen("tutorialspoint.txt", "r+b"); 
    offset =  4;
-   fseek(file_ptr, offset, SEEK_CUR);
+   fseek(file_ptr, offset, SEEK_SET);
    written_c = fwrite("a", 1, 1, file_ptr);;
    fclose(file_ptr);
 

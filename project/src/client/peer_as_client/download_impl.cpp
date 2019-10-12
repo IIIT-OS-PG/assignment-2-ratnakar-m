@@ -141,15 +141,35 @@ void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_i
 	
 	write_piece_data_to_file2(full_path, piece_idx, piece_size, piece_data);
 
-	//update_piece_available_info(full_path, piece_idx, piece_size);
+	update_pieces_info(string(file_name), piece_idx, piece_size, sha1, string(peer_addr));
 }
 
-/*void update_pieces_available_info(string file_path, int piece_idx, int piece_size){
+void update_pieces_info(string file_path, int piece_idx, int piece_size, string piece_sha1, string from_peer){
 	string base_name = get_base_name(string(file_path));
 
 	string full_path = string("./piece_info/")+string(base_name)+string(".pieces_info");
-	build_bare_minimum(file_path, group_id, total_pieces, file_size, file_sha1)
-	write_to_file(string("./pieces_info"), string(base_name+".pieces_info"), string(file_meta_cli));
+	string pieces_info_str = read_from_file(string("./pieces_info"), string(base_name+".pieces_info"));
+	Value pieces_info_root;
+	Reader reader;
+
+	bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
+	/*if(!parsing_status)
+	    	return "error parsing pieces info content";*/
+
+	int available_pieces = pieces_info_root["available_pieces"].asInt();
+	available_pieces++;
+	pieces_info_root["available_pieces"]=available_pieces;
+
+	Value piece;
+	piece["piece_no"] = piece_idx;
+    piece["piece_size"] = piece_size;
+    piece["piece_sha1"] = piece_sha1;
+    piece["from_peer"] = from_peer;
+
+	pieces_info_root["pieces"][to_string(piece_idx)] = piece;
+	StyledWriter writer;
+    pieces_info_str = writer.write( pieces_info_root );
+	write_to_file(string("./pieces_info"), string(base_name+".pieces_info"), pieces_info_str);
 
 	//1. if file not available create file
 		//add a dummy json Value
@@ -162,7 +182,7 @@ void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_i
 	//3. communicate with tracker to update the seeders list of this file
 
 
-}*/
+}
 
 void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1){
 	
@@ -175,7 +195,7 @@ void build_initial_pieces_info_file(string file_name, string group_id, int& tota
     pieces_info["available_pieces"] = 0;
     pieces_info["status"] = "PROGRESS";
     Value pieces;
-    pieces_info["pieces"]=pieces;
+    pieces_info["pieces"]=objectValue;
 
     StyledWriter writer;
     string pieces_info_str = writer.write( pieces_info );

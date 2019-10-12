@@ -61,6 +61,12 @@ char* get_file_info(char* group_id, char* file_name, char* user_name){
 	return response;
 }
 
+char* update_seeders(char* file_name, char* seeder_addr){
+	string command = string("update_seeders ")+string(file_name)+string(" ")+string(seeder_addr);
+	char* response = send_cmd_to_tracker((char*)command.c_str());
+	return response;
+}
+
 char* download_file(char* group_id, char* file_name, char* destination_path){
 	string command = string("download_file ")+string(group_id)+string(" ")+string(file_name)+string(" ")+string(destination_path);
 	char* response = send_cmd_to_tracker((char*)command.c_str());

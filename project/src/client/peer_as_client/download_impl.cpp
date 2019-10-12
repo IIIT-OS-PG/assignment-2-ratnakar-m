@@ -90,6 +90,7 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    		download_and_write_piece_data(peer_addr, file_name, i, piece_size, piece_sha1);
 	    	}
 
+	    	char* res = update_seeders(file_name, "localhost:7777");
 
 	    }
 	}

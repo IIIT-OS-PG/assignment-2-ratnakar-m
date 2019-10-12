@@ -96,6 +96,12 @@ char* serve_command(char* command_line) {
 		if(group_id !=NULL && file_name != NULL && dest_path!= NULL)
 			return download_file(group_id,file_name,dest_path );
 	} 
+	else if(strcmp(command, "update_seeders")==0) {
+		char* file_name = strtok(NULL, " ");
+		char* seeder_addr = strtok(NULL, " ");
+		return update_seeders(file_name, seeder_addr);
+		
+	} 
 	else if(strcmp(command, "show_downloads")==0) {
 		return show_downloads();
 	} 

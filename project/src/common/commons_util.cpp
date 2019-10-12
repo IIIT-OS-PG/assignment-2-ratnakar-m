@@ -77,7 +77,7 @@ void write_to_file(string dir_path, string file_name, string content){
 }
 
 char* read_from_file(string dir_path, string file_name){
-    cout << "reading from file: " << endl;
+    cout << "reading from file: " << file_name<< endl;
     struct stat st = {0};
     if (stat(dir_path.c_str(), &st) == -1) {
         mkdir(dir_path.c_str(), 0777);

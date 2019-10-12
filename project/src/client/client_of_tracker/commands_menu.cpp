@@ -149,7 +149,7 @@ char * manage_menu() {
 						cout << file_meta_cli << endl;
 						string meta_file_name=strip_extn(base_name);
 
-						write_to_file(string("./pieces_info"), string(meta_file_name+".meta"), string(file_meta_cli));
+						write_to_file(string("./pieces_info"), string(meta_file_name+".pieces_info"), string(file_meta_cli));
 					}
 				}
 				

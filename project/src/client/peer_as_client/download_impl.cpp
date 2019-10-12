@@ -52,6 +52,7 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    		piece_info_ctx.member=members[i];
 	    		cout << "MEMBER: " << members[i] << endl;
 	    		pthread_create(&thread_handles[thread], NULL, get_pieces_info_func, (void*) &piece_info_ctx);
+	    		thread++;
 	    	}
 
 	    	for(thread=0; thread < thread_count; thread++)
@@ -73,6 +74,12 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	string full_path = string("./resources/")+string(file_name);
    			file_ptr = fopen((char*)full_path.c_str(), "w");
    			fclose(file_ptr);
+
+   			//piece selection algorithm
+   			//maps pieces to the peers so that the download is distributed amaong peers
+   			//piece_selection(members, )
+   			string file_sha1=file_info_root["file_sha1"].asString();
+   			build_initial_pieces_info_file(string(file_name), string(group_id), num_pieces, file_size, file_sha1);
 
 	    	for(int i=0; i<num_pieces; i++){
 
@@ -133,4 +140,47 @@ void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_i
 	string full_path = string("./resources/")+string(file_name);
 	
 	write_piece_data_to_file2(full_path, piece_idx, piece_size, piece_data);
+
+	//update_piece_available_info(full_path, piece_idx, piece_size);
+}
+
+/*void update_pieces_available_info(string file_path, int piece_idx, int piece_size){
+	string base_name = get_base_name(string(file_path));
+
+	string full_path = string("./piece_info/")+string(base_name)+string(".pieces_info");
+	build_bare_minimum(file_path, group_id, total_pieces, file_size, file_sha1)
+	write_to_file(string("./pieces_info"), string(base_name+".pieces_info"), string(file_meta_cli));
+
+	//1. if file not available create file
+		//add a dummy json Value
+		//save
+
+	//2. if available, load the file
+		//update the json as required.
+		//save the file
+
+	//3. communicate with tracker to update the seeders list of this file
+
+
+}*/
+
+void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1){
+	
+	Value pieces_info; 
+    pieces_info["name"] = file_name;
+    pieces_info["group"] = group_id;
+    pieces_info["file_sha1"] = file_sha1;
+    pieces_info["size"] = file_size;
+    pieces_info["total_pieces"] = total_pieces;
+    pieces_info["available_pieces"] = 0;
+    pieces_info["status"] = "PROGRESS";
+    Value pieces;
+    pieces_info["pieces"]=pieces;
+
+    StyledWriter writer;
+    string pieces_info_str = writer.write( pieces_info );
+
+    string base_name = get_base_name(string(file_name));
+    write_to_file(string("./pieces_info"), string(base_name+".pieces_info"), pieces_info_str);
+
 }

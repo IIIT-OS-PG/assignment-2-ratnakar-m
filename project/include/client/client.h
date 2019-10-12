@@ -50,7 +50,7 @@ void* get_pieces_info_func(void* piece_info_holder);
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1);
 void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1);
 void update_pieces_info(string file_path, int piece_idx, int piece_size, string piece_sha1, string from_peer);
-unordered_map<string, string> piece_selection(Value file_info_root, unordered_map<string, Value*>* seeder_pieces_map);
+unordered_map<string, string> piece_selection(Value file_info_root, piece_info_struct &piece_info_ctx);
 
 char* serve_command(char* command_line, int* logfd);
 bool piece_info_exists(char* full_path);

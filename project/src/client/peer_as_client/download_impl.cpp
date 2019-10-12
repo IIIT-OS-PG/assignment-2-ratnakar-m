@@ -34,6 +34,9 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	int thread;
 	    	pthread_t* thread_handles = (pthread_t*) malloc(thread_count*sizeof(pthread_t));
 
+	    	
+	    	//piece_info_struct *piece_info_ctx_ptr = (piece_info_struct*)malloc(sizeof(piece_info_struct)); 
+	    	//piece_info_struct piece_info_ctx = *piece_info_ctx_ptr;
 	    	piece_info_struct piece_info_ctx;
 	    	piece_info_ctx.file_name=file_name;
 	    	unordered_map<string, int*> piece_info_stats;
@@ -78,7 +81,7 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
    			//piece selection algorithm
    			//maps pieces to the peers so that the download is distributed amaong peers
    			//piece_selection(members, )
-   			piece_selection(file_info_root,piece_info_ctx.pieces_roots);
+   			piece_selection(file_info_root,piece_info_ctx);
    			string file_sha1=file_info_root["file_sha1"].asString();
    			build_initial_pieces_info_file(string(file_name), string(group_id), num_pieces, file_size, file_sha1);
 
@@ -108,32 +111,33 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	return response;
 }
 
-unordered_map<string, string> piece_selection(Value file_info_root, unordered_map<string, Value*>* seeder_pieces_map_ptr){
-	unordered_map<string, string> piece_seeder_map;
-	//unordered_map<string, string>* piece_seeder_map = 
-	//					new unordered_map<std::string, std::string>();
-	cout << "IN PIECE SELECTION: " << endl;
-	map<string, string>::iterator iter;
-	unordered_map<string, Value*> seeder_pieces_map = *seeder_pieces_map_ptr;
-	for(const auto &entry : seeder_pieces_map){
-		cout << "SEEDERS: "<<entry.first<<endl;
-		Value pi = *entry.second;
-		if ( seeder_pieces_map.find(entry.first) == seeder_pieces_map.end() )
-			cout << "KEY not present" << endl;
-		else
-		{
-			cout << "KEY is present" << endl;
-			cout << "ADDRESS: " << pi["address"] << endl;
-		}
+unordered_map<string, string> piece_selection(Value file_info_root, piece_info_struct &piece_info_ctx){
+	cout <<"ENTERING PIECE SELECTIO ALGO" << endl;
+	unordered_map<string, Value> seeders_pieces_map = *piece_info_ctx.pieces_roots_val;
+	if(file_info_root.isMember("seeders")){
+    	Value seeders = file_info_root["seeders"];
+    	vector<string> members = seeders.getMemberNames();
+    	for(string seeder : members){
+    		Value piece_info = seeders_pieces_map[seeder];
+    		cout << "address: " << piece_info["address"] << endl;
+    	}
+    	cout << "size: " << (*piece_info_ctx.piece_info_stats).size() << endl;
+		cout << members[0] << ": " << *((*piece_info_ctx.piece_info_stats)[members[0]])<<endl;
+		cout << "file size" << ": " << (((*piece_info_ctx.pieces_roots_val)[members[0]]))["size"]<<endl;
+		
+		int file_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["size"].asInt();
+	    int num_pieces = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["total_pieces"].asInt();
 
-
-		/*if(!entry.second)
-			cout << "SECOND IS NULL" << endl;
-		cout << "SEEDERS: "<<(entry.second)["address"]<<endl;*/
+	    for(int i=0; i<num_pieces; i++){
+	    	int piece_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_size"].asInt();
+		    string piece_sha1 = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_sha1"].asString();
+	    	cout << "piece_size: " << piece_size << endl;
+	    	cout << "piece_sha1: " << piece_sha1 << endl;
+	    }
 	}
-	
-	cout << "EXITING PIECE SELECTION " << endl;
-	return piece_seeder_map;
+    cout <<"EXITING PIECE SELECTION ALGO" << endl;
+    unordered_map<string, string> m;
+	return m;
 }
 
 void* get_pieces_info_func(void* pieces_meta_holder){

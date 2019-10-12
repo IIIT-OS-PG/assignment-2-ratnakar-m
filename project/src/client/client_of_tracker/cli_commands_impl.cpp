@@ -125,13 +125,14 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     meta["total_pieces"] = (int)chunks.size();
     meta["available_pieces"] = (int)chunks.size();
     meta["status"] = "COMPLETED";
+    
     Value pieces;
     //meta["pieces"] = Value(arrayValue); //array of pieces
     //changing from array of pieces to dictionary of pieces with index as piece idx
     
     pair<string, int*> host_port = get_hostname_port();
     string from_peer=string(host_port.first)+string(":")+to_string(*host_port.second);
-
+    meta["address"]=from_peer;
     for(int i=0; i<chunks.size(); i++){
     	Value piece;
 	    piece["piece_no"] = i;

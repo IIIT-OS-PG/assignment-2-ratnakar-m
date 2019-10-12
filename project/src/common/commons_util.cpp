@@ -88,7 +88,6 @@ char* read_from_file(string dir_path, string file_name){
     buffer << f.rdbuf();
     const string& tmp = buffer.str();   
     char* cstr = (char*)tmp.c_str();
-    cout << cstr << endl;
     return clone(cstr);
 }
 

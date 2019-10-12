@@ -78,6 +78,7 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
    			//piece selection algorithm
    			//maps pieces to the peers so that the download is distributed amaong peers
    			//piece_selection(members, )
+   			piece_selection(file_info_root,piece_info_ctx.pieces_roots);
    			string file_sha1=file_info_root["file_sha1"].asString();
    			build_initial_pieces_info_file(string(file_name), string(group_id), num_pieces, file_size, file_sha1);
 
@@ -105,6 +106,34 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	//step5: update the tracker with the piece availaility which are freshely downloaded
 
 	return response;
+}
+
+unordered_map<string, string> piece_selection(Value file_info_root, unordered_map<string, Value*>* seeder_pieces_map_ptr){
+	unordered_map<string, string> piece_seeder_map;
+	//unordered_map<string, string>* piece_seeder_map = 
+	//					new unordered_map<std::string, std::string>();
+	cout << "IN PIECE SELECTION: " << endl;
+	map<string, string>::iterator iter;
+	unordered_map<string, Value*> seeder_pieces_map = *seeder_pieces_map_ptr;
+	for(const auto &entry : seeder_pieces_map){
+		cout << "SEEDERS: "<<entry.first<<endl;
+		Value pi = *entry.second;
+		if ( seeder_pieces_map.find(entry.first) == seeder_pieces_map.end() )
+			cout << "KEY not present" << endl;
+		else
+		{
+			cout << "KEY is present" << endl;
+			cout << "ADDRESS: " << pi["address"] << endl;
+		}
+
+
+		/*if(!entry.second)
+			cout << "SECOND IS NULL" << endl;
+		cout << "SEEDERS: "<<(entry.second)["address"]<<endl;*/
+	}
+	
+	cout << "EXITING PIECE SELECTION " << endl;
+	return piece_seeder_map;
 }
 
 void* get_pieces_info_func(void* pieces_meta_holder){
@@ -139,17 +168,19 @@ void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_i
 	cout << "-----------------------------" << endl;*/
 	//cout << piece_data << endl;
 	string full_path = string("./resources/")+string(file_name);
+	string piece_file_name = strip_extn(file_name);
 	
 	write_piece_data_to_file2(full_path, piece_idx, piece_size, piece_data);
 
-	update_pieces_info(string(file_name), piece_idx, piece_size, sha1, string(peer_addr));
+	update_pieces_info(string(piece_file_name), piece_idx, piece_size, sha1, string(peer_addr));
 }
 
 void update_pieces_info(string file_path, int piece_idx, int piece_size, string piece_sha1, string from_peer){
 	string base_name = get_base_name(string(file_path));
+	string piece_file_name = strip_extn(base_name);
 
-	string full_path = string("./piece_info/")+string(base_name)+string(".pieces_info");
-	string pieces_info_str = read_from_file(string("./pieces_info"), string(base_name+".pieces_info"));
+	string full_path = string("./piece_info/")+string(piece_file_name)+string(".pieces_info");
+	string pieces_info_str = read_from_file(string("./pieces_info"), string(piece_file_name)+string(".pieces_info"));
 	Value pieces_info_root;
 	Reader reader;
 
@@ -171,18 +202,6 @@ void update_pieces_info(string file_path, int piece_idx, int piece_size, string 
 	StyledWriter writer;
     pieces_info_str = writer.write( pieces_info_root );
 	write_to_file(string("./pieces_info"), string(base_name+".pieces_info"), pieces_info_str);
-
-	//1. if file not available create file
-		//add a dummy json Value
-		//save
-
-	//2. if available, load the file
-		//update the json as required.
-		//save the file
-
-	//3. communicate with tracker to update the seeders list of this file
-
-
 }
 
 void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1){
@@ -194,6 +213,8 @@ void build_initial_pieces_info_file(string file_name, string group_id, int& tota
     pieces_info["size"] = file_size;
     pieces_info["total_pieces"] = total_pieces;
     pieces_info["available_pieces"] = 0;
+    pair<string, int*> host_port=get_hostname_port();
+    pieces_info["address"]= host_port.first+string(":")+to_string(*host_port.second);
     pieces_info["status"] = "PROGRESS";
     Value pieces;
     pieces_info["pieces"]=objectValue;
@@ -202,6 +223,7 @@ void build_initial_pieces_info_file(string file_name, string group_id, int& tota
     string pieces_info_str = writer.write( pieces_info );
 
     string base_name = get_base_name(string(file_name));
-    write_to_file(string("./pieces_info"), string(base_name+".pieces_info"), pieces_info_str);
+    string piece_file_name = strip_extn(base_name);
+    write_to_file(string("./pieces_info"), string(piece_file_name+".pieces_info"), pieces_info_str);
 
 }

@@ -9,7 +9,11 @@ Value get_pieces_info(char* peer_addr, char* file_name){
 	string command_str = string("get_pieces_info ") + string(file_name);
 	cout << "sending request: " << command_str << endl;
 	pair<int,char*> command_msg = get_msg(command_str);
-	char* pieces_info_str = send_cmd_to_peer(peer_addr, command_msg.second);
+	char* pieces_info_str = send_cmd_to_peer_large_data(peer_addr, command_msg.second);
+	//cout << "PIECES INFO" << endl;
+	
+	//cout << pieces_info_str << endl;
+	//cout << "**************COMPLETE*********************" << endl;
 	Value pieces_info_root;
 	Reader reader;
 	bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
@@ -45,6 +49,30 @@ char* send_cmd_to_peer(char* peer_addr, char* command) {
     	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);
     	//send command to other peer
 		response = communicate_with_server(*peer_addr_struct.sockfd, buffer, BUFFER_SIZE);
+	}
+	else
+		sprintf(response, "Unable to connect to the peer: [%s:%d]. Make sure it is up.", host, *portno); 
+
+	return response;   
+}
+
+char* send_cmd_to_peer_large_data(char* peer_addr, char* command) {
+	char* host = strtok(peer_addr, ":");
+	char* port_str = strtok(NULL, ":");
+
+	int* portno=(int *) malloc(sizeof(int));
+	*portno = atoi(port_str);
+
+	peer_ctx peer_addr_struct = connect_peer(host, portno);
+	//char* response = (char *) malloc((BUFFER_SIZE*2) * sizeof(char * )) ;
+	char* response = (char *) malloc((BUFFER_SIZE*2)) ;
+	bzero(response,BUFFER_SIZE*2);
+	char buffer[BUFFER_SIZE*2];
+	pair<string, int*> host_port = get_hostname_port(); //extract info from self context
+	if(*peer_addr_struct.sockfd > 0){
+    	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);
+    	//send command to other peer
+		response = communicate_with_peer(*peer_addr_struct.sockfd, buffer, BUFFER_SIZE*2);
 	}
 	else
 		sprintf(response, "Unable to connect to the peer: [%s:%d]. Make sure it is up.", host, *portno); 

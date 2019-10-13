@@ -60,10 +60,12 @@ typedef struct chunk_info
 #define BUFFER_SIZE 512*1024
 
 pair<int,char*> get_msg(string);
+pair<int,char*> get_msg2(string s);
 int write_msg(int, string);
 int write_msg_line(int* fd, string msg_str);
 char* clone(char* orig);
 char* clone2(char* orig, int size);
+char* clone3(char* orig, int size);
 void error(const char *msg);
 string get_time();
 string get_time_compact();
@@ -75,6 +77,7 @@ string get_hash_digest(char* str1);
 int* open_file(string dir_path, string file_name);
 void write_to_file(string dir_path, string file_name, string content);
 char* read_from_file(string dir_path, string file_name);
+char* read_from_file_large_data(string dir_path, string file_name);
 char* read_piece_data_from_file(string file_name, int piece_idx, int piece_size);
 void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, char* piece_data);
 void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, char* piece_data);

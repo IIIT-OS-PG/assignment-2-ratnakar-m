@@ -43,6 +43,7 @@ extern vector<tracker> trackers;
 extern struct peer_ctx peer_context; //"peer_context" stores peer_ctx of self
 peer_ctx connect_peer(char* host, int* port); //connect to other peers and get their context
 char* send_cmd_to_peer(char* peer_addr, char* command);
+char* send_cmd_to_peer_large_data(char* peer_addr, char* command);
 Value get_pieces_info(char* peer_addr, char* file_name);
 char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size);
 
@@ -52,7 +53,7 @@ void build_initial_pieces_info_file(string file_name, string group_id, int& tota
 void update_pieces_info(string file_path, int piece_idx, int piece_size, string piece_sha1, string from_peer);
 unordered_map<string, string> piece_selection(Value file_info_root, piece_info_struct &piece_info_ctx);
 
-char* serve_command(char* command_line, int* logfd);
+pair<int,char*> serve_command(char* command_line, int* logfd);
 bool piece_info_exists(char* full_path);
 
 //extern connected_tracker tracker_context;

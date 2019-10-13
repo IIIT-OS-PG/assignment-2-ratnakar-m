@@ -144,9 +144,12 @@ char * manage_menu() {
 					}
 					else{
 						char* file_meta = build_metadata_for_tracker(base_name, group_id, file_info, chunks);
+						cout << "Content to upload" << endl;
+						cout << file_meta << endl;
 						response = upload_file((char*)base_name.c_str(), group_id, current_user, file_meta);
 						char* file_meta_cli = build_metadata_for_self(file_path, group_id, file_info, chunks);
-						cout << file_meta_cli << endl;
+						//cout << file_meta_cli << endl;
+						cout << "size: " << strlen(file_meta_cli) << endl;
 						string meta_file_name=strip_extn(base_name);
 
 						write_to_file(string("./pieces_info"), string(meta_file_name+".pieces_info"), string(file_meta_cli));

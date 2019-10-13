@@ -27,6 +27,7 @@ void *listener_handler(void * peer_ctx_struct_ptr)
        clilen = sizeof(cli_addr);
        int *newsockfd = (int *) malloc(sizeof(int));
        *newsockfd = accept(*sockfd, (struct sockaddr *) &cli_addr, &clilen);
+       //fcntl(*newsockfd, F_SETFL, O_NONBLOCK);
        if (*newsockfd < 0) 
        		write_msg_line(logfd, string("ERROR on accept"));
        struct request_ctx ctx;
@@ -62,15 +63,33 @@ void *handle_request(void * ctx_st)
     int* logfd;
     logfd = ctx.logfd;
 
-    char buffer [ BUFFER_SIZE] ; 
-    recv ( newsockfd , buffer, BUFFER_SIZE, 0);
+    char buffer [ BUFFER_SIZE*2] ; 
+    recv ( newsockfd , buffer, BUFFER_SIZE*2, 0);
 
     write_msg_line(ctx.logfd, string("echooing..."));
     write_msg_line(ctx.logfd, string(buffer));
     
-    char* command_response = serve_command(buffer,ctx.logfd);
+    pair<int,char*> command_response = serve_command(buffer,ctx.logfd);
+    //cout << "PIECES INFO: " << endl;
+    ///cout << command_response << endl;
+    //cout << "PIECES INFO COMPLETE: " << endl;
+    //cout << "*****************" << endl;
+    
+    //char* res_to_send = clone3(command_response.second, BUFFER_SIZE*2);
 
-    send ( newsockfd , command_response, BUFFER_SIZE, 0);
+    char* res_to_send = clone3(command_response.second, command_response.first);
+    //free(command_response.second);
+    cout << "PIECES INFO: " << endl;
+    cout << res_to_send << endl;
+    cout << "PIECES INFO COMPLETE: " << endl;
+    cout << "*****************" << endl;
+    cout << "BUFFERSIZE*2= " << BUFFER_SIZE*2 << endl;
+    int* size_ptr = (int *) malloc(sizeof(int));
+    *size_ptr=command_response.first;
+    //cout << strlen(res_to_send) << endl;
+    send ( newsockfd , size_ptr, sizeof(int), 0);
+    send ( newsockfd , res_to_send, command_response.first, 0);
+
     //close(newsockfd);
     pthread_exit(NULL);
 }

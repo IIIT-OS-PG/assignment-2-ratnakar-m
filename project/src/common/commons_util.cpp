@@ -91,6 +91,21 @@ char* read_from_file(string dir_path, string file_name){
     return clone(cstr);
 }
 
+char* read_from_file_large_data(string dir_path, string file_name){
+    cout << "reading from file: " << file_name<< endl;
+    struct stat st = {0};
+    if (stat(dir_path.c_str(), &st) == -1) {
+        mkdir(dir_path.c_str(), 0777);
+    }
+    string file_path=dir_path+"/"+file_name;
+    ifstream f(file_path);
+    stringstream buffer;
+    buffer << f.rdbuf();
+    const string& tmp = buffer.str();   
+    char* cstr = (char*)tmp.c_str();
+    return clone3(cstr,strlen(cstr));
+}
+
 char* read_piece_data_from_file(string file_path, int piece_idx, int piece_size){
     ifstream fl(file_path, ios::binary); 
     int seek_pos =  piece_idx*CHUNK_SIZE;
@@ -151,13 +166,13 @@ void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, 
     fclose(file_ptr);
 } 
 
-void write_piece_data_to_file3(string file_path, int piece_idx, int piece_size, char* piece_data){
-
-} 
-
-
 pair<int,char*> get_msg(string s){
     char* msg = clone((char*)s.c_str());
+    return make_pair(s.size(),msg);
+}
+
+pair<int,char*> get_msg2(string s){
+    char* msg = clone3((char*)s.c_str(), strlen((char*)s.c_str()));
     return make_pair(s.size(),msg);
 }
 
@@ -195,6 +210,13 @@ char* clone2(char* orig, int size){ //make sure size <=BUFFER_SIZE
         g++;
     }
 
+    return cl;
+}
+
+char* clone3(char* orig, int size){ 
+    char* cl = (char *) malloc(size);
+    bzero(cl,size);
+    memcpy(cl,orig, size);
     return cl;
 }
 

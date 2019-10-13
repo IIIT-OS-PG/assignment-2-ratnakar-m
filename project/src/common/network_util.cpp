@@ -1,3 +1,4 @@
+
 #include <assign2.h>
 
 int start_service(char* host, int portno){
@@ -53,11 +54,59 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
 	//printf("[%s]\n", buffer);
 	bzero(buffer, buffersize);
 	n = recv(sockfd, buffer, buffersize,0);
+    /*cout << "RECEIVED DATA: " << buffer << endl;
+    cout << "********************COMPLETE**************************" << endl;
+    cout << "buffersize: " << buffersize << endl;*/
 
 	if (n < 0)
 		perror("ERROR reading from socket");
+    cout << "Received bytes: " << n << endl;
 	//printf("[%s]\n", buffer);
 	close (sockfd);
+
+    return buffer;
+}
+
+//for large data
+char* communicate_with_peer(int sockfd, char *buffer, int buffersize) {
+    //bzero(buffer, buffersize);
+    int n = send(sockfd, buffer, buffersize,0);
+    if (n < 0)
+        perror("ERROR writing to socket");
+    //printf("[%s]\n", buffer);
+    bzero(buffer, buffersize);
+    //n = recv(sockfd, buffer, buffersize,0);
+
+    //fcntl(sockfd, F_SETFL, O_NONBLOCK);
+    int* size_ptr = (int *) malloc(sizeof(int));
+    ssize_t m;
+    m=recv(sockfd,size_ptr,sizeof(int),0);
+    int payload_size = *size_ptr;
+    size_t len = payload_size;
+    cout << "PAYLOAD SIZE: " << payload_size << endl;
+    char *p = buffer;
+    m=0;
+    while ( len > 0 && (m=recv(sockfd,p,len,0)) > 0 ) {
+        if(m<=0)
+            break;
+        p += m;
+        len = len - (size_t)m;
+        cout << "remaining: " << len << endl;
+        cout << buffer << endl;
+    }
+    if ( len > 0 || m < 0 ) {
+        cout << "something amiss" << endl;
+    }
+
+    /*cout << "RECEIVED DATA: " << buffer << endl;
+    cout << "********************COMPLETE**************************" << endl;
+    cout << "buffersize: " << buffersize << endl;*/
+
+    if (n < 0)
+        perror("ERROR reading from socket");
+    cout << "Received bytes: " << (buffersize-len) << endl;
+    //printf("[%s]\n", buffer);
+    close (sockfd);
 
     return buffer;
 }

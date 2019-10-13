@@ -17,6 +17,8 @@ int main(int argc, char **argv) {
 	*portno = atoi(argv[2]);
 
 	*sockfd = start_service(host,*portno);
+	//fcntl(*sockfd, F_SETFL, O_NONBLOCK);
+
 	trackers = extract_tracker_info(tracker_info);
 	//print_tracker_info(trackers);
 

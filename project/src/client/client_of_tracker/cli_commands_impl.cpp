@@ -58,6 +58,7 @@ char* get_file_info(char* group_id, char* file_name, char* user_name){
 	cout << "grup: " << group_id << "file_name " << file_name << "user_name " << user_name << endl;
 	string command = string("get_file_info ")+string(group_id)+string(" ")+string(file_name)+string(" ")+string(user_name);
 	char* response = send_cmd_to_tracker((char*)command.c_str());
+	cout << "Response from tracker: " << response << endl;
 	return response;
 }
 
@@ -138,7 +139,7 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
 	    piece["piece_no"] = i;
 	    piece["piece_size"] = *chunks[i].size;
 	    piece["piece_sha1"] = chunks[i].sha1;
-	    cout << "sha1: " << chunks[i].sha1 << endl;
+	    //cout << "sha1: " << chunks[i].sha1 << endl;
 	    piece["from_peer"] = from_peer;
 
 	    pieces[to_string(i)] = piece;
@@ -149,7 +150,10 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     string meta_str = writer.write( meta );
     //cout << root << endl; //printing using the root itself
     //cout << meta_str << endl; //printing using the string of root
-    pair<int, char*> meta_msg = get_msg(meta_str);
+    cout << "**********************************" << endl;
+    pair<int, char*> meta_msg = get_msg2(meta_str);
+    cout << strlen(meta_msg.second) <<  "-> " << endl;
+    //cout << meta_msg.second << endl;
     return meta_msg.second;
 }
 

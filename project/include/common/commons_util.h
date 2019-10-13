@@ -25,6 +25,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <unordered_map>
+#include <algorithm> 
+#include <unordered_set>  
+#include <set>
+#include <iterator> 
+#include <bits/stdc++.h> 
 
 using namespace std;
 
@@ -57,6 +62,18 @@ typedef struct chunk_info
 	int* size; //size of data
 };
 
+struct mycomp_struct
+{
+	template<typename T>
+	bool operator()(const T& o, const T& t) const
+	{
+		if (o.second != t.second)
+			return o.second < t.second;
+
+		return o.first < t.first;
+	}
+};
+
 #define BUFFER_SIZE 512*1024
 
 pair<int,char*> get_msg(string);
@@ -79,5 +96,6 @@ char* read_piece_data_from_file(string file_name, int piece_idx, int piece_size)
 void write_piece_data_to_file(string file_path, int piece_idx, int piece_size, char* piece_data);
 void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, char* piece_data);
 bool does_file_exist(char* full_path);
+Value parseJson(char* piece_info_str);
 
 #endif //COMMONS_H

@@ -77,7 +77,7 @@ void write_to_file(string dir_path, string file_name, string content){
 }
 
 char* read_from_file(string dir_path, string file_name){
-    cout << "reading from file: " << file_name<< endl;
+    //cout << "reading from file: " << file_name<< endl;
     struct stat st = {0};
     if (stat(dir_path.c_str(), &st) == -1) {
         mkdir(dir_path.c_str(), 0777);
@@ -151,8 +151,13 @@ void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, 
     fclose(file_ptr);
 } 
 
-void write_piece_data_to_file3(string file_path, int piece_idx, int piece_size, char* piece_data){
-
+Value parseJson(char* pieces_info_str){
+    Value pieces_info_root;
+    Reader reader;
+    bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
+    if(!parsing_status)
+        return "issues on parsing pieces info";
+    return pieces_info_root;
 } 
 
 

@@ -1,6 +1,8 @@
 #include <assign2.h>
 #include <client.h>
 
+void* get_pieces_info_func2(void* member_ptr);
+
 char* download_impl(char* group_id, char* file_name, char* dest_path, char* username){
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 
@@ -25,13 +27,15 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	return "error parsing the file_info content";
 
 	    int total_pieces = file_info_root["total_pieces"].asInt();
+	    int file_size = file_info_root["size"].asInt();
+	    string file_sha1 = file_info_root["file_sha1"].asString();
 
 	    if(file_info_root.isMember("seeders")){
 	    	Value seeders = file_info_root["seeders"];
 	    	vector<string> members = seeders.getMemberNames();
 	    	cout << "Seeders Info: " << endl;
 	    	int thread_count = members.size();
-	    	int thread;
+	    	int curr_thread = 0;
 	    	pthread_t* thread_handles = (pthread_t*) malloc(thread_count*sizeof(pthread_t));
 
 	    	
@@ -42,60 +46,74 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	    	unordered_map<string, int*> piece_info_stats;
 	    	piece_info_ctx.piece_info_stats = &piece_info_stats;
 
-	    	unordered_map<string, Value*> pieces_roots;
-	    	piece_info_ctx.pieces_roots = &pieces_roots;
+	    	unordered_map<string, Value> pieces_roots;
+	    	//piece_info_ctx.pieces_roots = &pieces_roots;
 
 	    	unordered_map<string, Value> pieces_roots_val;
+	    	unordered_map<string, Value> seeders_pieces_map;
 	    	piece_info_ctx.pieces_roots_val = &pieces_roots_val;
 	    	cout << "MEMBERS SIZE: " << members.size() << endl;
+	    	//vector<pair<char*,piece_info_struct*>> thread_inputs;
+	    	vector<pair<char*,char*>> thread_inputs;
+	    	for(string member : members){
+	    		string data = member+string("$")+string(file_name);
+	    		char* pi = (char *)malloc(BUFFER_SIZE);
+    			bzero(pi,BUFFER_SIZE);
+	    		pair<char*,char*> p = make_pair(clone((char*)data.c_str()), pi);
+	    		thread_inputs.push_back(p);
+	    	}
 	    	for(int i=0; i<members.size(); i++)
 	    	{
 	    		//2. get chunks info from seeders (peers)
 	    		//separate threads?
-	    		piece_info_ctx.member=members[i];
+	    		piece_info_ctx.member=string(members[i]);
 	    		cout << "MEMBER: " << members[i] << endl;
-	    		pthread_create(&thread_handles[thread], NULL, get_pieces_info_func, (void*) &piece_info_ctx);
-	    		thread++;
+	    		//pthread_create(&thread_handles[curr_thread], NULL, get_pieces_info_func2, (void*) (members[i].c_str()));
+	    		pthread_create(&thread_handles[curr_thread], NULL, get_pieces_info_func2, (void*) (&thread_inputs[i]));
+
+	    		//info_threads.ad 
+	    		curr_thread++;
 	    	}
 
-	    	for(thread=0; thread < thread_count; thread++)
-				pthread_join(thread_handles[thread], NULL);
+	    	//char** thread_returns = (char*) malloc(thread_count*sizeof(char*));
+	    	cout << "returned from threads" << endl;
+	    	//unordered_map<string, Value>* thread_returns = (int*) malloc(thread_count*sizeof(int));
 
-			for(int i=0; i<members.size(); i++)
-	    	{
-	    		//available pieces in the members
-	    		cout << "size: " << (*piece_info_ctx.piece_info_stats).size() << endl;
-	    		cout << members[i] << ": " << *((*piece_info_ctx.piece_info_stats)[members[i]])<<endl;
-	    		cout << "file size" << ": " << (((*piece_info_ctx.pieces_roots_val)[members[i]]))["size"]<<endl;
-	    	}	 
+	    	for(curr_thread=0; curr_thread < thread_count; curr_thread++)
+			{
+				pthread_join(thread_handles[curr_thread], NULL);
+				//cout << "thread_inputs[curr_thread].first: " << thread_inputs[curr_thread].first << endl;
+				//cout << "thread_inputs[curr_thread].second: " << thread_inputs[curr_thread].second << endl;
+				char* seeder = thread_inputs[curr_thread].first;
+				char* piece_info_str = thread_inputs[curr_thread].second;
 
-	    	char* peer_addr = (char*) members[0].c_str();
-	    	int file_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["size"].asInt();
-	    	int num_pieces = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["total_pieces"].asInt();
-
-	    	FILE *file_ptr;
+				Value piece_root = parseJson(piece_info_str);
+				seeders_pieces_map[string(seeder)]=piece_root;
+				//cout << thread_returns[curr_thread] << endl;
+			}
+			FILE *file_ptr;
 	    	string full_path = string("./resources/")+string(file_name);
    			file_ptr = fopen((char*)full_path.c_str(), "w");
    			fclose(file_ptr);
+   			build_initial_pieces_info_file(string(file_name), string(group_id), total_pieces, file_size, file_sha1);
 
-   			//piece selection algorithm
-   			//maps pieces to the peers so that the download is distributed amaong peers
-   			//piece_selection(members, )
-   			piece_selection(file_info_root,piece_info_ctx);
-   			string file_sha1=file_info_root["file_sha1"].asString();
-   			build_initial_pieces_info_file(string(file_name), string(group_id), num_pieces, file_size, file_sha1);
 
-	    	for(int i=0; i<num_pieces; i++){
+			unordered_map<string, string>  piece_seeder_select_map = piece_selection(seeders_pieces_map);
+			for ( auto it = piece_seeder_select_map.begin(); it != piece_seeder_select_map.end(); ++it )
+			{
+				string piece_idx = it->first;
+				string peer_addr = it->second;
+				Value piece_root = seeders_pieces_map[peer_addr];
+				int piece_size = piece_root["pieces"][piece_idx]["piece_size"].asInt();
+				string piece_sha1 = piece_root["pieces"][piece_idx]["piece_sha1"].asString();
 
-	    		//cout << (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)] << endl;
-	    		int piece_size = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_size"].asInt();
-	    		string piece_sha1 = (((*piece_info_ctx.pieces_roots_val)[members[0]]))["pieces"][to_string(i)]["piece_sha1"].asString();
-	    		//cout << i << "th index - piece size: " << piece_size << endl;
-	    		download_and_write_piece_data(peer_addr, file_name, i, piece_size, piece_sha1);
-	    	}
+				cout << piece_idx <<", " << piece_size << ", " << piece_sha1 << endl;
+				download_and_write_piece_data((char*)peer_addr.c_str(), file_name, atoi((char*)piece_idx.c_str()), piece_size, piece_sha1);
+			}
+			pair<string, int*> host_port=get_hostname_port();
+	        string my_addr= host_port.first+string(":")+to_string(*host_port.second);
 
-	    	char* res = update_seeders(file_name, "localhost:7777");
-
+			char* res = update_seeders(file_name, (char*)my_addr.c_str());
 	    }
 	}
 
@@ -111,41 +129,119 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	return response;
 }
 
-unordered_map<string, string> piece_selection(Value file_info_root, piece_info_struct &piece_info_ctx){
-	cout <<"PIECE SELECTIO ALGO" << endl;
-	unordered_map<string, Value> seeders_pieces_info_map = *piece_info_ctx.pieces_roots_val;
-	unordered_map<string, pair<vector<int>,Value>> seeders_pieces_map;
-	if(file_info_root.isMember("seeders")){
-    	Value seeders_json = file_info_root["seeders"];
-    	vector<string> seeders = seeders_json.getMemberNames();
-    	for(string seeder : seeders){
-    		Value piece_info = seeders_pieces_info_map[seeder]["pieces"];
-    		vector<string> pieces_idx = piece_info.getMemberNames();
-    		vector<int> pieces_idx_int;
-    		for(string piece_str : pieces_idx){
-    			pieces_idx_int.push_back(atoi(piece_str.c_str()));
-    		}
-    		pair<vector<int>,Value> p = make_pair(pieces_idx_int, piece_info);
-    		seeders_pieces_map[seeder]=p;
-    		//cout << "address: " << piece_info["address"] << endl;
-    	}
-    	
-    	for ( auto it = seeders_pieces_map.begin(); it != seeders_pieces_map.end(); ++it )
-    	{
-    		string seeder = it->first;
-    		pair<vector<int>,Value> p = it->second;
-    		vector<int> available_pieces = p.first;
-    		cout << "*************printing available pieces in seeder: " << seeder << "****************" << endl;
-    		for (vector<int>::iterator it = available_pieces.begin() ; it != available_pieces.end(); ++it)
-    				cout << *it << " ";
-    		cout << endl;
+unordered_map<string, string> piece_selection(unordered_map<string, Value> seeders_pieces_map){
+	unordered_map<string, vector<int>> seeders_avl_pieces_map;
+	for ( auto it = seeders_pieces_map.begin(); it != seeders_pieces_map.end(); ++it )
+	{
+		string seeder = it->first;
+		Value pieces_root  = it->second;
+		cout << "FROM ADDRESS: " << pieces_root["address"] << endl;
 
-    	}
-    	
+		Value piece_info = pieces_root["pieces"];
+		vector<string> pieces_idx = piece_info.getMemberNames();
+		vector<int> pieces_idx_int;
+		for(string piece_str : pieces_idx){
+			pieces_idx_int.push_back(atoi(piece_str.c_str()));
+		}
+		seeders_avl_pieces_map[seeder]=pieces_idx_int;
 	}
-    unordered_map<string, string> m;
-	return m;
+
+	unordered_set <int> pieces_set ; 
+	unordered_map<int,int> count_map; //piece_id & count mapusesfule to find rarest pieces
+	unordered_map<int,set<string>> piece_avl_seeders_map;//piece_id and available seeders
+
+	for ( auto it = seeders_avl_pieces_map.begin(); it != seeders_avl_pieces_map.end(); ++it )
+	{
+		string seeder = it->first;
+		vector<int> available_pieces = it->second;
+
+		for (int i=0; i<available_pieces.size(); i++) 
+        {
+        	pieces_set.insert(available_pieces[i]); 
+        	if (count_map.find(available_pieces[i]) == count_map.end()){ //if not found; set count to 1
+        		count_map[available_pieces[i]]=1;
+        	}
+        	else{ //if found increment count
+        		count_map[available_pieces[i]]=count_map[available_pieces[i]]+1;
+        	}
+        	if (piece_avl_seeders_map.find(available_pieces[i]) == piece_avl_seeders_map.end()){ //if not found; set add seeder
+        		set<string> sdrs_set;
+        		sdrs_set.insert(seeder);
+        		piece_avl_seeders_map[available_pieces[i]]=sdrs_set;
+        	}
+        	else{ //if found appened to seeders list
+        		piece_avl_seeders_map[available_pieces[i]].insert(seeder);
+        	}
+        }
+		
+		/*cout << "*************printing available pieces in seeder: " << seeder << "****************" << endl;
+		for (vector<int>::iterator it = available_pieces.begin() ; it != available_pieces.end(); ++it)
+				cout << *it << " ";
+		cout << endl;*/
+	}
+	cout << "SET SIZE: " << pieces_set.size() << endl; 
+
+	// construct pairs with the rare piece first
+	// <piece_id,count>
+	set<pair<int,int>, mycomp_struct> rare_first_set(count_map.begin(), count_map.end());
+	cout << "RAREST ORDER SET SIZE: " << rare_first_set.size() << endl; 
+
+	//choose the pieces by rarest first
+	//choose the seeders with less load
+	//min heap of seeders 	: seeders with less load so far will come on top
+	//heap will have seeders and the count of pieces allocated so far
+	//seeder with less allocation of pieces will come on top
+
+	priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>> > min_load_heap;
+	for ( auto it = seeders_avl_pieces_map.begin(); it != seeders_avl_pieces_map.end(); ++it )
+	{
+		string seeder = it->first;
+		vector<int> available_pieces = it->second;
+		pair<int, string> p = make_pair(0,seeder);
+		min_load_heap.push(p);
+	}
+
+	cout << "SIZE of min heap: " << min_load_heap.size() << endl; 
+	set<pair<int,int>, mycomp_struct> :: iterator itr;
+	unordered_map<string, string> psm;
+	for (itr = rare_first_set.begin(); itr != rare_first_set.end(); ++itr) 
+    { 
+    	pair<int,int> item = *itr;
+    	int next_rare_piece = item.first;
+
+    	cout << item.first << " -> " << item.second << endl;
+    	pair<int, string> p = min_load_heap.top();
+    	min_load_heap.pop();
+    	string probable_seeder_for_this_piece = p.second;
+    	vector<int> avl_pieces = seeders_avl_pieces_map[probable_seeder_for_this_piece];
+    	if (count(avl_pieces.begin(), avl_pieces.end(), next_rare_piece))
+    	{
+    		cout << "found " << next_rare_piece << endl;
+    		psm[to_string(next_rare_piece)]=probable_seeder_for_this_piece;
+    		p.first = p.first + 1;
+    		min_load_heap.push(p); //push back after incrementing
+    	}
+    }
+
+    cout << "ASSIGNED SEEDERS" << endl;
+	for ( auto it = psm.begin(); it != psm.end(); ++it )
+	{
+		string piece_idx = it->first;
+		string seeder = it->second;
+		cout << "piece idx: " << piece_idx << " -> " << "seeder: " << seeder << endl;
+	}
+	return psm;
 }
+
+void* get_pieces_info_func2(void* p_ptr){
+	pair<char*,char*> p = *(pair<char*,char*>*)p_ptr;
+	char* peer_addr = strtok(p.first,"$");
+	char* file_name = strtok(NULL,"$");
+	char* pieces_info_str = get_pieces_info_str(clone(peer_addr), clone(file_name));
+    memcpy(p.second,pieces_info_str,strlen(pieces_info_str));
+}
+
+
 
 void* get_pieces_info_func(void* pieces_meta_holder){
 	piece_info_struct piece_info_ctx = *((piece_info_struct*) pieces_meta_holder);
@@ -158,31 +254,20 @@ void* get_pieces_info_func(void* pieces_meta_holder){
 	Value pieces_info = get_pieces_info(clone(member), clone(filename));
 	int* available_pieces = (int*) malloc(1*sizeof(int));
 	*available_pieces = pieces_info["available_pieces"].asInt();
-	cout << "available pieces: " << *available_pieces << endl;
+	cout << "available pieces: (" <<member << ") " <<*available_pieces << endl;
 	(*piece_info_ctx.piece_info_stats)[member_str]=available_pieces;
 	(*piece_info_ctx.pieces_roots)[member_str]=&pieces_info;
 	(*piece_info_ctx.pieces_roots_val)[member_str]=pieces_info;
+
+	//return (void*) pieces_info;
 }
 
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1){
-	//cout << "peer addr: " << peer_addr << endl;
-	char* piece_data = 
-		download_piece(clone(peer_addr), file_name,piece_idx,piece_size);
-	
-	
-
+	char* piece_data = download_piece(clone(peer_addr), file_name,piece_idx,piece_size);
 	string sha1_of_download_piece =  get_hash_digest(piece_data);
-
-	/*cout << "-----------------------------" << endl;
-	cout << sha1 << endl;
-	cout << sha1_of_download_piece << endl;
-	cout << "-----------------------------" << endl;*/
-	//cout << piece_data << endl;
 	string full_path = string("./resources/")+string(file_name);
 	string piece_file_name = strip_extn(file_name);
-	
 	write_piece_data_to_file2(full_path, piece_idx, piece_size, piece_data);
-
 	update_pieces_info(string(piece_file_name), piece_idx, piece_size, sha1, string(peer_addr));
 }
 

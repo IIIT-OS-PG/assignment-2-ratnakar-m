@@ -179,7 +179,7 @@ char* update_seeders(char* file_name, char* seeder_addr){
 	StyledWriter writer;
     file_info_str = writer.write( file_info_root );
     cout << file_info_root << endl;
-	write_to_file(string("./metadata"), string(base_name+".meta"), file_info_str);
+	write_to_file(string("./metadata"), string(meta_file_name+".meta"), file_info_str);
 
 
 	cout << "updated seeders" << endl;

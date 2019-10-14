@@ -125,7 +125,7 @@ void *handle_request2(void * ctx_st)
         //static_cast<char*>(static_cast<void*>(&x));
         int n=send ( newsockfd , payload_size, 4, 0);
         cout << "Paylod Bytes Sent: " << n << endl;
-        cout << "Response Size Declaration: " << payload_size << endl;
+        cout << "Response Size Declaration: " << *((int*)payload_size )<< endl;
         size_t len = response_length;
         char *p = command_response;
         n=0;

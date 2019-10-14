@@ -34,7 +34,13 @@ char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_
     bzero(mybuff,piece_size);
     memcpy(mybuff,piece_data, piece_size);
 	//return clone2(piece_data, piece_size);
-	return mybuff;
+	if(piece_idx==1)
+    {
+    	cout << "********************peer_com.download_piece()************************** " << endl;
+    	cout << "************************************************************************ " << endl;
+    	cout << mybuff << endl;
+    }
+	return piece_data;
 }
 
 char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size, int piece_idx) {
@@ -60,6 +66,12 @@ char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size, int piec
 	char* mybuff = (char *)malloc(piece_size);
     bzero(mybuff,piece_size);
     memcpy(mybuff,response, piece_size);
+    if(piece_idx==1)
+    {
+    	cout << "****************************peer_com.send_cmd_to_peer2()**************************** " << endl;
+    	cout << "************************************************************************ " << endl;
+    	cout << mybuff << endl;
+    }
 	return mybuff;   
 }
 

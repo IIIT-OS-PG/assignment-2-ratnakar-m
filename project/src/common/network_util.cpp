@@ -79,7 +79,8 @@ char* communicate_with_server2(int sockfd, char *buffer, int buffersize,  int pi
 
     cout << "PAYLOAD LENGTH TO RECEIVE: " << *pl << endl;
 
-    char piece_data[piece_size];
+    char* piece_data = (char *)malloc(piece_size);
+    bzero(piece_data,piece_size);
     //size_t len = sizeof(piece_data);
     int len = *pl;
     char *p = piece_data;
@@ -97,8 +98,8 @@ char* communicate_with_server2(int sockfd, char *buffer, int buffersize,  int pi
     close (sockfd);
     cout << "BYTES RECEIVED: " << (*pl - len) << endl;
     write_to_file("./debug", to_string(piece_idx)+"_"+to_string((*pl - len))+"_of_"+to_string(piece_size)+string(".txt"), string(piece_data));
-
-    //cout << piece_data << endl;
+    if(piece_idx==1)
+        cout << piece_data << endl;
     return piece_data;
 }
 

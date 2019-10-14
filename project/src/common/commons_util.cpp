@@ -146,6 +146,7 @@ void write_piece_data_to_file2(string file_path, int piece_idx, int piece_size, 
     cout << "PIECE SIZE: " << piece_size << " Filepath: " << file_path<< endl;
     int written_c = fwrite(mybuff, 1, piece_size, file_ptr);;
     //int written_c = fwrite(piece_data, 1, piece_size, file_ptr);
+    //cout << "DATA WIRTING" << mybuff << endl;
     cout << "WRITTEN SIZE: " << written_c << endl; 
     fflush(file_ptr);
     fclose(file_ptr);

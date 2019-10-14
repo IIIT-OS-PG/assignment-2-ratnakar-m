@@ -62,6 +62,26 @@ char* communicate_with_server(int sockfd, char *buffer, int buffersize) {
     return buffer;
 }
 
+char* communicate_with_server2(int sockfd, char *buffer, int buffersize,  int piece_size, int piece_idx) {
+    //bzero(buffer, buffersize);
+    int n = send(sockfd, buffer, buffersize,0);
+    if (n < 0)
+        perror("ERROR writing to socket");
+    //printf("[%s]\n", buffer);
+    bzero(buffer, buffersize);
+    n = recv(sockfd, buffer, buffersize,0);
+
+    if (n < 0)
+        perror("ERROR reading from socket");
+    //printf("[%s]\n", buffer);
+    close (sockfd);
+
+    write_to_file("./debug", to_string(piece_idx)+"_"+to_string(n)+"_of_"+to_string(piece_size)+string(".txt"), string(buffer));
+
+
+    return buffer;
+}
+
 char* communicate_with_server_one_way(int sockfd, char *buffer, int buffersize) {
     //bzero(buffer, buffersize);
     int n = send(sockfd, buffer, buffersize,0);

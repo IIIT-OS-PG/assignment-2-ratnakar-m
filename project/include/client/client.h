@@ -43,7 +43,7 @@ extern vector<tracker> trackers;
 extern struct peer_ctx peer_context; //"peer_context" stores peer_ctx of self
 peer_ctx connect_peer(char* host, int* port); //connect to other peers and get their context
 char* send_cmd_to_peer(char* peer_addr, char* command);
-char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size);
+char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size, int piece_idx);
 Value get_pieces_info(char* peer_addr, char* file_name);
 char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size);
 

@@ -69,7 +69,7 @@ void *handle_request(void * ctx_st)
     write_msg_line(ctx.logfd, string(buffer));
     
     char* command_response = serve_command(buffer,ctx.logfd);
-    cout << "PIECE INFO SENT: " << endl;
+    cout << "PIECE INFO SENT (len): "<< strlen(command_response) << endl;
     cout << command_response << endl;
     send ( newsockfd , command_response, BUFFER_SIZE, 0);
     //close(newsockfd);

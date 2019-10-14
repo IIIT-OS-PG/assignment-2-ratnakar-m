@@ -29,7 +29,7 @@ char* get_pieces_info_str(char* peer_addr, char* file_name){
 char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size){
 	string command_str = string("download_piece ") + string(file_name) + string(" ") + to_string(piece_idx) + string(" ") + to_string(piece_size);
 	pair<int,char*> command_msg = get_msg(command_str);
-	char* piece_data = send_cmd_to_peer2(peer_addr, command_msg.second,piece_size);
+	char* piece_data = send_cmd_to_peer2(peer_addr, command_msg.second,piece_size,piece_idx);
 	char* mybuff = (char *)malloc(piece_size);
     bzero(mybuff,piece_size);
     memcpy(mybuff,piece_data, piece_size);
@@ -37,7 +37,7 @@ char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_
 	return mybuff;
 }
 
-char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size) {
+char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size, int piece_idx) {
 	char* host = strtok(peer_addr, ":");
 	char* port_str = strtok(NULL, ":");
 
@@ -52,7 +52,7 @@ char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size) {
 	if(*peer_addr_struct.sockfd > 0){
     	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);
     	//send command to other peer
-		response = communicate_with_server(*peer_addr_struct.sockfd, buffer, BUFFER_SIZE);
+		response = communicate_with_server2(*peer_addr_struct.sockfd, buffer, BUFFER_SIZE, piece_size, piece_idx);
 	}
 	else
 		sprintf(response, "Unable to connect to the peer: [%s:%d]. Make sure it is up.", host, *portno); 

@@ -49,6 +49,8 @@ char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_
 
 void* get_pieces_info_func(void* piece_info_holder);
 char* get_pieces_info_str(char* peer_addr, char* file_name);
+char* get_pieces_info_serv(char* file_name);
+char* download_piece_serv(char* file_name, int piece_idx, int piece_size);
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1);
 void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1);
 void update_pieces_info(string file_path, int piece_idx, int piece_size, string piece_sha1, string from_peer);
@@ -70,6 +72,7 @@ char * manage_menu();
 void help();
 void *listener_handler(void * peer_ctx_struct_ptr);
 void *handle_request(void * ctx_st);
+void *handle_request2(void * ctx_st);
 char* send_cmd_to_tracker(char* command);
 pair<string, int*> get_hostname_port();
 

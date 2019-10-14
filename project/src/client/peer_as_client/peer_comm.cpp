@@ -97,9 +97,9 @@ peer_ctx connect_peer(char* host, int* port){
 
 	int *sockfd = (int *) malloc(sizeof(int));
 	*sockfd = -1;
-	cout <<" connecting to peer: " << host << ":" << to_string(*port) << endl;
+	//cout <<" connecting to peer: " << host << ":" << to_string(*port) << endl;
 	*peer_addr.sockfd = connect_server(host,*port);
-	cout <<" sockfd: " << *peer_addr.sockfd << endl;
+	//cout <<" sockfd: " << *peer_addr.sockfd << endl;
 	return peer_addr;
 }
 

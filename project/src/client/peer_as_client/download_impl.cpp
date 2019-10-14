@@ -266,7 +266,7 @@ void* get_pieces_info_func(void* pieces_meta_holder){
 
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1){
 	char* piece_data = download_piece(clone(peer_addr), file_name,piece_idx,piece_size);
-	cout << "PIECE DATA RECEIVED: " << piece_data << endl;
+	//cout << "PIECE DATA RECEIVED: " << piece_data << endl;
 	string sha1_of_download_piece =  get_hash_digest(piece_data);
 	string full_path = string("./resources/")+string(file_name);
 	string piece_file_name = strip_extn(file_name);

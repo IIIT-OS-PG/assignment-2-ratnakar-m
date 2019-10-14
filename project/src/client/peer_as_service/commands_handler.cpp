@@ -39,16 +39,20 @@ char* serve_command(char* command_line, int* logfd) {
 	return response;
 }
 
-char* get_pieces_info_serv(char* file_name){
+pair<int*,char*> get_pieces_info_serv(char* file_name){
 	char* response;
 	string meta_file_name=strip_extn(file_name);
 	string full_path = string("./pieces_info")+string("/")+string(meta_file_name)+string(string(".pieces_info"));	    
     bool does_file_exist = piece_info_exists((char*)full_path.c_str());
     if(!does_file_exist)
-    	response = "get_pieces_info: file does not exist";
+    {
+    	char* msg = "get_pieces_info: file does not exist";
+    	make_pair(strlen(msg),msg);
+    }
 
-	response = read_from_file(string("./pieces_info"), string(meta_file_name)+string(".pieces_info"));
-	return response;
+	pair<int*,char*> p_response = read_from_file_ld(string("./pieces_info"), string(meta_file_name)+string(".pieces_info"));
+	
+	return p_response;
 }
 
 char* download_piece_serv(char* file_name, int piece_idx, int piece_size){

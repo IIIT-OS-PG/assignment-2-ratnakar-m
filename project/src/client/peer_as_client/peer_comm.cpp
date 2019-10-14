@@ -22,7 +22,8 @@ char* get_pieces_info_str(char* peer_addr, char* file_name){
 	string command_str = string("get_pieces_info ") + string(file_name);
 	cout << "sending request: " << command_str << endl;
 	pair<int,char*> command_msg = get_msg(command_str);
-	char* pieces_info_str = send_cmd_to_peer(peer_addr, command_msg.second);
+	//char* pieces_info_str = send_cmd_to_peer(peer_addr, command_msg.second);
+	char* pieces_info_str = send_cmd_to_peer_ld(peer_addr, command_msg.second);
 	return pieces_info_str;
 }
 
@@ -73,6 +74,41 @@ char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size, int piec
     	cout << mybuff << endl;
     }
 	return mybuff;   
+}
+
+char* send_cmd_to_peer_ld(char* peer_addr, char* command) {
+	char* host = strtok(peer_addr, ":");
+	char* port_str = strtok(NULL, ":");
+
+	int* portno=(int *) malloc(sizeof(int));
+	*portno = atoi(port_str);
+
+	peer_ctx peer_addr_struct = connect_peer(host, portno);
+	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
+	bzero(response,BUFFER_SIZE);
+	char buffer[BUFFER_SIZE];
+	pair<string, int*> host_port = get_hostname_port(); //extract info from self context
+	if(*peer_addr_struct.sockfd > 0){
+    	sprintf(buffer, "[%s:%d]=>%s",host_port.first.c_str() ,*host_port.second, command);
+    	//send command to other peer
+		response = communicate_with_server_ld(*peer_addr_struct.sockfd, buffer, BUFFER_SIZE);
+	}
+	else
+		sprintf(response, "Unable to connect to the peer: [%s:%d]. Make sure it is up.", host, *portno); 
+
+	/*char* mybuff = (char *)malloc(piece_size);
+    bzero(mybuff,piece_size);
+    memcpy(mybuff,response, piece_size);
+    if(piece_idx==1)
+    {
+    	cout << "****************************peer_com.send_cmd_to_peer2()**************************** " << endl;
+    	cout << "************************************************************************ " << endl;
+    	cout << mybuff << endl;
+    }
+	return mybuff;  */
+	cout << "(client) FILE INFO" << endl;
+      cout << response << endl;
+	return response; 
 }
 
 char* send_cmd_to_peer(char* peer_addr, char* command) {

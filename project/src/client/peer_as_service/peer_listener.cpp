@@ -101,7 +101,11 @@ void *handle_request2(void * ctx_st)
     int response_length = 0;
     if(strcmp(command, "get_pieces_info")==0) {
       char* file_name = strtok(NULL, " ");
-      command_response = get_pieces_info_serv(file_name);
+      pair<int*,char*> p_response = get_pieces_info_serv(file_name);
+      command_response = p_response.second;
+      cout << "(srver) FILE INFO" << endl;
+      cout << command_response << endl;
+      response_length = *(p_response.first);
     }
     else if(strcmp(command, "download_piece")==0) {
       char* file_name = strtok(NULL, " ");
@@ -116,9 +120,11 @@ void *handle_request2(void * ctx_st)
       response_length=piece_size;
     }
 
-    if(strcmp(command, "download_piece")==0) {
+    //if(strcmp(command, "download_piece")==0) {
+    if(true){
         cout << "*************SPECIAL ROUTE: *******************" << endl;
-        char payload_size[4];
+        //char payload_size[4];
+        int* payload_size = (int*)malloc(sizeof(int));
         memcpy(payload_size, &response_length, sizeof(response_length));
         //int x;
         //char bytes[sizeof x];

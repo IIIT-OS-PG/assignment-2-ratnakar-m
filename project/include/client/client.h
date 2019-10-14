@@ -44,12 +44,13 @@ extern struct peer_ctx peer_context; //"peer_context" stores peer_ctx of self
 peer_ctx connect_peer(char* host, int* port); //connect to other peers and get their context
 char* send_cmd_to_peer(char* peer_addr, char* command);
 char* send_cmd_to_peer2(char* peer_addr, char* command, int piece_size, int piece_idx);
+char* send_cmd_to_peer_ld(char* peer_addr, char* command);
 Value get_pieces_info(char* peer_addr, char* file_name);
 char* download_piece(char* peer_addr, char* file_name, int piece_idx, int piece_size);
 
 void* get_pieces_info_func(void* piece_info_holder);
 char* get_pieces_info_str(char* peer_addr, char* file_name);
-char* get_pieces_info_serv(char* file_name);
+pair<int*,char*>  get_pieces_info_serv(char* file_name);
 char* download_piece_serv(char* file_name, int piece_idx, int piece_size);
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1);
 void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1);

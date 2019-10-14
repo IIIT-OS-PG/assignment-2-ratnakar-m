@@ -103,6 +103,47 @@ char* communicate_with_server2(int sockfd, char *buffer, int buffersize,  int pi
     return piece_data;
 }
 
+char* communicate_with_server_ld(int sockfd, char *buffer, int buffersize) {
+    //bzero(buffer, buffersize);
+    int n = send(sockfd, buffer, buffersize,0);
+    if (n < 0)
+        perror("ERROR writing to socket");
+
+    char payload_length [4]; 
+
+    //printf("[%s]\n", buffer);
+    bzero(payload_length, 4);
+    n = recv(sockfd, payload_length, 4,0);
+
+    int* pl = (int*)payload_length;
+    printf("%d - %x\n", *pl, *pl);
+
+    cout << "PAYLOAD LENGTH TO RECEIVE: " << *pl << endl;
+
+    char* response_data = (char *)malloc(*pl);
+    bzero(response_data,*pl);
+    //size_t len = sizeof(piece_data);
+    int len = *pl;
+    char *p = response_data;
+    n=0;
+    do{
+        p += n; //move the pointer
+        n=recv(sockfd,p,len,0);
+        len = len - n;
+    }while(len > 0 & n > 0);
+
+    if ( len > 0 || n < 0 ) {
+          cout << "something amiss: l = "<<len << ", n = " << n << endl;
+    }
+    //printf("[%s]\n", buffer);
+    close (sockfd);
+    cout << "BYTES RECEIVED: " << (*pl - len) << endl;
+    /*write_to_file("./debug", to_string(piece_idx)+"_"+to_string((*pl - len))+"_of_"+to_string(piece_size)+string(".txt"), string(piece_data));
+    if(piece_idx==1)
+        cout << piece_data << endl;*/
+    return response_data;
+}
+
 char* communicate_with_server_one_way(int sockfd, char *buffer, int buffersize) {
     //bzero(buffer, buffersize);
     int n = send(sockfd, buffer, buffersize,0);

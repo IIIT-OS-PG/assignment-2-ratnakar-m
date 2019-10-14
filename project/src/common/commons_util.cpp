@@ -91,6 +91,24 @@ char* read_from_file(string dir_path, string file_name){
     return clone(cstr);
 }
 
+pair<int*,char*> read_from_file_ld(string dir_path, string file_name){
+    //cout << "reading from file: " << file_name<< endl;
+    struct stat st = {0};
+    if (stat(dir_path.c_str(), &st) == -1) {
+        mkdir(dir_path.c_str(), 0777);
+    }
+    string file_path=dir_path+"/"+file_name;
+    ifstream f(file_path);
+    stringstream buffer;
+    buffer << f.rdbuf();
+    const string& tmp = buffer.str();   
+    char* cstr = (char*)tmp.c_str();
+    int *read_size = (int *) malloc(sizeof(int));
+    //memcpy(read_size, &(buffer.str().size()), sizeof(int));
+    *read_size = buffer.str().size();
+    return make_pair(read_size,clone(cstr));
+}
+
 char* read_piece_data_from_file(string file_path, int piece_idx, int piece_size){
     ifstream fl(file_path, ios::binary); 
     int seek_pos =  piece_idx*CHUNK_SIZE;

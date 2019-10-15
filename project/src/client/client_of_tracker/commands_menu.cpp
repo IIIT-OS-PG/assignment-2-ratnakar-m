@@ -23,12 +23,14 @@ void reset_prompt() {
 }
 
 char * manage_menu() {
-	char input[500];
-	fgets(input, 500, stdin);
+	char input[1000];
+	fgets(input, 1000, stdin);
 	char * command;
-	char tempInput[500];
+	char tempInput[1000];
 	strcpy(tempInput, input);
 	command = strtok(input, "\n");
+	if(command==NULL)
+		return "";
 	command = strtok(input, " ");
 	char* response = (char *) malloc(BUFFER_SIZE * sizeof(char * )) ;
 	bzero(response,BUFFER_SIZE);
@@ -71,21 +73,33 @@ char * manage_menu() {
 		
 	} 
 	else if(strcmp(command, "join_group")==0) {
-		char* group_id = strtok(NULL, " ");
-		
-		if(group_id !=NULL)
-			response = join_group(group_id,current_user);
+
+		if(current_user!=NULL)
+		{
+			char* group_id = strtok(NULL, " ");
+			
+			if(group_id !=NULL)
+				response = join_group(group_id,current_user);
+			else
+				cout << INVALID_ARGS << endl;
+		}
 		else
-			cout << INVALID_ARGS << endl;
+			cout << "You need to login to join a group" << endl;
 
 	}
 	else if(strcmp(command, "leave_group")==0) {
-		char* group_id = strtok(NULL, " ");
-		
-		if(group_id !=NULL)
-			response = leave_group(group_id, current_user);
+		if(current_user!=NULL)
+		{
+			char* group_id = strtok(NULL, " ");
+			
+			if(group_id !=NULL)
+				response = leave_group(group_id, current_user);
+			else
+				cout << INVALID_ARGS << endl;
+		}
 		else
-			cout << INVALID_ARGS << endl;
+			cout << "You need to login to leave a group" << endl;
+
 
 	}  
 	else if(strcmp(command, "list_requests")==0) {
@@ -185,8 +199,11 @@ char * manage_menu() {
 		char* group_id = strtok(NULL, " ");
 		char* file_name = strtok(NULL, " ");
 		
+		pair<string, int*> host_port=get_hostname_port();
+	    string my_addr= host_port.first+string(":")+to_string(*host_port.second);
+
 		if(group_id !=NULL && file_name != NULL)
-			response = stop_share(group_id,file_name);
+			response = stop_share(group_id,file_name, my_addr);
 		else
 			cout << INVALID_ARGS << endl;
 

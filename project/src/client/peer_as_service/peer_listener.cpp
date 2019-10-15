@@ -83,6 +83,7 @@ void *handle_request2(void * ctx_st)
     int newsockfd = *ctx.newsockfd;
     int* logfd;
     logfd = ctx.logfd;
+    bool latest=true;
 
     char inp_buffer [ BUFFER_SIZE] ; 
     recv ( newsockfd , inp_buffer, BUFFER_SIZE, 0);
@@ -121,14 +122,10 @@ void *handle_request2(void * ctx_st)
     }
 
     //if(strcmp(command, "download_piece")==0) {
-    if(true){
-        cout << "*************SPECIAL ROUTE: *******************" << endl;
-        //char payload_size[4];
+    if(latest){
+        //cout << "*************SPECIAL ROUTE: *******************" << endl;
         int* payload_size = (int*)malloc(sizeof(int));
         memcpy(payload_size, &response_length, sizeof(response_length));
-        //int x;
-        //char bytes[sizeof x];
-        //static_cast<char*>(static_cast<void*>(&x));
         int n=send ( newsockfd , payload_size, 4, 0);
         cout << "Paylod Bytes Sent: " << n << endl;
         cout << "Response Size Declaration: " << *((int*)payload_size )<< endl;
@@ -145,9 +142,8 @@ void *handle_request2(void * ctx_st)
         if ( len > 0 || n < 0 ) {
           cout << "something amiss: l = "<<len << ", n = " << n << endl;
         }
-        //cout << command_response << endl;
-        //int n=send ( newsockfd , command_response, BUFFER_SIZE, 0);
         cout << "Total Bytes sent: " << (response_length-len) << " of " << response_length << endl;
+        free(command_response);
     }
     else{
       cout << "*************REGULAR ROUTE: *******************" << endl;

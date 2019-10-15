@@ -114,18 +114,11 @@ char* download_impl(char* group_id, char* file_name, char* dest_path, char* user
 	        string my_addr= host_port.first+string(":")+to_string(*host_port.second);
 
 			char* res = update_seeders(file_name, (char*)my_addr.c_str());
+			cout << "Downloaded to location: " << "./resources/" << string(file_name) << endl;
+
+			update_status(file_name);
 	    }
 	}
-
-		
-
-	//step2: connect to those peers and get the meta info about the available chunks with them
-		//does the chunks availability with the peers needs to be at tracker or at the peers?
-	//step3: piece selection algorithm to select the peers for the pieces
-	//step4: send request to those peers to get the pieces
-	
-	//step5: update the tracker with the piece availaility which are freshely downloaded
-
 	return response;
 }
 
@@ -324,5 +317,26 @@ void build_initial_pieces_info_file(string file_name, string group_id, int& tota
     string base_name = get_base_name(string(file_name));
     string piece_file_name = strip_extn(base_name);
     write_to_file(string("./pieces_info"), string(piece_file_name+".pieces_info"), pieces_info_str);
+
+}
+
+void update_status(string file_path){
+	string base_name = get_base_name(string(file_path));
+	string piece_file_name = strip_extn(base_name);
+	string pieces_info_str = read_from_file(string("./pieces_info"), string(piece_file_name)+string(".pieces_info"));
+	Value pieces_info_root;
+	Reader reader;
+
+	bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
+	/*if(!parsing_status)
+	    	return "error parsing pieces info content";*/
+
+	int available_pieces = pieces_info_root["available_pieces"].asInt();
+	available_pieces++;
+	pieces_info_root["status"]="COMPLETED";
+
+	StyledWriter writer;
+    pieces_info_str = writer.write( pieces_info_root );
+	write_to_file(string("./pieces_info"), string(piece_file_name+".pieces_info"), pieces_info_str);
 
 }

@@ -55,6 +55,7 @@ char* download_piece_serv(char* file_name, int piece_idx, int piece_size);
 void download_and_write_piece_data(char* peer_addr, char* file_name, int piece_idx, int piece_size, string sha1);
 void build_initial_pieces_info_file(string file_name, string group_id, int& total_pieces, int& file_size, string file_sha1);
 void update_pieces_info(string file_path, int piece_idx, int piece_size, string piece_sha1, string from_peer);
+void update_status(string file_path);
 //unordered_map<string, string> piece_selection(Value file_info_root, piece_info_struct &piece_info_ctx);
 unordered_map<string, string> piece_selection(unordered_map<string, Value> seeders_pieces_map);
 char* serve_command(char* command_line, int* logfd);

@@ -106,7 +106,11 @@ pair<int*,char*> read_from_file_ld(string dir_path, string file_name){
     int *read_size = (int *) malloc(sizeof(int));
     //memcpy(read_size, &(buffer.str().size()), sizeof(int));
     *read_size = buffer.str().size();
+    //pair<int,char*> p_r = clone3(tmp);
+    //*read_size = p_r.first;
+
     return make_pair(read_size,clone(cstr));
+    //return make_pair(read_size,p_r.second);
 }
 
 char* read_piece_data_from_file(string file_path, int piece_idx, int piece_size){
@@ -220,6 +224,14 @@ char* clone2(char* orig, int size){ //make sure size <=BUFFER_SIZE
     }
 
     return cl;
+}
+
+pair<int,char*> clone3(string str){
+    int l = str.size();
+    char* mybuff = (char *)malloc(l);
+    memset(mybuff, 0, l);
+    strncpy(mybuff, (char*)str.c_str(), l - 1);
+    make_pair(l,mybuff);
 }
 
 char* clone(char* orig){

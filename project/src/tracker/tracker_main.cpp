@@ -4,8 +4,17 @@
 void *handle_request(void * ctx_st);
 
 int main(int argc, char **argv) {
-	int sockfd = start_service("localhost",9999);
-	cout << "tracker listening on port 9999" << endl;
+
+    if (argc < 2) {
+       cout << "Usage: tracker <port>" << endl;
+       exit(1);
+    }
+
+    int *tracker_portno = (int *) malloc(sizeof(int));
+    *tracker_portno = atoi(argv[1]);
+
+	int sockfd = start_service("localhost",*tracker_portno);
+	cout << "tracker listening on port: " << *tracker_portno << endl;
 	while(true){
         struct sockaddr_in cli_addr;
         socklen_t clilen;

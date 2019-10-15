@@ -14,7 +14,7 @@ int start_service(char* host, int portno){
     serv_addr.sin_port = htons(portno); //short int to n/w byte order
 
     pair<string,string> hostname_ip = get_hostname_ip();
-    cout << "hostname: " << hostname_ip.first << ", ip: " << hostname_ip.second << endl;
+    //cout << "hostname: " << hostname_ip.first << ", ip: " << hostname_ip.second << endl;
 
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
        error("error on binding");

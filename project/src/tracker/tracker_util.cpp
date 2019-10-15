@@ -81,6 +81,14 @@ bool request_exists(char* group_id, char* username){
 	return request_exists;
 }
 
+bool tracker_file_exists(char* full_path){
+	struct stat st = {0};
+    if (stat(full_path, &st) == -1) {
+        return false;
+    }
+	return true;
+}
+
 char* get_groups(){
 	ifstream infile("groups.txt");
 	string line;

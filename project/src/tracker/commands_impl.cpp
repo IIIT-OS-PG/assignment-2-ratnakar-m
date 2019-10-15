@@ -186,14 +186,35 @@ char* update_seeders(char* file_name, char* seeder_addr){
 	return "updated seeders";
 }
 
+//not required at tracker side
 char* show_downloads(){
 	cout << "downloads shown..." << endl;
 	return SUCCESS_MSG;
 }
-char* stop_share(char* group_id, char* file_name){
-	cout << "group_id: " << group_id << "file_name: " << file_name << endl;
-	cout << "stopped sharing" << endl;
-	return SUCCESS_MSG;
+char* stop_share(char* group_id, char* file_name, string seeder_addr){
+	string base_name = get_base_name(string(file_name));
+	string meta_file_name = strip_extn(base_name);
+	string full_path = string("./metadata/")+string(meta_file_name)+string(".meta");
+	string file_info_str = read_from_file(string("./metadata"), string(meta_file_name)+string(".meta"));
+	Value file_info_root;
+	Reader reader;
+
+	bool parsing_status = reader.parse( file_info_str, file_info_root );
+	if(!parsing_status)
+	    	return "error parsing file info content";
+
+	Value seeders_list = file_info_root["seeders"];
+    seeders_list.removeMember(seeder_addr);
+    cout << "Removed " << string(seeder_addr) << " from seeders list" << endl;
+
+	file_info_root["seeders"]=seeders_list;
+
+	StyledWriter writer;
+    file_info_str = writer.write( file_info_root );
+    //cout << file_info_root << endl;
+	write_to_file(string("./metadata"), string(meta_file_name+".meta"), file_info_str);
+
+	return "stopped sharing";
 }
 char* logout(char* username){
 	cout << string(username) << " logged out" << endl;

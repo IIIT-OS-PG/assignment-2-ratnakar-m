@@ -30,6 +30,7 @@
 #include <set>
 #include <iterator> 
 #include <bits/stdc++.h> 
+#include <dirent.h>
 
 using namespace std;
 
@@ -81,6 +82,7 @@ int write_msg(int, string);
 int write_msg_line(int* fd, string msg_str);
 char* clone(char* orig);
 char* clone2(char* orig, int size);
+pair<int,char*> clone3(string str);
 void error(const char *msg);
 string get_time();
 string get_time_compact();

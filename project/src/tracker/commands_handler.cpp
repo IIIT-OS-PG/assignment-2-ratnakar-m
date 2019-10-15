@@ -108,9 +108,11 @@ char* serve_command(char* command_line) {
 	else if(strcmp(command, "stop_share")==0) {
 		char* group_id = strtok(NULL, " ");
 		char* file_name = strtok(NULL, " ");
+		char* my_addr_arr = strtok(NULL, " ");
+		string my_addr = string(my_addr_arr);
 		
 		if(group_id !=NULL && file_name != NULL)
-			return stop_share(group_id,file_name);
+			return stop_share(group_id,file_name,my_addr);
 	}
 	else if(strcmp(command, "logout")==0) {
 		char* username = strtok(NULL, " ");

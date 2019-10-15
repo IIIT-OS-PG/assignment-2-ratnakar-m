@@ -73,12 +73,54 @@ char* download_file(char* group_id, char* file_name, char* destination_path){
 	return response;
 }
 char* show_downloads(){
-	string command = string("show_downloads ");
-	char* response = send_cmd_to_tracker((char*)command.c_str());
-	return response;
+	struct dirent *entry = nullptr;
+    DIR *dp = nullptr;
+    dp = opendir("./pieces_info");
+    string response = "";
+    if (dp != nullptr) {
+        while ((entry = readdir(dp))){
+        	if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+            {
+            	string full_path=string("./pieces_info/")+string(entry->d_name);
+            	pair<int*,char*> p_response = read_from_file_ld(string("./pieces_info"), string(entry->d_name));
+            	char* pieces_info_str = p_response.second;
+            	Value pieces_info_root;
+				Reader reader;
+				//cout << pieces_info_str << endl;
+				bool parsing_status = reader.parse( pieces_info_str, pieces_info_root );
+			    if(!parsing_status)
+    				return "issues on parsing pieces info";
+    			string status = pieces_info_root["status"].asString();
+    			string group = pieces_info_root["group"].asString();
+    			string filename = pieces_info_root["name"].asString();
+    			filename = get_base_name(filename);
+    			if(status=="COMPLETED")
+    			{
+    				response = response + string("[C] ") + group + string(" ") + filename + "\n";
+    			}
+    			if(status=="PROGRESS")
+    			{
+    				response = response + string("[D] ") + group + string(" ") + filename + "\n";
+    			}
+
+    			//cout << response << endl;
+            }
+        }
+    }
+
+    closedir(dp);
+    int l = response.size();
+    char* mybuff = (char *)malloc(l);
+    memset(mybuff, 0, l);
+    strncpy(mybuff, (char*)response.c_str(), l - 1);
+
+	return mybuff;
 }
-char* stop_share(char* group_id, char* file_name){
-	string command = string("stop_share ")+string(group_id)+string(" ")+string(file_name);
+char* stop_share(char* group_id, char* file_name, string my_addr){
+    //pair<string, int*> host_port=get_hostname_port();
+    //string my_addr= host_port.first+string(":")+to_string(*host_port.second);
+
+	string command = string("stop_share ")+string(group_id)+string(" ")+string(file_name)+string(" ")+my_addr;
 	char* response = send_cmd_to_tracker((char*)command.c_str());
 	return response;
 }
@@ -149,8 +191,16 @@ char* build_metadata_for_self(string file_name, string group_id, pair<string,int
     string meta_str = writer.write( meta );
     //cout << root << endl; //printing using the root itself
     //cout << meta_str << endl; //printing using the string of root
-    pair<int, char*> meta_msg = get_msg(meta_str);
-    return meta_msg.second;
+
+    int l = meta_str.size();
+    char* mybuff = (char *)malloc(l);
+    memset(mybuff, 0, l);
+    strncpy(mybuff, (char*)meta_str.c_str(), l - 1);
+    //cout << mybuff << endl; 
+	//pair<int, char*> meta_msg = get_msg(meta_str);
+    //return meta_msg.second;
+
+    return mybuff;
 }
 
 void add_piece(Value& document, int idx, int size, string sha1, string from_peer){}

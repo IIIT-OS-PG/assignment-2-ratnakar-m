@@ -31,6 +31,7 @@ pair<string,int> split_chunks(string file_path, vector<chunk_info>& chunks) {
         
         
     } while (!inStream.eof()) ;
+    result = get_hash_digest((char*)result.c_str());
     return make_pair(result,total_size);
 }
 

@@ -1,0 +1,97 @@
+{
+   "address" : "localhost:8888",
+   "available_pieces" : 14,
+   "file_sha1" : "aabd95452561a875687afd995e4a5381a2bd9248716c15606665b8a288d9cb193a6d52d6e37d84d8a1cc93a3fe5bcf9153ebf6629ed0f0437b3390717f119a4e2c404f39337cc5ad59d2aefb65393db63af2e3e5c3898c1bdd1bb7393167a216e85b538089aa6e583465459963ddcd6540b374c1a07d4d9f235dfe6ec091f54eac6cddec14ae46d5a6995511192a6163412b66e37afaab4a4b4f2b5b49d4c1c263249678fa4d1a5e7c1f75ed9fa3819843081dec96d78b3b3327e43f26a5a9adc39dd34eefabff5a4642ade1332bf4321f1c16d026879a07beb534af7f05bc27e8624aab4f32ce8769b6ba9e960e0f7edb84e87317e773daf6a0cb3f64d2f3faf97ad866124f7163c9d21af6781d4f4b37c49b47dde8446a",
+   "group" : "arts_sci",
+   "name" : "./resources/os.pdf",
+   "pieces" : {
+      "0" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 0,
+         "piece_sha1" : "aabd95452561a875687afd995e4a5381a2bd9248",
+         "piece_size" : 524288
+      },
+      "1" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 1,
+         "piece_sha1" : "716c15606665b8a288d9cb193a6d52d6e37d84d8",
+         "piece_size" : 524288
+      },
+      "10" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 10,
+         "piece_sha1" : "4642ade1332bf4321f1c16d026879a07beb534af",
+         "piece_size" : 524288
+      },
+      "11" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 11,
+         "piece_sha1" : "7f05bc27e8624aab4f32ce8769b6ba9e960e0f7e",
+         "piece_size" : 524288
+      },
+      "12" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 12,
+         "piece_sha1" : "db84e87317e773daf6a0cb3f64d2f3faf97ad866",
+         "piece_size" : 524288
+      },
+      "13" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 13,
+         "piece_sha1" : "124f7163c9d21af6781d4f4b37c49b47dde8446a",
+         "piece_size" : 222360
+      },
+      "2" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 2,
+         "piece_sha1" : "a1cc93a3fe5bcf9153ebf6629ed0f0437b339071",
+         "piece_size" : 524288
+      },
+      "3" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 3,
+         "piece_sha1" : "7f119a4e2c404f39337cc5ad59d2aefb65393db6",
+         "piece_size" : 524288
+      },
+      "4" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 4,
+         "piece_sha1" : "3af2e3e5c3898c1bdd1bb7393167a216e85b5380",
+         "piece_size" : 524288
+      },
+      "5" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 5,
+         "piece_sha1" : "89aa6e583465459963ddcd6540b374c1a07d4d9f",
+         "piece_size" : 524288
+      },
+      "6" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 6,
+         "piece_sha1" : "235dfe6ec091f54eac6cddec14ae46d5a6995511",
+         "piece_size" : 524288
+      },
+      "7" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 7,
+         "piece_sha1" : "192a6163412b66e37afaab4a4b4f2b5b49d4c1c2",
+         "piece_size" : 524288
+      },
+      "8" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 8,
+         "piece_sha1" : "63249678fa4d1a5e7c1f75ed9fa3819843081dec",
+         "piece_size" : 524288
+      },
+      "9" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 9,
+         "piece_sha1" : "96d78b3b3327e43f26a5a9adc39dd34eefabff5a",
+         "piece_size" : 524288
+      }
+   },
+   "size" : 7038104,
+   "status" : "COMPLETED",
+   "total_pieces" : 14
+}
+

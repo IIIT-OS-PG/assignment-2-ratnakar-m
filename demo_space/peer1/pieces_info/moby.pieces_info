@@ -1,0 +1,25 @@
+{
+   "address" : "localhost:8888",
+   "available_pieces" : 2,
+   "file_sha1" : "d4f95711cc725de5d2b6d95e1d28d64efc009ed7d592c9cbfb999b8c9cd3f4e59c29d8f351c0f448",
+   "group" : "arts_sci",
+   "name" : "./resources/moby.txt",
+   "pieces" : {
+      "0" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 0,
+         "piece_sha1" : "d4f95711cc725de5d2b6d95e1d28d64efc009ed7",
+         "piece_size" : 524288
+      },
+      "1" : {
+         "from_peer" : "localhost:8888",
+         "piece_no" : 1,
+         "piece_sha1" : "d592c9cbfb999b8c9cd3f4e59c29d8f351c0f448",
+         "piece_size" : 134525
+      }
+   },
+   "size" : 658813,
+   "status" : "COMPLETED",
+   "total_pieces" : 2
+}
+

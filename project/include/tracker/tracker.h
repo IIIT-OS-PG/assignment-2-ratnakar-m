@@ -11,3 +11,4 @@ int  hash_code(string text);
 bool file_exists(char* group_id, char* filename);
 void append_file(string file_name, string group_id, int file_size, string file_sha1);
 char* get_files_by_group(char* group_id);
+pair<char*,int> get_tracker_info(char* tracker_path, int tracker_no);

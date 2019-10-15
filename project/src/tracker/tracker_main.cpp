@@ -5,15 +5,24 @@ void *handle_request(void * ctx_st);
 
 int main(int argc, char **argv) {
 
-    if (argc < 2) {
-       cout << "Usage: tracker <port>" << endl;
+    if (argc < 3) {
+       cout << "Usage: tracker tracker_file tracker_no" << endl;
        exit(1);
     }
 
-    int *tracker_portno = (int *) malloc(sizeof(int));
-    *tracker_portno = atoi(argv[1]);
+    char* tracker_path = argv[1];
+    char* tracker_no_str = argv[2];
+    int tracker_no = atoi(tracker_no_str);
 
-	int sockfd = start_service("localhost",*tracker_portno);
+    pair<char*,int> ti = get_tracker_info(tracker_path,tracker_no);
+
+    char* host = ti.first;
+    int port = ti.second;
+
+    int *tracker_portno = (int *) malloc(sizeof(int));
+    *tracker_portno = port;
+	//int sockfd = start_service("localhost",*tracker_portno);
+    int sockfd = start_service(host,*tracker_portno);
 	cout << "tracker listening on port: " << *tracker_portno << endl;
 	while(true){
         struct sockaddr_in cli_addr;

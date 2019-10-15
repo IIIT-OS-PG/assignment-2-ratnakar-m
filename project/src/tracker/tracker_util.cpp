@@ -89,6 +89,29 @@ bool tracker_file_exists(char* full_path){
 	return true;
 }
 
+pair<char*,int> get_tracker_info(char* tracker_path, int tracker_no){
+
+	if(!tracker_file_exists(tracker_path))
+		return make_pair((char*)"localhost",9999); //return defaualt if file does not exist
+
+	ifstream infile(tracker_path);
+	string line;
+	string groups_list = string("");
+	int i=1;
+	while (getline(infile, line))
+	{
+	    char* host = strtok((char*)line.c_str(), ":");
+	    char* port_s = strtok(NULL, ":");
+	    if(i==tracker_no)
+	    	return make_pair(host, atoi(port_s));
+	    i++;
+	}
+
+	//if it comes here, return default
+	return make_pair((char*)"localhost",9999);
+}
+
+
 char* get_groups(){
 	ifstream infile("groups.txt");
 	string line;

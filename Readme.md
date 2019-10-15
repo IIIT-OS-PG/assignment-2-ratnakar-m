@@ -53,8 +53,8 @@
 
 #### Integration aspects:
 ##### Internal APIs as part of Download scenario
-get_file_info -> API to get file information from tracker
-get_piece_info -> API to get piece information from the seeder
-download_piece -> API to download a particular piece
-update_seeders_list -> Update seeders list after piece is downloaded
-update_status -> update download status
+- get_file_info -> API to get file information from tracker
+- get_piece_info -> API to get piece information from the seeder
+- download_piece -> API to download a particular piece
+- update_seeders_list -> Update seeders list after piece is downloaded
+- update_status -> update download status
